@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import './style/App.css';
-import { Home } from './pages';
+import {
+  Home,
+  SignUp,
+} from './pages';
 
 const client = new ApolloClient({
   uri: '/graphql',
@@ -11,18 +14,16 @@ const client = new ApolloClient({
 function App() {
   return (
     <div className='App'>
-      <header className='App-header'>
-        Hello Project 3 Team!
-        <br />
-        Let's do it!
-      </header>
       <ApolloProvider client={client}>
         <Router>
           <Routes>
             <Route
-              // include path after project srarts
-              path=''
+              path='/'
               element={<Home />}
+            ></Route>
+            <Route
+              path='/signup'
+              element={<SignUp />}
             ></Route>
           </Routes>
         </Router>
