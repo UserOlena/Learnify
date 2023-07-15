@@ -77,7 +77,7 @@ export function SignUp() {
             textAlign='center'
             marginTop='1em'
           >
-            And unlock limitless learning with Lernify's full access
+            And unlock limitless learning with Learnify's full access
           </Typography>
           <Box
             component='form'
