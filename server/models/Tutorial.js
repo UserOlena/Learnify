@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const topicSchema = new Schema({
+const tutorialSchema = new Schema({
     title: {
         type: String,
         trim: true,
@@ -41,8 +41,8 @@ const topicSchema = new Schema({
     ],
 });
 
-// Calculate the total duration of the topic by adding the durations of the individual lessons
-topicSchema.virtual('totalDuration').get(function() {
+// Calculate the total duration of the tutorial by adding the durations of the individual lessons
+tutorialSchema.virtual('totalDuration').get(function() {
     const totalDuration = this.lessons.reduce((sum, lesson) => {
         return sum + lesson.duration;
     }, 0);
@@ -50,4 +50,4 @@ topicSchema.virtual('totalDuration').get(function() {
     return totalDuration;
 });
 
-module.exports = model('Topic', topicSchema);
+module.exports = model('Tutorial', tutorialSchema);
