@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
 
-const lessonSchema = new Schema(
+const lessonSchema = new mongoose.Schema(
     {
         body: {
             type: String,
@@ -15,7 +15,7 @@ const lessonSchema = new Schema(
                 validator: function(url) {
                     return /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(url);
                 },
-                message: props => `${props.url} is not a valid URL`
+                message: props => `${props.value} is not a valid URL`
             },       
         },
         duration: {
@@ -25,4 +25,7 @@ const lessonSchema = new Schema(
         }  
     });
 
-    module.exports = model('Lesson', lessonSchema);
+    // Lesson model
+    const Lesson = mongoose.model('Lesson', lessonSchema);
+
+    module.exports = Lesson;
