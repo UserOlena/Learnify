@@ -25,6 +25,7 @@ const lessonSchema = new mongoose.Schema(
         }  
     });
 
+    // Lesson model
     const Lesson = mongoose.model('Lesson', lessonSchema);
 
     module.exports = Lesson;
