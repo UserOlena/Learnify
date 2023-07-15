@@ -6,12 +6,6 @@ const topicSchema = new Schema({
         trim: true,
         required: [true, 'Title is required!'],
     },
-    // Specify on front-end that the entered duration is in minutes
-    durationMin: {
-        type: Number,
-        trim: true,
-        required: [true, 'Duration is required!'],
-    },
     overview: {
         type: String,
         trim: true,
@@ -45,6 +39,15 @@ const topicSchema = new Schema({
             ref: 'Review',
         },
     ],
+});
+
+// Calculate the total duration of the topic by adding the durations of the individual lessons
+topicSchema.virtual('totalDuration').get(function() {
+    const totalDuration = this.lessons.reduce((sum, lesson) => {
+        return sum + lesson.duration;
+    }, 0);
+
+    return totalDuration;
 });
 
 module.exports = model('Topic', topicSchema);
