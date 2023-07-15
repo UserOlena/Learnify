@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const lessonSchema = new mongoose.Schema(
+const lessonSchema = new Schema(
     {
         body: {
             type: String,
@@ -25,7 +25,4 @@ const lessonSchema = new mongoose.Schema(
         }  
     });
 
-    // Lesson model
-    const Lesson = mongoose.model('Lesson', lessonSchema);
-
-    module.exports = Lesson;
+    module.exports = model('Lesson', lessonSchema)
