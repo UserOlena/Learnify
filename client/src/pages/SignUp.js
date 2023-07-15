@@ -31,7 +31,8 @@ function Copyright(props) {
         href='https://github.com/UserOlena/Learnify/blob/main/LICENSE'
       >
         Learnify
-      </Link>{' '}
+      </Link>
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
