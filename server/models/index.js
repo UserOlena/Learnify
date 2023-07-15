@@ -6,8 +6,9 @@ const User = require('./User');
 
 module.exports = {
   Category,
+  Lesson,
   Review,
   Tutorial,
   User,
-  Lesson,
+  
 };
