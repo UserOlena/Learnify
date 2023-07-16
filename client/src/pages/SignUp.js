@@ -54,7 +54,7 @@ export function SignUp() {
   const [password, setPassword] = useState(inputDefaultValues);
 
   const handleSubmit = (e) => {
-    e.preDefault();
+    e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
       userName: data.get('userName'),
