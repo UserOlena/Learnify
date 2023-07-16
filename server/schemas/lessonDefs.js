@@ -1,24 +1,28 @@
 const { gql } = require('apollo-server-express');
 
-//Lesson typeDefs
-const typeDefs = gql`
+const { Lesson } = require('../models');
+
+// TODO: Complete Lesson typeDefs
+const lessonTypeDefs = gql`
   type Lesson {
     _id: ID!
-    body: String!
+    body: String
     media: String
-    duration: Int!  
+    duration: Int
+  }
+
+  type Query {
+    lessons: [Lesson]
   }
 `;
 
-module.exports = typeDefs;
-
 // TODO: Complete Resolvers for Lesson typeDefs
-const { 
-    Lesson, 
-  } = require('../models');
-  
-  const resolvers = {
-    
-  };
-  
-  module.exports = resolvers;
+const lessonResolvers = {
+  Query: {
+    lessons: async () => {
+      return await Lesson.find({});
+    }
+  }
+};
+
+module.exports = { lessonTypeDefs, lessonResolvers };
