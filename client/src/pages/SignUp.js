@@ -1,6 +1,7 @@
-import React from 'react';
+import { React, useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { isEmptyInput, validateInput } from '../utils/validation';
 
 import {
   Avatar,
@@ -39,19 +40,61 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const inputDefaultValues = {
+    value: '',
+    isEmpty: false,
+    isValid: true,
+  }
+
+  const [userName, setUserName] = useState(inputDefaultValues);
+  const [email, setEmail] = useState(inputDefaultValues);
+  const [password, setPassword] = useState(inputDefaultValues);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
     console.log({
+      userName: data.get('userName'),
       email: data.get('email'),
       password: data.get('password'),
     });
-  };
+  }
+
+  // set a new value to the state.value associated to the text field that invokes this function
+  function handleOnChange(inputValue, setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      value: inputValue,
+    }));
+  }
+
+  // verify that the input is both non-blank and matches the regex pattern
+  // set the associated state to display the appropriate error message based on the validation result
+  function handleOnBlur(inputValue, state, setState) {
+    // ensure that the input is not empty
+    if (isEmptyInput(inputValue)) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isEmpty: true,
+      }));
+      return;
+    }
+
+    // validate whether the input conforms to the regex pattern
+    if (!validateInput(inputValue, state)) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: false,
+      }));
+    }
+  }
+
+  console.log('value ' + email.value);
+  console.log('isEmpty ' + email.isEmpty);
+  console.log('isValid ' + email.isValid);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -88,13 +131,25 @@ export function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete='given-name'
-                  name='userName'
+                  autoFocus
                   required
                   fullWidth
                   id='userName'
+                  name='userName'
                   label='Username'
-                  autoFocus
+                  autoComplete='username'
+                  onChange={(e) =>
+                    handleOnChange(e.target.value.trim(), setUserName)
+                  }
+                  onBlur={(e) =>
+                    handleOnBlur(e.target.value, e.target.id, setUserName)
+                  }
+                  error={userName.isEmpty || !userName.isValid}
+                  helperText={
+                    (userName.isEmpty && 'Username field is required') ||
+                    (!userName.isValid &&
+                      'Username should consist of 4 to 12 alphanumeric characters.')
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -102,20 +157,44 @@ export function SignUp() {
                   required
                   fullWidth
                   id='email'
-                  label='Email Address'
                   name='email'
+                  label='Email Address'
                   autoComplete='email'
+                  onChange={(e) =>
+                    handleOnChange(e.target.value.trim(), setEmail)
+                  }
+                  onBlur={(e) =>
+                    handleOnBlur(e.target.value, e.target.id, setEmail)
+                  }
+                  error={!email.isValid || email.isEmpty}
+                  helperText={
+                    (email.isEmpty && 'Email field is required') ||
+                    (!email.isValid &&
+                      'Kindly provide a legitimate email address.')
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
+                  id='password'
                   name='password'
                   label='Password'
                   type='password'
-                  id='password'
                   autoComplete='new-password'
+                  onChange={(e) =>
+                    handleOnChange(e.target.value.trim(), setPassword)
+                  }
+                  onBlur={(e) =>
+                    handleOnBlur(e.target.value, e.target.id, setPassword)
+                  }
+                  error={password.isEmpty || !password.isValid}
+                  helperText={
+                    (password.isEmpty && 'Password field is required') ||
+                    (!password.isValid &&
+                      'Password should consist of at least one digit, one special character, one uppercase letter, and one lowercase letter and have 8 to 16 characters.')
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
