@@ -1,23 +1,29 @@
 const { gql } = require('apollo-server-express');
+const { 
+    Lesson, 
+  } = require('../models');
 
-// TODO: Complete Lesson typeDefs
-const typeDefs = gql`
-  type Lesson {
-    _id: ID!
-    
-  }
+// TODO: Complete Lesson typeDefs, queries, mutations
+export const typeDefs = gql`
+type Lesson {
+  _id: ID!
+  
+}
 
+type Query {
 
+}
+
+type Mutation {
+  
+}
 `;
 
 module.exports = typeDefs;
 
 // TODO: Complete Resolvers for Lesson typeDefs
-const { 
-    Lesson, 
-  } = require('../models');
   
-  const resolvers = {
+  export const resolvers = {
     
   };
   

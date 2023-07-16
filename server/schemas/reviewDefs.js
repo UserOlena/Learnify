@@ -1,24 +1,28 @@
 const { gql } = require('apollo-server-express');
-
-// TODO: Complete Review typeDefs
-const typeDefs = gql`
-  type Review {
-    _id: ID!
-    
-  }
-
-
-`;
-
-module.exports = typeDefs;
-
-// TODO: Complete Resolvers for Review typeDefs
 const { 
     Review, 
   } = require('../models');
+
+// TODO: Complete Review typeDefs, queries, mutations
+export const typeDefs = gql`
+type Review {
+  _id: ID!
   
-  const resolvers = {
+}
+
+type Query {
+
+}
+
+type Mutation {
+  
+}
+`;
+
+
+// TODO: Complete Resolvers for Review typeDefs
+  
+export const resolvers = {
     
   };
   
-  module.exports = resolvers;

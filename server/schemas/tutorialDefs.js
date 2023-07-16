@@ -2,12 +2,18 @@ const { gql } = require('apollo-server-express');
 
 // TODO: Complete Tutorial typeDefs
 const typeDefs = gql`
-  type Tutorial {
-    _id: ID!
-    
-  }
+type Tutorial {
+  _id: ID!
+  
+}
 
+type Query {
 
+}
+
+type Mutation {
+  
+}
 `;
 
 module.exports = typeDefs;

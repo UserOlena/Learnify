@@ -1,24 +1,30 @@
 const { gql } = require('apollo-server-express');
+const { 
+    Category, 
+  } = require('../models');
 
-// TODO: Complete Category typeDefs
-const typeDefs = gql`
+// TODO: Complete Category typeDefs, Queries, Mutations
+export const typeDefs = gql`
   type Category {
     _id: ID!
     
   }
 
+  type Query {
 
+  }
+
+  type Mutation {
+    
+  }
 `;
 
-module.exports = typeDefs;
+
+
 
 // TODO: Complete Resolvers for Category typeDefs
-const { 
-    Category, 
-  } = require('../models');
   
-  const resolvers = {
+  export const resolvers = {
     
   };
   
-  module.exports = resolvers;
