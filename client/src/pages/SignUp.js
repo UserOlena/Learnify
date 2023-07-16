@@ -92,6 +92,24 @@ export function SignUp() {
     }
   }
 
+  // update the state to clear the error when the user focuses on that field.
+  function handleOnFocus(state, setState) {
+    if (state.isEmpty) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isEmpty: false,
+      }));
+      return;
+    }
+
+    if (!state.isValid) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: true,
+      }));
+    }
+  }
+
   console.log('value ' + email.value);
   console.log('isEmpty ' + email.isEmpty);
   console.log('isValid ' + email.isValid);
@@ -150,6 +168,7 @@ export function SignUp() {
                     (!userName.isValid &&
                       'Username should consist of 4 to 12 alphanumeric characters.')
                   }
+                  onFocus={() => handleOnFocus(userName, setUserName)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -172,6 +191,7 @@ export function SignUp() {
                     (!email.isValid &&
                       'Kindly provide a legitimate email address.')
                   }
+                  onFocus={() => handleOnFocus(email, setEmail)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -195,6 +215,7 @@ export function SignUp() {
                     (!password.isValid &&
                       'Password should consist of at least one digit, one special character, one uppercase letter, and one lowercase letter and have 8 to 16 characters.')
                   }
+                  onFocus={() => handleOnFocus(password, setPassword)}
                 />
               </Grid>
               <Grid item xs={12}>
