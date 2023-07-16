@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express');
 
 // TODO: Complete Tutorial typeDefs
-const typeDefs = gql`
+export const typeDefs = gql`
 type Tutorial {
   _id: ID!
   
@@ -16,10 +16,10 @@ type Mutation {
 }
 `;
 
-module.exports = typeDefs;
+
 
 // TODO: Complete Resolvers for Tutorial typeDefs
-const { 
+export const { 
     Tutorial, 
   } = require('../models');
   
@@ -27,4 +27,3 @@ const {
     
   };
   
-  module.exports = resolvers;

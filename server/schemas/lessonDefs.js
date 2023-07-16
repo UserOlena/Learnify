@@ -19,7 +19,6 @@ type Mutation {
 }
 `;
 
-module.exports = typeDefs;
 
 // TODO: Complete Resolvers for Lesson typeDefs
   
@@ -27,4 +26,3 @@ module.exports = typeDefs;
     
   };
   
-  module.exports = resolvers;

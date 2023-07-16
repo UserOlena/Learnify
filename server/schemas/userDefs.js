@@ -1,4 +1,7 @@
 const { gql } = require('apollo-server-express');
+const { 
+    User, 
+  } = require('../models');
 
 // User typeDefs
 const typeDefs = gql`
@@ -16,14 +19,10 @@ type Mutation {
 }
 `;
 
-module.exports = typeDefs;
 
 // Resolvers for User typeDefs
-const { 
-    User, 
-  } = require('../models');
   
-  const resolvers = {
+  export const resolvers = {
     Query: {
       user: async (parent, { _id }) => {
         const params = _id ? { _id } : {};
@@ -32,4 +31,3 @@ const {
     },
   };
   
-  module.exports = resolvers;
