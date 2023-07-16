@@ -6,9 +6,10 @@ const { Lesson } = require('../models');
 const lessonTypeDefs = gql`
   type Lesson {
     _id: ID!
-    body: String
+    name: String!
+    body: String!
     media: String
-    duration: Int
+    duration: Int!
   }
 
   type Query {
