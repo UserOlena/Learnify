@@ -2,6 +2,11 @@ const { Schema, model } = require('mongoose');
 
 const lessonSchema = new Schema(
     {
+        name: {
+            type: String,
+            unique: false,
+            required: true,
+        },
         body: {
             type: String,
             unique: false,
