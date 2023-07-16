@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const { User } = require('../models');
 
-// User typeDefs
+// TODO: Complete User typeDefs
 const userTypeDefs = gql`
   type User {
     _id: ID!
@@ -12,21 +12,21 @@ const userTypeDefs = gql`
   }
 
   type Query {
+    users: [User]
     user(_id: ID!): User!
   }
 `;
 
-// Resolvers for User typeDefs
+// TODO: Complete Resolvers for User typeDefs
 const userResolvers = {
   Query: {
+    users: async () => {
+      return await User.find({});
+    },
     user: async (parent, { _id }) => {
-      const params = _id ? { _id } : {};
-      return User.find(params);
+      return await User.findById(_id);
     },
   },
 };
 
-module.exports = {
-  userTypeDefs,
-  userResolvers,
-}
+module.exports = { userTypeDefs, userResolvers };

@@ -6,20 +6,23 @@ const { Lesson } = require('../models');
 const lessonTypeDefs = gql`
   type Lesson {
     _id: ID!
-    
+    body: String
+    media: String
+    duration: Int
   }
 
   type Query {
-    lesson(_id: ID!): Lesson!
+    lessons: [Lesson]
   }
 `;
 
 // TODO: Complete Resolvers for Lesson typeDefs
-// const lessonResolvers = {
-  
-// };
+const lessonResolvers = {
+  Query: {
+    lessons: async () => {
+      return await Lesson.find({});
+    }
+  }
+};
 
-module.exports = {
-  lessonTypeDefs,
-  // lessonResolvers,
-}
+module.exports = { lessonTypeDefs, lessonResolvers };

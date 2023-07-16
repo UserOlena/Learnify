@@ -6,20 +6,31 @@ const { Tutorial } = require('../models');
 const tutorialTypeDefs = gql`
   type Tutorial {
     _id: ID!
-    
+    title: String
+    overview: String
+    thumbnail: String
+    categories: [Category]
+    teacherId: [User]
+    lessons: [Lesson]
+    reviews: [Review]
   }
 
   type Query {
-    tutorial(_id: ID!): Tutorial!
+    tutorials: [Tutorial]
   }
 `;
 
 // TODO: Complete Resolvers for Tutorial typeDefs
-// const tutorialResolvers = {
-  
-// };
+const tutorialResolvers = {
+  Query: {
+    tutorials: async () => {
+      return await Tutorial.find({})
+        .populate('categories')
+        .populate('teacherId')
+        .populate('lessons')
+        .populate('reviews');
+    }
+  }
+};
 
-module.exports = {
-  tutorialTypeDefs,
-  // tutorialResolvers,
-}
+module.exports = { tutorialTypeDefs, tutorialResolvers };

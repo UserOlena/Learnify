@@ -6,7 +6,7 @@ const { Category } = require('../models');
 const categoryTypeDefs = gql`
   type Category {
     _id: ID!
-    
+    category: String
   }
 
   type Query {
@@ -23,7 +23,4 @@ const categoryResolvers = {
   }
 };
   
-module.exports = {
-  categoryTypeDefs,
-  categoryResolvers,
-};
+module.exports = { categoryTypeDefs, categoryResolvers };

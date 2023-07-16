@@ -6,20 +6,22 @@ const { Review } = require('../models');
 const reviewTypeDefs = gql`
   type Review {
     _id: ID!
-    
+    rating: Float
+    comment: String
   }
 
   type Query {
-    review(_id: ID!): Review!
+    reviews: [Review]
   }
 `;
 
 // TODO: Complete Resolvers for Review typeDefs
-// const reviewResolvers = {
-  
-// };
+const reviewResolvers = {
+  Query: {
+    reviews: async () => {
+      return await Review.find({});
+    }
+  }
+};
 
-module.exports = {
-  reviewTypeDefs,
-  // reviewResolvers,
-}
+module.exports = { reviewTypeDefs, reviewResolvers };
