@@ -60,7 +60,7 @@ db.once('open', async () => {
         tutorial.reviews.push(getRandomId(reviewIds));
       }
 
-      tutorial.teacherId = getRandomId(userIds);
+      tutorial.teacher = getRandomId(userIds);
     });
 
     // Add tutorials to the db
