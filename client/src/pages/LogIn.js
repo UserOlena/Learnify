@@ -25,6 +25,7 @@ function Copyright(props) {
     >
       {'Copyright © '}
       <Link
+        target='_blank'
         color='inherit'
         href='https://github.com/UserOlena/Learnify/blob/main/LICENSE'
       >
