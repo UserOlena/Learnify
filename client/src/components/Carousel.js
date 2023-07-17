@@ -1,33 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { React, useState, useEffect } from "react";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Card, CardContent, Typography, IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const useStyles = makeStyles((theme) => ({
   carousel: {
-    textAlign: 'center',
+    textAlign: "center",
     margin: theme.spacing(2, 0),
   },
   carouselContent: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
   },
   card: {
-    width: '400px',
+    width: "400px",
     margin: theme.spacing(2),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    border: `2px solid ${theme.palette.type === 'dark' ? 'white' : 'black'}`,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    border: `2px solid ${theme.palette.type === "dark" ? "white" : "black"}`,
   },
   cardImage: {
-    width: '100%',
-    maxHeight: '300px',
-    objectFit: 'cover',
+    width: "100%",
+    maxHeight: "300px",
+    objectFit: "cover",
   },
   carouselArrows: {
     margin: theme.spacing(2),
@@ -35,34 +32,34 @@ const useStyles = makeStyles((theme) => ({
   arrowButton: {
     margin: theme.spacing(0, 1),
     padding: theme.spacing(1),
-    color: theme.palette.type === 'dark' ? 'white' : 'black',
+    color: theme.palette.type === "dark" ? "white" : "black",
   },
 }));
 
-const Carousel = () => {
+function Carousel() {
   const classes = useStyles();
   const theme = useTheme();
 
   const items = [
     {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      image: 'item1.jpg',
+      title: "Item 1",
+      description: "Description for Item 1",
+      image: "item1.jpg",
     },
     {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      image: 'item2.jpg',
+      title: "Item 2",
+      description: "Description for Item 2",
+      image: "item2.jpg",
     },
     {
-      title: 'Item 3',
-      description: 'Description for Item 3',
-      image: 'item3.jpg',
+      title: "Item 3",
+      description: "Description for Item 3",
+      image: "item3.jpg",
     },
     {
-      title: 'Item 4',
-      description: 'Description for Item 4',
-      image: 'item4.jpg',
+      title: "Item 4",
+      description: "Description for Item 4",
+      image: "item4.jpg",
     },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -98,13 +95,17 @@ const Carousel = () => {
         {items.map((item, index) => (
           <div
             key={index}
-            className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
+            className={`carousel-item ${index === activeIndex ? "active" : ""}`}
             style={{
-              display: index === activeIndex ? 'block' : 'none',
+              display: index === activeIndex ? "block" : "none",
             }}
           >
             <Card className={classes.card}>
-              <img src={item.image} alt={item.title} className={classes.cardImage} />
+              <img
+                src={item.image}
+                alt={item.title}
+                className={classes.cardImage}
+              />
               <CardContent>
                 <Typography variant="h5" component="h3" gutterBottom>
                   {item.title}
@@ -135,6 +136,6 @@ const Carousel = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Carousel;

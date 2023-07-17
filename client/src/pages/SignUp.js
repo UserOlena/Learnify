@@ -1,7 +1,7 @@
-import { React, useState } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { isEmptyInput, validateInput } from '../utils/validation';
+import { React, useState } from "react";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { isEmptyInput, validateInput } from "../utils/validation";
 
 import {
   Avatar,
@@ -15,27 +15,26 @@ import {
   Box,
   Typography,
   Container,
-} from '@mui/material';
+} from "@mui/material";
 
 function Copyright(props) {
   return (
     <Typography
-      variant='body2'
-      color='text.secondary'
-      align='center'
-      marginBottom='10%'
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      marginBottom="10%"
       {...props}
     >
-      {'Copyright © '}
+      {"Copyright © "}
       <Link
-        color='inherit'
-        href='https://github.com/UserOlena/Learnify/blob/main/LICENSE'
+        color="inherit"
+        href="https://github.com/UserOlena/Learnify/blob/main/LICENSE"
       >
         Learnify
-      </Link>
-      {' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -44,11 +43,11 @@ const defaultTheme = createTheme();
 
 export function SignUp() {
   const inputDefaultValues = {
-    value: '',
+    value: "",
     isEmpty: false,
     isValid: true,
     isMatch: true,
-  }
+  };
 
   const [userName, setUserName] = useState(inputDefaultValues);
   const [email, setEmail] = useState(inputDefaultValues);
@@ -56,19 +55,19 @@ export function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState(inputDefaultValues);
 
   const notValidPasswordErrorMessage =
-    'Password should consist of at least one digit, one special character, one uppercase letter, one lowercase letter and have 8 to 16 characters';
+    "Password should consist of at least one digit, one special character, one uppercase letter, one lowercase letter and have 8 to 16 characters";
   const notValidUserNameErrorMessage =
-    'Username should consist of 4 to 12 alphanumeric characters.';
+    "Username should consist of 4 to 12 alphanumeric characters.";
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
-      userName: data.get('userName'),
-      email: data.get('email'),
-      password: data.get('password'),
+      userName: data.get("userName"),
+      email: data.get("email"),
+      password: data.get("password"),
     });
-  }
+  };
 
   // set a new value to the state.value associated to the text field that invokes this function
   function handleOnChange(inputValue, setState) {
@@ -140,40 +139,40 @@ export function SignUp() {
     }
   }
 
-  console.log('value ' + password.value);
-  console.log('value ' + confirmPassword.value);
-  console.log('isEmpty ' + confirmPassword.isEmpty);
-  console.log('isValid ' + confirmPassword.isValid);
-  console.log('isMatch ' + confirmPassword.isMatch);
+  console.log("value " + password.value);
+  console.log("value " + confirmPassword.value);
+  console.log("isEmpty " + confirmPassword.isEmpty);
+  console.log("isValid " + confirmPassword.isValid);
+  console.log("isMatch " + confirmPassword.isMatch);
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component='main' maxWidth='xs'>
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: '10%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            marginTop: "10%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <Typography
-            component='h2'
-            variant='h6'
-            textAlign='center'
-            marginTop='1em'
+            component="h2"
+            variant="h6"
+            textAlign="center"
+            marginTop="1em"
           >
             And unlock limitless learning with Learnify's full access
           </Typography>
           <Box
-            component='form'
+            component="form"
             noValidate
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
@@ -184,10 +183,10 @@ export function SignUp() {
                   autoFocus
                   required
                   fullWidth
-                  id='userName'
-                  name='userName'
-                  label='Username'
-                  autoComplete='username'
+                  id="userName"
+                  name="userName"
+                  label="Username"
+                  autoComplete="username"
                   onChange={(e) =>
                     handleOnChange(e.target.value.trim(), setUserName)
                   }
@@ -196,7 +195,7 @@ export function SignUp() {
                   }
                   error={userName.isEmpty || !userName.isValid}
                   helperText={
-                    (userName.isEmpty && 'Username field is required') ||
+                    (userName.isEmpty && "Username field is required") ||
                     (!userName.isValid && notValidUserNameErrorMessage)
                   }
                   onFocus={() => handleOnFocus(userName, setUserName)}
@@ -206,10 +205,10 @@ export function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id='email'
-                  name='email'
-                  label='Email Address'
-                  autoComplete='email'
+                  id="email"
+                  name="email"
+                  label="Email Address"
+                  autoComplete="email"
                   onChange={(e) =>
                     handleOnChange(e.target.value.trim(), setEmail)
                   }
@@ -218,9 +217,9 @@ export function SignUp() {
                   }
                   error={!email.isValid || email.isEmpty}
                   helperText={
-                    (email.isEmpty && 'Email field is required') ||
+                    (email.isEmpty && "Email field is required") ||
                     (!email.isValid &&
-                      'Kindly provide a legitimate email address')
+                      "Kindly provide a legitimate email address")
                   }
                   onFocus={() => handleOnFocus(email, setEmail)}
                 />
@@ -229,11 +228,11 @@ export function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id='password'
-                  name='password'
-                  label='Password'
-                  type='password'
-                  autoComplete='new-password'
+                  id="password"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="new-password"
                   onChange={(e) =>
                     handleOnChange(e.target.value.trim(), setPassword)
                   }
@@ -242,7 +241,7 @@ export function SignUp() {
                   }
                   error={password.isEmpty || !password.isValid}
                   helperText={
-                    (password.isEmpty && 'Password field is required') ||
+                    (password.isEmpty && "Password field is required") ||
                     (!password.isValid && notValidPasswordErrorMessage)
                   }
                   onFocus={() => handleOnFocus(password, setPassword)}
@@ -252,11 +251,11 @@ export function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id='confirmPassword'
-                  name='confirmPassword'
-                  label='Confirm Password'
-                  type='password'
-                  autoComplete='new-password'
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  autoComplete="new-password"
                   onChange={(e) =>
                     handleOnChange(e.target.value.trim(), setConfirmPassword)
                   }
@@ -274,10 +273,10 @@ export function SignUp() {
                   }
                   helperText={
                     (confirmPassword.isEmpty &&
-                      'Confirm-Password field is required') ||
+                      "Confirm-Password field is required") ||
                     (!confirmPassword.isValid &&
                       notValidPasswordErrorMessage) ||
-                    (!confirmPassword.isMatch && 'Passwords do not match')
+                    (!confirmPassword.isMatch && "Passwords do not match")
                   }
                   onFocus={() =>
                     handleOnFocus(confirmPassword, setConfirmPassword)
@@ -287,23 +286,23 @@ export function SignUp() {
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
-                    <Checkbox value='allowExtraEmails' color='primary' />
+                    <Checkbox value="allowExtraEmails" color="primary" />
                   }
-                  label='I want to receive inspiration, marketing promotions and updates via email'
+                  label="I want to receive inspiration, marketing promotions and updates via email"
                 />
               </Grid>
             </Grid>
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
+              variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
             </Button>
-            <Grid container justifyContent='flex-end'>
+            <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href='#' variant='body2'>
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
