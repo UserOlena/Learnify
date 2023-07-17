@@ -1,48 +1,52 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { 
-  Card, 
-  CardContent, 
-  Typography, 
-  IconButton, 
- } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  IconButton,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-const useStyles = makeStyles((theme) => ({
-  recommendations: {
-    margin: theme.spacing(2, 0),
-  },
-  recommendationsContent: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  card: {
-    width: "calc(25% - 10px)",
-    marginBottom: theme.spacing(2),
-    border: `2px solid ${theme.palette.type === "dark" ? "white" : "black"}`,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  cardDescription: {
-    fontSize: 14,
-    color: theme.palette.text.secondary,
-  },
-  recommendationsArrows: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: theme.spacing(2),
-  },
-  arrowButton: {
-    padding: theme.spacing(1),
-    color: theme.palette.type === "dark" ? "white" : "black",
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  return {
+    recommendations: {
+      margin: theme.spacing(2, 0),
+    },
+    recommendationsContent: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+    },
+    card: {
+      width: "calc(25% - 10px)",
+      marginBottom: theme.spacing(2),
+      border: `2px solid ${
+        theme.palette.type === "dark" ? "white" : "black"
+      }`,
+    },
+    cardTitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+    cardDescription: {
+      fontSize: 14,
+      color: theme.palette.text.secondary,
+    },
+    recommendationsArrows: {
+      display: "flex",
+      justifyContent: "center",
+      marginTop: theme.spacing(2),
+    },
+    arrowButton: {
+      padding: theme.spacing(1),
+      color: theme.palette.type === "dark" ? "white" : "black",
+    },
+  };
+});
 
-const Recommendations = () => {
+function Recommendations() {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -91,13 +95,15 @@ const Recommendations = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handlePrev = () => {
+  function handlePrev() {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 4, 0));
-  };
+  }
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => Math.min(prevIndex + 4, items.length - 4));
-  };
+  function handleNext() {
+    setCurrentIndex((prevIndex) =>
+      Math.min(prevIndex + 4, items.length - 4)
+    );
+  }
 
   const visibleItems = items.slice(currentIndex, currentIndex + 4);
 
@@ -146,6 +152,6 @@ const Recommendations = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Recommendations;

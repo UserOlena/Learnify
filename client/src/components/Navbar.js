@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -12,85 +12,87 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    userSelect: "none",
-  },
-  appBar: {
-    backgroundColor: theme.palette.type === "dark" ? "gray" : "white",
-    color: "black",
-    opacity: "0.8",
-  },
-  logo: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  search: {
-    position: "relative",
-    borderRadius: "50px",
-    backgroundColor: "#fff",
-    marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(2),
-    width: "1300px",
-    border: "2px solid black",
-    [theme.breakpoints.down("sm")]: {
-      width: "300px",
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      userSelect: "none",
     },
-    "&:hover": {
-      backgroundColor: "#f5f5f5",
+    appBar: {
+      backgroundColor: theme.palette.type === "dark" ? "gray" : "white",
+      color: "black",
+      opacity: "0.8",
     },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#888888",
-  },
-  inputRoot: {
-    width: "100%",
-  },
-  inputInput: {
-    padding: theme.spacing(1),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    color: "#333333",
-    fontSize: "16px",
-    "&::placeholder": {
+    logo: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+    search: {
+      position: "relative",
+      borderRadius: "50px",
+      backgroundColor: "#fff",
+      marginRight: theme.spacing(2),
+      marginLeft: theme.spacing(2),
+      width: "1300px",
+      border: "2px solid black",
+      [theme.breakpoints.down("sm")]: {
+        width: "300px",
+      },
+      "&:hover": {
+        backgroundColor: "#f5f5f5",
+      },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: "100%",
+      position: "absolute",
+      pointerEvents: "none",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
       color: "#888888",
     },
-  },
-  signUpButton: {
-    marginRight: theme.spacing(2),
-    height: 40,
-    fontSize: 16,
-    textTransform: "none",
-  },
-  modeSwitch: {
-    marginLeft: "auto",
-  },
-  categoriesMenu: {
-    marginTop: theme.spacing(6),
-  },
-}));
+    inputRoot: {
+      width: "100%",
+    },
+    inputInput: {
+      padding: theme.spacing(1),
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      color: "#333333",
+      fontSize: "16px",
+      "&::placeholder": {
+        color: "#888888",
+      },
+    },
+    signUpButton: {
+      marginRight: theme.spacing(2),
+      height: 40,
+      fontSize: 16,
+      textTransform: "none",
+    },
+    modeSwitch: {
+      marginLeft: "auto",
+    },
+    categoriesMenu: {
+      marginTop: theme.spacing(6),
+    },
+  };
+});
 
-const Navbar = ({ darkMode, onDarkModeChange }) => {
+function Navbar({ darkMode, onDarkModeChange }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenuOpen = (event) => {
+  function handleMenuOpen(event) {
     setAnchorEl(event.currentTarget);
-  };
+  }
 
-  const handleMenuClose = () => {
+  function handleMenuClose() {
     setAnchorEl(null);
-  };
+  }
 
   return (
     <AppBar position="static" className={classes.appBar}>
@@ -142,17 +144,9 @@ const Navbar = ({ darkMode, onDarkModeChange }) => {
         >
           Sign In
         </Button>
-        <div className={classes.modeSwitch}>
-          <Switch
-            checked={darkMode}
-            onChange={onDarkModeChange}
-            color="default"
-            inputProps={{ "aria-label": "toggle dark mode" }}
-          />
-        </div>
       </Toolbar>
     </AppBar>
   );
-};
+}
 
 export default Navbar;

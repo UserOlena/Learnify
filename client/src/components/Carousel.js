@@ -1,40 +1,44 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Card, CardContent, Typography, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-const useStyles = makeStyles((theme) => ({
-  carousel: {
-    textAlign: "center",
-    margin: theme.spacing(2, 0),
-  },
-  carouselContent: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  card: {
-    width: "400px",
-    margin: theme.spacing(2),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    border: `2px solid ${theme.palette.type === "dark" ? "white" : "black"}`,
-  },
-  cardImage: {
-    width: "100%",
-    maxHeight: "300px",
-    objectFit: "cover",
-  },
-  carouselArrows: {
-    margin: theme.spacing(2),
-  },
-  arrowButton: {
-    margin: theme.spacing(0, 1),
-    padding: theme.spacing(1),
-    color: theme.palette.type === "dark" ? "white" : "black",
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  return {
+    carousel: {
+      textAlign: "center",
+      margin: theme.spacing(2, 0),
+    },
+    carouselContent: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    card: {
+      width: "400px",
+      margin: theme.spacing(2),
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      border: `2px solid ${
+        theme.palette.type === "dark" ? "white" : "black"
+      }`,
+    },
+    cardImage: {
+      width: "100%",
+      maxHeight: "300px",
+      objectFit: "cover",
+    },
+    carouselArrows: {
+      margin: theme.spacing(2),
+    },
+    arrowButton: {
+      margin: theme.spacing(0, 1),
+      padding: theme.spacing(1),
+      color: theme.palette.type === "dark" ? "white" : "black",
+    },
+  };
+});
 
 function Carousel() {
   const classes = useStyles();
@@ -64,59 +68,67 @@ function Carousel() {
   ];
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
+  useEffect(function () {
+    const timer = setInterval(function () {
+      setActiveIndex(function (prevIndex) {
+        return (prevIndex + 1) % items.length;
+      });
     }, 5000);
 
-    return () => {
+    return function () {
       clearInterval(timer);
     };
   }, [items.length]);
 
-  const handlePrev = () => {
-    setActiveIndex((prevIndex) => {
+  function handlePrev() {
+    setActiveIndex(function (prevIndex) {
       if (prevIndex === 0) {
         return items.length - 1;
       } else {
         return prevIndex - 1;
       }
     });
-  };
+  }
 
-  const handleNext = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
-  };
+  function handleNext() {
+    setActiveIndex(function (prevIndex) {
+      return (prevIndex + 1) % items.length;
+    });
+  }
 
   return (
     <div className={classes.carousel}>
       <h2>Carousel Component</h2>
       <div className={classes.carouselContent}>
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className={`carousel-item ${index === activeIndex ? "active" : ""}`}
-            style={{
-              display: index === activeIndex ? "block" : "none",
-            }}
-          >
-            <Card className={classes.card}>
-              <img
-                src={item.image}
-                alt={item.title}
-                className={classes.cardImage}
-              />
-              <CardContent>
-                <Typography variant="h5" component="h3" gutterBottom>
-                  {item.title}
-                </Typography>
-                <Typography variant="body1" component="p">
-                  {item.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
+        {items.map(function (item, index) {
+          return (
+            <div
+              key={index}
+              className={`carousel-item ${
+                index === activeIndex ? "active" : ""
+              }`}
+              style={{
+                display: index === activeIndex ? "block" : "none",
+              }}
+            >
+              <Card className={classes.card}>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className={classes.cardImage}
+                />
+                <CardContent>
+                  <Typography variant="h5" component="h3" gutterBottom>
+                    {item.title}
+                  </Typography>
+                  <Typography variant="body1" component="p">
+                    {item.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </div>
+          );
+        })}
       </div>
       <div className={classes.carouselArrows}>
         <IconButton
