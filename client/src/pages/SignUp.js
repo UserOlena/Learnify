@@ -1,7 +1,9 @@
 import { React, useState } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { isEmptyInput, validateInput } from '../utils/validation';
+import { Link } from 'react-router-dom';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import '../style/SignUp.css';
 
 import {
   Avatar,
@@ -10,7 +12,6 @@ import {
   CssBaseline,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
@@ -27,13 +28,15 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link
-        color='inherit'
+      <a
+        target='_blank'
         href='https://github.com/UserOlena/Learnify/blob/main/LICENSE'
+        style={{
+          color: 'rgba(0, 0, 0, 0.6)',
+        }}
       >
         Learnify
-      </Link>
-      {' '}
+      </a>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -48,7 +51,7 @@ export function SignUp() {
     isEmpty: false,
     isValid: true,
     isMatch: true,
-  }
+  };
 
   const [userName, setUserName] = useState(inputDefaultValues);
   const [email, setEmail] = useState(inputDefaultValues);
@@ -303,7 +306,7 @@ export function SignUp() {
             </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link href='/signin' variant='body2'>
+                <Link to='/signin' className='externalLink'>
                   Already have an account? Sign in
                 </Link>
               </Grid>
