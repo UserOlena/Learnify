@@ -35,13 +35,14 @@ function validatePassword(passwordInput) {
 }
 
 // checks if the text field is not black on blur
-export function isEmptyInput(state) {
-  if (state.length === 0) {
+export function isEmptyInput(inputValue) {
+  if (inputValue.length === 0) {
     return true;
   }
 }
 
-// define the text field that needs validation and validate whether the input conforms to the regex pattern
+// define the text field that needs validation and 
+// validate whether the input conforms to the regex pattern
 export function validateInput(inputValue, state) {
   switch (state) {
     case 'userName':
@@ -49,6 +50,8 @@ export function validateInput(inputValue, state) {
     case 'email':
       return validateEmail(inputValue);
     case 'password':
+      return validatePassword(inputValue);
+    case 'confirmPassword':
       return validatePassword(inputValue);
   }
 }
