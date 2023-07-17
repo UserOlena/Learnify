@@ -4,6 +4,7 @@ import './style/App.css';
 import {
   Home,
   SignUp,
+  LogIn,
 } from './pages';
 
 const client = new ApolloClient({
@@ -24,6 +25,10 @@ function App() {
             <Route
               path='/signup'
               element={<SignUp />}
+            ></Route>
+            <Route
+              path='/login'
+              element={<LogIn />}
             ></Route>
           </Routes>
         </Router>
