@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server-express');
 
-const { Tutorial } = require('../models');
+const { Tutorial, Category } = require('../models');
 
 const tutorialTypeDefs = gql`
   type Tutorial {
@@ -18,6 +18,7 @@ const tutorialTypeDefs = gql`
   type Query {
     tutorials: [Tutorial]
     tutorial(_id: ID!): Tutorial
+    tutorialsByCategory(categoryId: ID!): [Tutorial]
   }
 
   type Mutation {
@@ -46,7 +47,17 @@ const tutorialResolvers = {
         .populate('lessons')
         .populate('reviews');
     },
+
+    // Get all tutorials in a single category by category ID
+    tutorialsByCategory: async function (parent, { categoryId }) {
+      try {
+        return await Tutorial.find({ categories: categoryId });
+      } catch (error) {
+        throw new Error(`Failed to fetch tutorials by category: ${error.message}`);
+      }
+    },
   },
+  
   Mutation: {
     // Add a tutorial
     addTutorial: async (parent, { title, overview, thumbnail, categories, teacher }) => {
