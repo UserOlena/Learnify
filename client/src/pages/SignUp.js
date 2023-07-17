@@ -47,11 +47,18 @@ export function SignUp() {
     value: '',
     isEmpty: false,
     isValid: true,
+    isMatch: true,
   }
 
   const [userName, setUserName] = useState(inputDefaultValues);
   const [email, setEmail] = useState(inputDefaultValues);
   const [password, setPassword] = useState(inputDefaultValues);
+  const [confirmPassword, setConfirmPassword] = useState(inputDefaultValues);
+
+  const notValidPasswordErrorMessage =
+    'Password should consist of at least one digit, one special character, one uppercase letter, one lowercase letter and have 8 to 16 characters';
+  const notValidUserNameErrorMessage =
+    'Username should consist of 4 to 12 alphanumeric characters.';
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,7 +78,8 @@ export function SignUp() {
     }));
   }
 
-  // verify that the input is both non-blank and matches the regex pattern
+  // verify that the input is both non-blank and matches the regex pattern;
+  // compare that password values
   // set the associated state to display the appropriate error message based on the validation result
   function handleOnBlur(inputValue, state, setState) {
     // ensure that the input is not empty
@@ -80,6 +88,18 @@ export function SignUp() {
         ...otherValues,
         isEmpty: true,
       }));
+      return;
+    }
+
+    // if values of both password and confirmPassword fields !== 0, ensure they
+    // match; otherwise, change state to display corresponding error message
+    if (!isEmptyInput(password.value) && !isEmptyInput(confirmPassword.value)) {
+      if (password.value !== confirmPassword.value) {
+        setConfirmPassword((otherValues) => ({
+          ...otherValues,
+          isMatch: false,
+        }));
+      }
       return;
     }
 
@@ -92,8 +112,9 @@ export function SignUp() {
     }
   }
 
-  // update the state to clear the error when the user focuses on that field.
+  // update the state to clear the error when the user focuses on that field
   function handleOnFocus(state, setState) {
+    // change state to remove the error message on Focus if previously input was empty
     if (state.isEmpty) {
       setState((otherValues) => ({
         ...otherValues,
@@ -102,17 +123,28 @@ export function SignUp() {
       return;
     }
 
+    // change state to remove the error message on Focus if previously input didn't pass the validation
     if (!state.isValid) {
       setState((otherValues) => ({
         ...otherValues,
         isValid: true,
       }));
     }
+
+    // change state to remove the error message on Focus if previously password values didn't match
+    if (!confirmPassword.isMatch) {
+      setConfirmPassword((otherValues) => ({
+        ...otherValues,
+        isMatch: true,
+      }));
+    }
   }
 
-  console.log('value ' + email.value);
-  console.log('isEmpty ' + email.isEmpty);
-  console.log('isValid ' + email.isValid);
+  console.log('value ' + password.value);
+  console.log('value ' + confirmPassword.value);
+  console.log('isEmpty ' + confirmPassword.isEmpty);
+  console.log('isValid ' + confirmPassword.isValid);
+  console.log('isMatch ' + confirmPassword.isMatch);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -165,8 +197,7 @@ export function SignUp() {
                   error={userName.isEmpty || !userName.isValid}
                   helperText={
                     (userName.isEmpty && 'Username field is required') ||
-                    (!userName.isValid &&
-                      'Username should consist of 4 to 12 alphanumeric characters.')
+                    (!userName.isValid && notValidUserNameErrorMessage)
                   }
                   onFocus={() => handleOnFocus(userName, setUserName)}
                 />
@@ -189,7 +220,7 @@ export function SignUp() {
                   helperText={
                     (email.isEmpty && 'Email field is required') ||
                     (!email.isValid &&
-                      'Kindly provide a legitimate email address.')
+                      'Kindly provide a legitimate email address')
                   }
                   onFocus={() => handleOnFocus(email, setEmail)}
                 />
@@ -212,8 +243,7 @@ export function SignUp() {
                   error={password.isEmpty || !password.isValid}
                   helperText={
                     (password.isEmpty && 'Password field is required') ||
-                    (!password.isValid &&
-                      'Password should consist of at least one digit, one special character, one uppercase letter, and one lowercase letter and have 8 to 16 characters.')
+                    (!password.isValid && notValidPasswordErrorMessage)
                   }
                   onFocus={() => handleOnFocus(password, setPassword)}
                 />
@@ -222,11 +252,36 @@ export function SignUp() {
                 <TextField
                   required
                   fullWidth
+                  id='confirmPassword'
                   name='confirmPassword'
                   label='Confirm Password'
                   type='password'
-                  id='confirmPassword'
                   autoComplete='new-password'
+                  onChange={(e) =>
+                    handleOnChange(e.target.value.trim(), setConfirmPassword)
+                  }
+                  onBlur={(e) =>
+                    handleOnBlur(
+                      e.target.value,
+                      e.target.id,
+                      setConfirmPassword
+                    )
+                  }
+                  error={
+                    confirmPassword.isEmpty ||
+                    !confirmPassword.isValid ||
+                    !confirmPassword.isMatch
+                  }
+                  helperText={
+                    (confirmPassword.isEmpty &&
+                      'Confirm-Password field is required') ||
+                    (!confirmPassword.isValid &&
+                      notValidPasswordErrorMessage) ||
+                    (!confirmPassword.isMatch && 'Passwords do not match')
+                  }
+                  onFocus={() =>
+                    handleOnFocus(confirmPassword, setConfirmPassword)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -234,7 +289,7 @@ export function SignUp() {
                   control={
                     <Checkbox value='allowExtraEmails' color='primary' />
                   }
-                  label='I want to receive inspiration, marketing promotions and updates via email.'
+                  label='I want to receive inspiration, marketing promotions and updates via email'
                 />
               </Grid>
             </Grid>
