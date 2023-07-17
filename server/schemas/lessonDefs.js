@@ -19,8 +19,10 @@ const lessonTypeDefs = gql`
 
   type Mutation {
     addLesson(name: String!, body: String!, media: String!, duration: Int!): Lesson
-    updateLesson(lessonId: ID!, name: String, body: String media: String, duration: String): Lesson
-    removeLesson(lessonId: ID!): Lesson
+
+    updateLesson(_id: ID!, name: String, body: String media: String, duration: String): Lesson
+    
+    removeLesson(_id: ID!): Lesson
   }
 `;
 
