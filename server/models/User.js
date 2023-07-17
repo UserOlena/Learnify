@@ -24,6 +24,18 @@ const userSchema = new Schema({
     required: true,
     minlength: 8,
   },
+  tutorials: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Tutorial',
+    },
+  ],
+  teachingTutorials: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Tutorial',
+    },
+  ],
 });
 
 // set up pre-save middleware to create password
