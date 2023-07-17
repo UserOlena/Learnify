@@ -24,29 +24,22 @@ const categoryTypeDefs = gql`
 const categoryResolvers = {
   Query: {
     //GET all categories
-    categories: async () => {
+    categories:  async function() {
       return await Category.find({});
     },
 
     //GET a single category by ID
-    category: async (parent, {_id }) => {
+    category: async function(parent, {_id }) {
       return await Category.findById(_id);
     }
   },
   Mutation: {
-    // ADD a category and attach it to a tutorial
-    addCategory: async (parent, { tutorialId, category }) => {
-      const newCategory = await Category.create({ category });
-
-      await Tutorial.findByIdAndUpdate(
-        tutorialId,
-        {$push: { categories: newCategory._id } },
-        { new: true }
-      );
-      return newCategory;
+    // ADD a new category
+    addCategory: async function(parent, { category }) {
+      return await Category.create({ category });
     },
     //UPDATE a category and its associated tutuorials
-    updateCategory: async (parent, { _id, category }) => {
+    updateCategory: async function(parent, { _id, category }) {
       try {
         // Find the category by ID
         const updatedCategory = await Category.findByIdAndUpdate(
@@ -64,8 +57,8 @@ const categoryResolvers = {
     
         // Update the category in each associated tutorial
         await Promise.all(
-          tutorials.map((tutorial) => {
-            tutorial.categories.forEach((categoryId, index) => {
+          tutorials.map(function (tutorial) {
+            tutorial.categories.forEach(function (categoryId, index) {
               if (categoryId.equals(updatedCategory._id)) {
                 tutorial.categories[index] = updatedCategory._id;
               }
@@ -73,7 +66,6 @@ const categoryResolvers = {
             return tutorial.save();
           })
         );
-    
         return updatedCategory;
       } catch (error) {
         throw new Error(`Failed to update category: ${error.message}`);
@@ -81,7 +73,7 @@ const categoryResolvers = {
     },
 
     //DELETE a category and remove it from any associated tutorials
-    deleteCategory: async (parent, {_id}) => {
+    deleteCategory: async function(parent, {_id}) {
       const categoryToDelete = await Category.findById(_id);
 
       if (!categoryToDelete) {
@@ -94,7 +86,7 @@ const categoryResolvers = {
 
       //remove the category from each associated tutorial
       await Promise.all(
-        tutorials.map((tutorial) => {
+        tutorials.map(function(tutorial) {
           tutorial.categories.pull(categoryToDelete._id);
           return tutorial.save();
         })
