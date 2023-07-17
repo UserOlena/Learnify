@@ -3,7 +3,6 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -12,3 +11,15 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.dark-mode {
+  background-color: #333333;
+  color: #FFFFFF;
+  height: 100vh;
+}
+
+.light-mode {
+  background-color: #FFFFFF;
+  color: #000000;
+  height: 100vh;
+}
+
