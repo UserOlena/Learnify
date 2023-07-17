@@ -10,7 +10,6 @@ const userTypeDefs = gql`
         email: String
         password: String
         tutorials: [Tutorial]
-        teachingTutorials: [Tutorial]
     }
 
     type Auth {
@@ -52,7 +51,6 @@ const userResolvers = {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
                     .populate('tutorials')
-                    .populate('teachingTutorials');
 
                 return userData;
             }
@@ -109,21 +107,6 @@ const userResolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
 
-        addTeachingTutorial: async (parent, { userId, tutorial }, context) => {
-            if (context.user) {
-                return User.findOneAndUpdate(
-                    { _id: userId },
-                    {
-                        $addToSet: { teachingTutorials: tutorial},
-                    },
-                    {
-                        new: true,
-                        runValidators: true,
-                    }
-                );
-            }
-            throw new AuthenticationError('You need to be logged in!');
-        },
 
         removeTutorial: async (parent, { tutorialId }, context) => {
             if(context.user) {
