@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const { Lesson } = require('../models');
 
-// TODO: Complete Lesson typeDefs
+
 const lessonTypeDefs = gql`
   type Lesson {
     _id: ID!
@@ -26,12 +26,14 @@ const lessonTypeDefs = gql`
   }
 `;
 
-// TODO: Complete Resolvers for Lesson typeDefs
+//Resolvers for Lesson typeDefs
 const lessonResolvers = {
   Query: {
+    //get all lessons
     lessons: async () => {
       return await Lesson.find({});
     },
+    //get a single lesson by id
     lesson: 
         async (parent, { _id }) => {
             return await Lesson.findById(_id);
