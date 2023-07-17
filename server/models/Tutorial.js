@@ -22,7 +22,7 @@ const tutorialSchema = new Schema(
                 ref: 'Category',
             },
         ],
-        teacherId: [
+        teacher: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'User',
