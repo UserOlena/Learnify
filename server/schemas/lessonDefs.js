@@ -30,19 +30,19 @@ const lessonTypeDefs = gql`
 const lessonResolvers = {
   Query: {
     //get all lessons
-    lessons: async () => {
+    lessons: async function () {
       return await Lesson.find({});
     },
     //get a single lesson by id
     lesson: 
-        async (parent, { _id }) => {
+        async function (parent, { _id }) {
             return await Lesson.findById(_id);
         },
   },
 
   Mutation: {
     //ADD a new lesson and attach it to its tutorial
-    addLesson: async (parent, { tutorialId, name, body, media, duration }) => {
+    addLesson: async function (parent, { tutorialId, name, body, media, duration }) {
        
       const newLesson = await Lesson.create({ name, body, media, duration });
 
@@ -57,7 +57,7 @@ const lessonResolvers = {
     },
     
     //UPDATE one or more fields for an existing lesson
-    updateLesson: async (parent, {_id, name, body, media, duration}) => {
+    updateLesson: async function (parent, {_id, name, body, media, duration}) {
       //create object containing only field(s) to be updated
       const updates = {};
       if (name) {
@@ -81,7 +81,7 @@ const lessonResolvers = {
     },
 
     //DELETE a lesson
-    deleteLesson: async (parent, {_id}) => {
+    deleteLesson: async function (parent, {_id}) {
       return await Lesson.findByIdAndDelete(_id);
     }
 }
