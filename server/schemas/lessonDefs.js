@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server-express');
 
-const { Lesson } = require('../models');
+const { Lesson, Tutorial } = require('../models');
 
 
 const lessonTypeDefs = gql`
@@ -18,7 +18,7 @@ const lessonTypeDefs = gql`
   }
 
   type Mutation {
-    addLesson(name: String!, body: String!, media: String, duration: Int!): Lesson
+    addLesson(tutorialId: ID!, name: String!, body: String!, media: String, duration: Int!): Lesson
 
     updateLesson(_id: ID!, name: String, body: String media: String, duration: Int): Lesson
     
@@ -41,11 +41,22 @@ const lessonResolvers = {
   },
 
   Mutation: {
-    //ADD a new lesson
-    addLesson: async (parent, { name, body, media, duration }) => {
-      return await Lesson.create({name, body, media, duration });
+    //ADD a new lesson and attach it to its tutorial
+    addLesson: async (parent, { tutorialId, name, body, media, duration }) => {
+       
+      const newLesson = await Lesson.create({ name, body, media, duration });
+
+      await Tutorial.findByIdAndUpdate(
+        tutorialId,
+        { $push: {lessons: newLesson._id } },
+        { new: true }
+      );
+
+      return newLesson;
+
     },
-    //UPDATE an existing lesson
+    
+    //UPDATE one or more fields for an existing lesson
     updateLesson: async (parent, {_id, name, body, media, duration}) => {
       //create object containing only field(s) to be updated
       const updates = {};
