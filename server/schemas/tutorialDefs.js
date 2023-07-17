@@ -31,7 +31,7 @@ const tutorialTypeDefs = gql`
 const tutorialResolvers = {
   Query: {
     // Get all tutorials
-    tutorials: async () => {
+    tutorials: async function () {
       return await Tutorial.find({})
         .populate('categories')
         .populate('teacher')
@@ -40,7 +40,7 @@ const tutorialResolvers = {
     },
 
     // Get a single tutorial by ID
-    tutorial: async (parent, { _id }) => {
+    tutorial: async function (parent, { _id }) {
       return await Tutorial.findById(_id)
         .populate('categories')
         .populate('teacher')
@@ -57,15 +57,15 @@ const tutorialResolvers = {
       }
     },
   },
-  
+
   Mutation: {
     // Add a tutorial
-    addTutorial: async (parent, { title, overview, thumbnail, categories, teacher }) => {
+    addTutorial: async function (parent, { title, overview, thumbnail, categories, teacher }) {
       return await Tutorial.create({ title, overview, thumbnail, categories, teacher });
     },
 
     // Update a tutorial's title, overview, thumbnail, and/or categories
-    updateTutorial: async (parent, { _id, title, overview, thumbnail, categories }) => {
+    updateTutorial: async function (parent, { _id, title, overview, thumbnail, categories }) {
       // Create an updates object only containing the updated fields
       const updates = {};
       if (title) {
@@ -84,15 +84,15 @@ const tutorialResolvers = {
       return await Tutorial.findByIdAndUpdate(
         _id,
         { $set: updates },
-        { new: true },
+        { new: true }
       );
     },
 
     // Delete a tutorial
-    deleteTutorial: async (parent, { _id }) => {
+    deleteTutorial: async function (parent, { _id }) {
       return await Tutorial.findByIdAndDelete(_id);
-    }
-  }
+    },
+  },
 };
 
 module.exports = { tutorialTypeDefs, tutorialResolvers };
