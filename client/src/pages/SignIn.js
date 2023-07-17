@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { isEmptyInput, validateInput } from '../utils/validation';
 import {
   Avatar,
   Button,
@@ -39,15 +40,60 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export function LogIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+export function SignIn() {
+  const inputDefaultValues = {
+    value: '',
+    isEmpty: false,
+    isValid: true,
+    isExist: true,
+  };
+
+  const [email, setEmail] = useState(inputDefaultValues);
+  const [password, setPassword] = useState(inputDefaultValues);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
-  };
+  }
+
+  // set a new value to the state.value associated to the text field that invokes this function
+  function handleOnChange(inputValue, setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      value: inputValue,
+    }));
+  }
+
+  // verify that the input is non-blank
+  // set the associated state to display the appropriate error message based on the validation result
+  function handleOnBlur(inputValue, state, setState) {
+    // ensure that the input is not empty
+    if (isEmptyInput(inputValue)) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isEmpty: true,
+      }));
+      return;
+    }
+  }
+
+  // update the state to clear the error when the user focuses on that field
+  function handleOnFocus(state, setState) {
+    // change state to remove the error message on Focus if previously input was empty
+    if (state.isEmpty) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isEmpty: false,
+      }));
+      return;
+    }
+  }
+
+  console.log('password ' + password.value);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -93,24 +139,42 @@ export function LogIn() {
               sx={{ mt: 1 }}
             >
               <TextField
-                margin='normal'
                 required
                 fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
                 autoFocus
+                id='email'
+                name='email'
+                label='Email Address'
+                autoComplete='email'
+                margin='normal'
+                onChange={(e) =>
+                  handleOnChange(e.target.value.trim(), setEmail)
+                }
+                onBlur={(e) =>
+                  handleOnBlur(e.target.value, e.target.id, setEmail)
+                }
+                error={email.isEmpty}
+                helperText={email.isEmpty && 'Email field is required'}
+                onFocus={() => handleOnFocus(email, setEmail)}
               />
               <TextField
-                margin='normal'
                 required
                 fullWidth
+                id='password'
                 name='password'
                 label='Password'
                 type='password'
-                id='password'
                 autoComplete='current-password'
+                margin='normal'
+                onChange={(e) =>
+                  handleOnChange(e.target.value.trim(), setPassword)
+                }
+                onBlur={(e) =>
+                  handleOnBlur(e.target.value, e.target.id, setPassword)
+                }
+                error={password.isEmpty}
+                helperText={password.isEmpty && 'Password field is required'}
+                onFocus={() => handleOnFocus(password, setPassword)}
               />
               <FormControlLabel
                 control={<Checkbox value='remember' color='primary' />}
@@ -132,7 +196,7 @@ export function LogIn() {
                 </Grid>
                 <Grid item>
                   <Link href='/signup' variant='body2'>
-                    {"Don't have an account? Sign Up"}
+                    Don't have an account? Sign Up
                   </Link>
                 </Grid>
               </Grid>
@@ -145,4 +209,4 @@ export function LogIn() {
   );
 }
 
-export default LogIn;
+export default SignIn;
