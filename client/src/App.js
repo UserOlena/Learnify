@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import './style/App.css';
-import {
-  Home,
-  SignUp,
-  LogIn,
+import { 
+  Home, 
+  SignUp, 
+  SignIn,
 } from './pages';
 
 const client = new ApolloClient({
@@ -18,17 +18,17 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Routes>
-            <Route
-              path='/'
+            <Route 
+              path='/' 
               element={<Home />}
             ></Route>
-            <Route
-              path='/signup'
+            <Route 
+              path='/signup' 
               element={<SignUp />}
             ></Route>
-            <Route
-              path='/login'
-              element={<LogIn />}
+            <Route 
+              path='/signin' 
+              element={<SignIn />}
             ></Route>
           </Routes>
         </Router>
