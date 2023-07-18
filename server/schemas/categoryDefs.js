@@ -20,53 +20,54 @@ const categoryTypeDefs = gql`
   }
 `;
 
-
 const categoryResolvers = {
   Query: {
     //GET all categories
-    categories:  async function() {
+    categories: async function () {
       try {
-      return await Category.find({});
+        return await Category.find({});
       } catch (error) {
         throw new Error(`Failed to retrieve categories: ${error.message}`);
-        }
+      }
     },
 
     //GET a single category by ID
-    category: async function(parent, {_id }) {
+    category: async function (parent, { _id }) {
       try {
-      return await Category.findById(_id);
+        return await Category.findById(_id);
       } catch (error) {
         throw new Error(`Failed to retrieve category: ${error.message}`);
-        }
-    }
+      }
+    },
   },
   Mutation: {
     // ADD a new category
-    addCategory: async function(parent, { category }) {
+    addCategory: async function (parent, { category }) {
       try {
-      return await Category.create({ category });
+        return await Category.create({ category });
       } catch (error) {
-      throw new Error(`Failed to add category: ${error.message}`);
+        throw new Error(`Failed to add category: ${error.message}`);
       }
     },
     //UPDATE a category and its associated tutuorials
-    updateCategory: async function(parent, { _id, category }) {
+    updateCategory: async function (parent, { _id, category }) {
       try {
         // Find the category by ID
         const updatedCategory = await Category.findByIdAndUpdate(
-          _id, 
-          { category }, 
+          _id,
+          { category },
           { new: true }
         );
-    
+
         if (!updatedCategory) {
           throw new Error('Category not found');
         }
-    
+
         // Find tutorials associated with updated category
-        const tutorials = await Tutorial.find({ categories: updatedCategory._id });
-    
+        const tutorials = await Tutorial.find({
+          categories: updatedCategory._id,
+        });
+
         // Update the category in each associated tutorial
         await Promise.all(
           tutorials.map((tutorial) => {
@@ -85,31 +86,32 @@ const categoryResolvers = {
     },
 
     //DELETE a category and remove it from any associated tutorials
-    deleteCategory: async function(parent, {_id}) {
+    deleteCategory: async function (parent, { _id }) {
       try {
-      const categoryToDelete = await Category.findById(_id);
+        const categoryToDelete = await Category.findById(_id);
 
-      if (!categoryToDelete) {
-        throw new Error('Category not found');
+        if (!categoryToDelete) {
+          throw new Error('Category not found');
+        }
+
+        //find tutorials associated with the category
+        const tutorials = await Tutorial.find({
+          categories: categoryToDelete._id,
+        });
+
+        //remove the category from each associated tutorial
+        await Promise.all(
+          tutorials.map((tutorial) => {
+            tutorial.categories.pull(categoryToDelete._id);
+            return tutorial.save();
+          })
+        );
+        return await Category.findByIdAndDelete(_id);
+      } catch (error) {
+        throw new Error(`Failed to delete category: ${error.message}`);
       }
-
-      //find tutorials associated with the category
-      const tutorials = await Tutorial.find({ categories: 
-      categoryToDelete._id });
-
-      //remove the category from each associated tutorial
-      await Promise.all(
-        tutorials.map((tutorial) => {
-          tutorial.categories.pull(categoryToDelete._id);
-          return tutorial.save();
-        })
-      )
-      return await Category.findByIdAndDelete(_id);
-    } catch (error) {
-      throw new Error(`Failed to delete category: ${error.message}`);
-    }
     },
-  }
+  },
 };
-  
+
 module.exports = { categoryTypeDefs, categoryResolvers };
