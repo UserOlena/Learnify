@@ -25,18 +25,30 @@ const categoryResolvers = {
   Query: {
     //GET all categories
     categories:  async function() {
+      try {
       return await Category.find({});
+      } catch (error) {
+        throw new Error(`Failed to retrieve categories: ${error.message}`);
+        }
     },
 
     //GET a single category by ID
     category: async function(parent, {_id }) {
+      try {
       return await Category.findById(_id);
+      } catch (error) {
+        throw new Error(`Failed to retrieve category: ${error.message}`);
+        }
     }
   },
   Mutation: {
     // ADD a new category
     addCategory: async function(parent, { category }) {
+      try {
       return await Category.create({ category });
+      } catch (error) {
+      throw new Error(`Failed to add category: ${error.message}`);
+      }
     },
     //UPDATE a category and its associated tutuorials
     updateCategory: async function(parent, { _id, category }) {
@@ -74,6 +86,7 @@ const categoryResolvers = {
 
     //DELETE a category and remove it from any associated tutorials
     deleteCategory: async function(parent, {_id}) {
+      try {
       const categoryToDelete = await Category.findById(_id);
 
       if (!categoryToDelete) {
@@ -92,8 +105,10 @@ const categoryResolvers = {
         })
       )
       return await Category.findByIdAndDelete(_id);
-
+    } catch (error) {
+      throw new Error(`Failed to delete category: ${error.message}`);
     }
+    },
   }
 };
   
