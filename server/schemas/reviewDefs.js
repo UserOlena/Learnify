@@ -24,7 +24,7 @@ const reviewTypeDefs = gql`
 const reviewResolvers = {
   Query: {
     // Get all reviews
-    reviews: async function() {
+    reviews: async function () {
       try {
         return await Review.find({});
       } catch (error) {
@@ -33,7 +33,7 @@ const reviewResolvers = {
     },
 
     // Get a single review by ID
-    review: async function(parent, { _id }) {
+    review: async function (parent, { _id }) {
       try {
         return await Review.findById(_id);
       } catch (error) {
@@ -41,13 +41,13 @@ const reviewResolvers = {
       }
     },
   },
-  
+
   Mutation: {
     // Add a review and attach it to its tutorial
-    addReview: async function(parent, { tutorialId, rating, comment }) {
+    addReview: async function (parent, { tutorialId, rating, comment }) {
       try {
-        const reviewResult = await Review.create({ rating, comment});
-      
+        const reviewResult = await Review.create({ rating, comment });
+
         await Tutorial.findByIdAndUpdate(
           tutorialId,
           { $push: { reviews: reviewResult._id } },
@@ -61,7 +61,7 @@ const reviewResolvers = {
     },
 
     // Update a review's rating and/or comment
-    updateReview: async function(parent, { _id, rating, comment }) {
+    updateReview: async function (parent, { _id, rating, comment }) {
       try {
         // Create an updates object only containing the updated fields
         const updates = {};
@@ -75,7 +75,7 @@ const reviewResolvers = {
         return await Review.findByIdAndUpdate(
           _id,
           { $set: updates },
-          { new: true },
+          { new: true }
         );
       } catch (error) {
         throw new Error(`Failed to update review: ${error.message}`);
@@ -83,7 +83,7 @@ const reviewResolvers = {
     },
 
     // Delete a review
-    deleteReview: async function(parent, { _id, tutorialId }) {
+    deleteReview: async function (parent, { _id, tutorialId }) {
       try {
         return await Review.findByIdAndDelete(_id);
       } catch (error) {
