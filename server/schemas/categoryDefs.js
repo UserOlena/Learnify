@@ -19,8 +19,8 @@ const categoryResolvers = {
   Query: {
     categories: async () => {
       return await Category.find({});
-    }
-  }
+    },
+  },
 };
-  
+
 module.exports = { categoryTypeDefs, categoryResolvers };
