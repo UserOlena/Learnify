@@ -1,7 +1,8 @@
 import { React, useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { isEmptyInput, validateInput } from '../utils/validation';
+import { isEmptyInput } from '../utils/validation';
+import { Link } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -10,7 +11,6 @@ import {
   FormControlLabel,
   Checkbox,
   Typography,
-  Link,
   Paper,
   Box,
   Grid,
@@ -25,13 +25,17 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link
+      <a
         target='_blank'
         color='inherit'
         href='https://github.com/UserOlena/Learnify/blob/main/LICENSE'
+        style={{
+          color: 'rgba(0, 0, 0, 0.6)',
+        }}
       >
         Learnify
-      </Link>{' '}
+      </a>
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -70,7 +74,7 @@ export function SignIn() {
 
   // verify that the input is non-blank
   // set the associated state to display the appropriate error message based on the validation result
-  function handleOnBlur(inputValue, state, setState) {
+  function handleOnBlur(inputValue, setState) {
     // ensure that the input is not empty
     if (isEmptyInput(inputValue)) {
       setState((otherValues) => ({
@@ -141,7 +145,6 @@ export function SignIn() {
               <TextField
                 required
                 fullWidth
-                autoFocus
                 id='email'
                 name='email'
                 label='Email Address'
@@ -151,7 +154,7 @@ export function SignIn() {
                   handleOnChange(e.target.value.trim(), setEmail)
                 }
                 onBlur={(e) =>
-                  handleOnBlur(e.target.value, e.target.id, setEmail)
+                  handleOnBlur(e.target.value, setEmail)
                 }
                 error={email.isEmpty}
                 helperText={email.isEmpty && 'Email field is required'}
@@ -170,7 +173,7 @@ export function SignIn() {
                   handleOnChange(e.target.value.trim(), setPassword)
                 }
                 onBlur={(e) =>
-                  handleOnBlur(e.target.value, e.target.id, setPassword)
+                  handleOnBlur(e.target.value, setPassword)
                 }
                 error={password.isEmpty}
                 helperText={password.isEmpty && 'Password field is required'}
@@ -190,12 +193,12 @@ export function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href='#' variant='body2'>
+                  <Link to='#' className='externalLink'>
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href='/signup' variant='body2'>
+                  <Link to='/signup' className='externalLink'>
                     Don't have an account? Sign Up
                   </Link>
                 </Grid>
