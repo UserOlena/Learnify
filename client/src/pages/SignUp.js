@@ -60,7 +60,7 @@ export function SignUp() {
   const notValidUserNameErrorMessage =
     'Username should consist of 4 to 12 alphanumeric characters.';
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
@@ -91,7 +91,7 @@ export function SignUp() {
       return;
     }
 
-    // if values of both password and confirmPassword fields !== 0, ensure they
+    // if values length of both password and confirmPassword fields !== 0, ensure they
     // match; otherwise, change state to display corresponding error message
     if (!isEmptyInput(password.value) && !isEmptyInput(confirmPassword.value)) {
       if (password.value !== confirmPassword.value) {
@@ -303,7 +303,7 @@ export function SignUp() {
             </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link href='/login' variant='body2'>
+                <Link href='/signin' variant='body2'>
                   Already have an account? Sign in
                 </Link>
               </Grid>
