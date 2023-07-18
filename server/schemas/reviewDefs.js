@@ -24,18 +24,19 @@ const reviewTypeDefs = gql`
 const reviewResolvers = {
   Query: {
     // Get all reviews
-    reviews: async () => {
+    reviews: async function() {
       return await Review.find({});
     },
 
     // Get a single review by ID
-    review: async (parent, { _id }) => {
+    review: async function(parent, { _id }) {
       return await Review.findById(_id);
     }
   },
+  
   Mutation: {
     // Add a review and attach it to its tutorial
-    addReview: async (parent, { tutorialId, rating, comment }) => {
+    addReview: async function(parent, { tutorialId, rating, comment }) {
       const reviewResult = await Review.create({ rating, comment});
       
       await Tutorial.findByIdAndUpdate(
@@ -48,7 +49,7 @@ const reviewResolvers = {
     },
 
     // Update a review's rating and/or comment
-    updateReview: async (parent, { _id, rating, comment }) => {
+    updateReview: async function(parent, { _id, rating, comment }) {
       // Create an updates object only containing the updated fields
       const updates = {};
       if (rating) {
@@ -66,7 +67,7 @@ const reviewResolvers = {
     },
 
     // Delete a review
-    deleteReview: async (parent, { _id, tutorialId }) => {
+    deleteReview: async function(parent, { _id, tutorialId }) {
       return await Review.findByIdAndDelete(_id);
     }
   }
