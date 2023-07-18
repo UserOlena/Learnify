@@ -4,123 +4,157 @@ const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const userTypeDefs = gql`
-    type User {
-        _id: ID
-        username: String
-        email: String
-        password: String
-        tutorials: [Tutorial]
-    }
+	type User {
+		_id: ID
+		username: String
+		email: String
+		password: String
+		tutorials: [Tutorial]
+	}
 
-    type Auth {
-        token: ID!
-        user: User
-    }
+	type Auth {
+		token: ID!
+		user: User
+	}
 
-    type Query {
-        me: User
-        user(userId: ID!): User
-        users: [User]!
-    }
+	type Query {
+		me: User
+		user(_id: ID!): User
+		users: [User]!
+	}
 
-    type Mutation {
-        login(email: String!, password: String!): Auth
-        addUser(name: String!, email: String!, password: String!): Auth
-        removeUser: User
-        
-        addTutorial(title: String!, description: String!, category: String!, link: String!): Tutorial
-        addTeachingTutorial(title: String!, description: String!, category: String!, link: String!): Tutorial
+	type Mutation {
+		login(email: String!, password: String!): Auth
+		addUser(username: String!, email: String!, password: String!): Auth
+		removeUser: User
 
-        removeTutorial(tutorialId: ID!): User
-        removeTeachingTutorial(tutorialId: ID!): User
-    }
+		addTutorialtoUser(thoughtId: ID! ): Tutorial
+
+		removeTutorialfromUser(tutorialId: ID!): Tutorial
+	}
 `;
 
 const userResolvers = {
-    Query: {
-        user: async (parent, { userId }) => {
-            return User.findOne({_id: userId});
-        },
+	Query: {
+		user: async (parent, { _id }) => {
+            try {
+                return User.findOne({ _id: _id });
+            } catch(err) {
+                throw new Error(err);
+            }
+		},
 
-        users: async () => {
-            return User.find();
-        },
+		users: async () => {
+            try {
+                return User.find();
+            } catch(err) {
+                throw new Error(err);
+            }		},
 
-        me: async (parent, args, context) => {
-            if (context.user) {
-                const userData = await User.findOne({ _id: context.user._id })
-                    .select('-__v -password')
-                    .populate('tutorials')
+		me: async (parent, args, context) => {
+			if (context.user) {
+                try {
+                    const userData = await User.findOne({ _id: context.user._id })
+					.select('-__v -password')
+					.populate('tutorials');
+                } catch (err) {
+                    throw new Error(err);
+                }
+				return userData;
+			}
 
-                return userData;
+			throw new AuthenticationError('Not logged in');
+		},
+	},
+
+	Mutation: {
+		addUser: async (parent, { username, email, password }) => {
+            try {
+			    const user = await User.create({ username, email, password });
+			    const token = signToken(user);
+            } catch(err) {
+                throw new Error(err);
             }
 
-            throw new AuthenticationError('Not logged in');
-        },
-    },
+			return { token, user };
+		},
 
-    Mutation: {
-        addUser: async (parent, { name, email, password }) => {
-            const user = await User.create({ name, email, password });
-            const token = signToken(user);
+		login: async (parent, { email, password }) => {
+            try {
+			    const user = await User.findOne({ email });
+            } catch(err) {
+                throw new Error(err);
+            }
+
+			if (!user) {
+				throw new AuthenticationError('No User with this email found!');
+			}
+
+            try {
+			    const correctPw = await user.isCorrectPassword(password);
+            } catch(err) {
+                throw new Error(err);
+            }
+
+			if (!correctPw) {
+				throw new AuthenticationError('Incorrect Password!');
+			}
+
+            try {
+			    const token = signToken(user);
+            } catch(err) {
+                throw new Error(err);
+            }
 
             return { token, user };
-        },
+		},
 
-        login: async (parent, { email, password }) => {
-            const user = await User.findOne({ email });
-
-            if(!user) {
-                throw new AuthenticationError('No User witht this email found!');
+		removeUser: async (parent, args, context) => {
+			if (context.user) {
+                try {
+				    return User.findOneAndDelete({ _id: context.user._id });
+                } catch(err) {
+                    throw new Error(err);
+                }
             }
+			throw new AuthenticationError('You need to be logged in!');
+		},
 
-            const correctPw = await user.isCorrectPassword(password);
+		addTutorial: async (parent, { _id, tutorialId }, context) => {
+			if (context.user) {
+                try {
+                    return User.findOneAndUpdate(
+                        { _id: _id },
+                        {
+                            $addToSet: { tutorials: tutorialId },
+                        },
+                        {
+                            new: true,
+                            runValidators: true,
+                        }
+                    );
+                } catch(err) {
+                    throw new Error(err);
+                }
+			}
+			throw new AuthenticationError('You need to be logged in!');
+		},
 
-            if(!correctPw) {
-                throw new AuthenticationError('Incorrect Password!');
-            }
-
-            const token = signToken(user);
-            return { token, user };
-        },
-
-        removeUser: async (parent, args, context) => {
-            if(context.user) {
-                return User.findOneAndDelete({ _id: context.user._id });
-            }
-            throw new AuthenticationError('You need to be logged in!');
-        },
-
-        addTutorial: async (parent, { userId, tutorial }, context) => {
-            if (context.user) {
-                return User.findOneAndUpdate(
-                    { _id: userId },
-                    {
-                        $addToSet: { tutorials: tutorial},
-                    },
-                    {
-                        new: true,
-                        runValidators: true,
-                    }
-                );
-            }
-            throw new AuthenticationError('You need to be logged in!');
-        },
-
-
-        removeTutorial: async (parent, { tutorialId }, context) => {
-            if(context.user) {
-                return User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { tutorials: tutorialId } },
-                    { new: true }
-                );
-            }
-            throw new AuthenticationError('You need to be logged in!');
-        },
-    },
+		removeTutorial: async (parent, { tutorialId }, context) => {
+			if (context.user) {
+                try {
+                    return User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { tutorials: tutorialId } },
+                        { new: true }
+                    );
+                } catch(err) {
+                    throw new Error(err);
+                }
+			}
+			throw new AuthenticationError('You need to be logged in!');
+		},
+	},
 };
-  
-
 
 module.exports = { userTypeDefs, userResolvers };
