@@ -57,8 +57,8 @@ const categoryResolvers = {
     
         // Update the category in each associated tutorial
         await Promise.all(
-          tutorials.map(function (tutorial) {
-            tutorial.categories.forEach(function (categoryId, index) {
+          tutorials.map((tutorial) => {
+            tutorial.categories.forEach((categoryId, index) => {
               if (categoryId.equals(updatedCategory._id)) {
                 tutorial.categories[index] = updatedCategory._id;
               }
@@ -86,7 +86,7 @@ const categoryResolvers = {
 
       //remove the category from each associated tutorial
       await Promise.all(
-        tutorials.map(function(tutorial) {
+        tutorials.map((tutorial) => {
           tutorial.categories.pull(categoryToDelete._id);
           return tutorial.save();
         })
