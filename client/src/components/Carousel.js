@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Card, CardContent, Typography, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -20,10 +20,7 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      border: `2px solid ${
-        theme.palette.type === "dark" ? "white" : "black"
-      }`,
-    },
+      border: '2px solid black', 
     cardImage: {
       width: "100%",
       maxHeight: "300px",
