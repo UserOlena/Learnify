@@ -1,5 +1,4 @@
-import  { React, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { React, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -8,7 +7,7 @@ import {
   Menu,
   InputBase,
   Button,
-  Switch,
+  makeStyles
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
