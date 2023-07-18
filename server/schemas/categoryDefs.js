@@ -14,7 +14,7 @@ const categoryTypeDefs = gql`
   }
 
   type Mutation {
-    addCategory(tutorialId: ID!, category: String!): Category
+    addCategory(category: String!): Category
     updateCategory(_id: ID!, category: String!): Category
     deleteCategory(_id: ID!): Category
   }
