@@ -28,7 +28,7 @@ const userTypeDefs = gql`
 		addUser(username: String!, email: String!, password: String!): Auth
 		removeUser: User
 
-		addTutorialtoUser(thoughtId: ID! ): Tutorial
+		addTutorialtoUser(thoughtId: ID!): Tutorial
 
 		removeTutorialfromUser(tutorialId: ID!): Tutorial
 	}
@@ -37,29 +37,30 @@ const userTypeDefs = gql`
 const userResolvers = {
 	Query: {
 		user: async (parent, { _id }) => {
-            try {
-                return User.findOne({ _id: _id });
-            } catch(err) {
-                throw new Error(err);
-            }
+			try {
+				return User.findOne({ _id: _id });
+			} catch (err) {
+				throw new Error(err);
+			}
 		},
 
 		users: async () => {
-            try {
-                return User.find();
-            } catch(err) {
-                throw new Error(err);
-            }		},
+			try {
+				return User.find();
+			} catch (err) {
+				throw new Error(err);
+			}
+		},
 
 		me: async (parent, args, context) => {
 			if (context.user) {
-                try {
-                    const userData = await User.findOne({ _id: context.user._id })
-					.select('-__v -password')
-					.populate('tutorials');
-                } catch (err) {
-                    throw new Error(err);
-                }
+				try {
+					const userData = await User.findOne({ _id: context.user._id })
+						.select('-__v -password')
+						.populate('tutorials');
+				} catch (err) {
+					throw new Error(err);
+				}
 				return userData;
 			}
 
@@ -69,88 +70,88 @@ const userResolvers = {
 
 	Mutation: {
 		addUser: async (parent, { username, email, password }) => {
-            try {
-			    const user = await User.create({ username, email, password });
-			    const token = signToken(user);
-            } catch(err) {
-                throw new Error(err);
-            }
+			try {
+				const user = await User.create({ username, email, password });
+				const token = signToken(user);
+			} catch (err) {
+				throw new Error(err);
+			}
 
 			return { token, user };
 		},
 
 		login: async (parent, { email, password }) => {
-            try {
-			    const user = await User.findOne({ email });
-            } catch(err) {
-                throw new Error(err);
-            }
+			try {
+				const user = await User.findOne({ email });
+			} catch (err) {
+				throw new Error(err);
+			}
 
 			if (!user) {
 				throw new AuthenticationError('No User with this email found!');
 			}
 
-            try {
-			    const correctPw = await user.isCorrectPassword(password);
-            } catch(err) {
-                throw new Error(err);
-            }
+			try {
+				const correctPw = await user.isCorrectPassword(password);
+			} catch (err) {
+				throw new Error(err);
+			}
 
 			if (!correctPw) {
 				throw new AuthenticationError('Incorrect Password!');
 			}
 
-            try {
-			    const token = signToken(user);
-            } catch(err) {
-                throw new Error(err);
-            }
+			try {
+				const token = signToken(user);
+			} catch (err) {
+				throw new Error(err);
+			}
 
-            return { token, user };
+			return { token, user };
 		},
 
 		removeUser: async (parent, args, context) => {
 			if (context.user) {
-                try {
-				    return User.findOneAndDelete({ _id: context.user._id });
-                } catch(err) {
-                    throw new Error(err);
-                }
-            }
+				try {
+					return User.findOneAndDelete({ _id: context.user._id });
+				} catch (err) {
+					throw new Error(err);
+				}
+			}
 			throw new AuthenticationError('You need to be logged in!');
 		},
 
 		addTutorial: async (parent, { _id, tutorialId }, context) => {
 			if (context.user) {
-                try {
-                    return User.findOneAndUpdate(
-                        { _id: _id },
-                        {
-                            $addToSet: { tutorials: tutorialId },
-                        },
-                        {
-                            new: true,
-                            runValidators: true,
-                        }
-                    );
-                } catch(err) {
-                    throw new Error(err);
-                }
+				try {
+					return User.findOneAndUpdate(
+						{ _id: _id },
+						{
+							$addToSet: { tutorials: tutorialId },
+						},
+						{
+							new: true,
+							runValidators: true,
+						}
+					);
+				} catch (err) {
+					throw new Error(err);
+				}
 			}
 			throw new AuthenticationError('You need to be logged in!');
 		},
 
 		removeTutorial: async (parent, { tutorialId }, context) => {
 			if (context.user) {
-                try {
-                    return User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $pull: { tutorials: tutorialId } },
-                        { new: true }
-                    );
-                } catch(err) {
-                    throw new Error(err);
-                }
+				try {
+					return User.findOneAndUpdate(
+						{ _id: context.user._id },
+						{ $pull: { tutorials: tutorialId } },
+						{ new: true }
+					);
+				} catch (err) {
+					throw new Error(err);
+				}
 			}
 			throw new AuthenticationError('You need to be logged in!');
 		},
