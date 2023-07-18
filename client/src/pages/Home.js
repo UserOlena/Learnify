@@ -1,12 +1,12 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 import { Carousel, Categories, Footer, Navbar, Recommended } from '../components'
 
-const Home = () => {
+export function Home() {
   return (
     <div>
       <Navbar />
       <Carousel />
-      <Recommendations />
+      <Recommended />
       <Categories />
       <Footer />
     </div>
