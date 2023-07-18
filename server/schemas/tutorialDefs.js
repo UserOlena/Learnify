@@ -84,7 +84,7 @@ const tutorialResolvers = {
       return await Tutorial.findByIdAndUpdate(
         _id,
         { $set: updates },
-        { new: true }
+        { new: true },
       );
     },
 
