@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => {
       padding: theme.spacing(1),
       color: theme.palette.type === "dark" ? "white" : "black",
     },
-  };
+  }};
 });
 
 function Carousel() {
