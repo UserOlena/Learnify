@@ -145,7 +145,6 @@ export function SignIn() {
               <TextField
                 required
                 fullWidth
-                autoFocus
                 id='email'
                 name='email'
                 label='Email Address'
