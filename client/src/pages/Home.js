@@ -6,7 +6,7 @@ const Home = () => {
     <div>
       <Navbar />
       <Carousel />
-      <Recommendations />
+      <Recommended />
       <Categories />
       <Footer />
     </div>

@@ -3,6 +3,10 @@ import { makeStyles, useTheme } from '@material-ui/core';
 import { Card, CardContent, Typography, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { QUEREY_TUTORIALS } from '../utils/queries';
+import { useQuery } from '@apollo/client';
+
+
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -42,7 +46,6 @@ const useStyles = makeStyles((theme) => {
 function Recommended() {
   const classes = useStyles();
   const theme = useTheme();
-
   const items = [
     {
       id: 1,
@@ -88,27 +91,10 @@ function Recommended() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { loading, data } = useQuery(GET_TUTORIALS);
+  const { loading, data } = useQuery(QUEREY_TUTORIALS);
 
-  useEffect(() => {
-    if (data) {
-      dispatch({
-        type: UPDATE_TUTORIALS,
-        tutorials: data.tutorials,
-      });
-      data.tutorials.forEach((tutorial) => {
-        idbPromise("tutorials", "put", tutorial);
-      });
-    } else if (!loading) {
-      idbPromise("tutorials", "get").then((tutorials) => {
-        dispatch({
-          type: UPDATE_TUTORIALS,
-          tutorials: tutorials,
-        });
-      });
-    }
-  }, [data, loading, dispatch]);
-
+  console.log(data);
+  
   function handlePrev() {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 4, 0));
   }
