@@ -99,6 +99,9 @@ const categoryResolvers = {
           categories: categoryToDelete._id,
         });
 
+        if (!tutorials) {
+          throw new Error('No tutorials found with that category');
+        }
         //remove the category from each associated tutorial
         await Promise.all(
           tutorials.map((tutorial) => {
