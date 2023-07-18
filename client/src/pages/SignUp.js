@@ -91,7 +91,7 @@ export function SignUp() {
       return;
     }
 
-    // if values lenfth of both password and confirmPassword fields !== 0, ensure they
+    // if values length of both password and confirmPassword fields !== 0, ensure they
     // match; otherwise, change state to display corresponding error message
     if (!isEmptyInput(password.value) && !isEmptyInput(confirmPassword.value)) {
       if (password.value !== confirmPassword.value) {
