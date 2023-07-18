@@ -1,4 +1,4 @@
-import  { React, useState } from "react";
+import { React, useEffect, useState } from 'react';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Card,
@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useQuery } from "@apollo/client";
+import { GET_TUTORIALS } from "../utils/queries";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -49,51 +51,28 @@ const useStyles = makeStyles((theme) => {
 function Recommendations() {
   const classes = useStyles();
   const theme = useTheme();
-
-  const items = [
-    {
-      id: 1,
-      title: "Recommendation 1",
-      description: "Description for Recommendation 1",
-    },
-    {
-      id: 2,
-      title: "Recommendation 2",
-      description: "Description for Recommendation 2",
-    },
-    {
-      id: 3,
-      title: "Recommendation 3",
-      description: "Description for Recommendation 3",
-    },
-    {
-      id: 4,
-      title: "Recommendation 4",
-      description: "Description for Recommendation 4",
-    },
-    {
-      id: 5,
-      title: "Recommendation 5",
-      description: "Description for Recommendation 5",
-    },
-    {
-      id: 6,
-      title: "Recommendation 6",
-      description: "Description for Recommendation 6",
-    },
-    {
-      id: 7,
-      title: "Recommendation 7",
-      description: "Description for Recommendation 7",
-    },
-    {
-      id: 8,
-      title: "Recommendation 8",
-      description: "Description for Recommendation 8",
-    },
-  ];
-
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const { loading, data } = useQuery(GET_TUTORIALS);
+
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: UPDATE_TUTORIALS,
+        tutorials: data.tutorials,
+      });
+      data.tutorials.forEach((tutorial) => {
+        idbPromise("tutorials", "put", tutorial);
+      });
+    } else if (!loading) {
+      idbPromise("tutorials", "get").then((tutorials) => {
+        dispatch({
+          type: UPDATE_TUTORIALS,
+          tutorials: tutorials,
+        });
+      });
+    }
+  }, [data, loading, dispatch]);
 
   function handlePrev() {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 4, 0));
