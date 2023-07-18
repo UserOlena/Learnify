@@ -121,7 +121,7 @@ const userResolvers = {
 			throw new AuthenticationError('You need to be logged in!');
 		},
 
-		addTutorial: async (parent, { _id, tutorialId }, context) => {
+		addTutorialtoUser: async (parent, { _id, tutorialId }, context) => {
 			if (context.user) {
 				try {
 					return User.findOneAndUpdate(
@@ -141,7 +141,7 @@ const userResolvers = {
 			throw new AuthenticationError('You need to be logged in!');
 		},
 
-		removeTutorial: async (parent, { tutorialId }, context) => {
+		removeTutorialfromUser: async (parent, { tutorialId }, context) => {
 			if (context.user) {
 				try {
 					return User.findOneAndUpdate(
