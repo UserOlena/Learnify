@@ -1,19 +1,15 @@
-import { React, useState } from "react";
-import Navbar from "../components/Navbar";
-import Carousel from "../components/Carousel";
-import Recommendations from "../components/Recommended";
-import Categories from "../components/Categories";
-import Footer from "../components/Footer";
+import { React, useState } from 'react';
+import { Carousel, Categories, Footer, Navbar, Recommended } from '../components'
 
 const Home = () => {
   return (
-      <div>
-        <Navbar />
-        <Carousel />
-        <Recommendations />
-        <Categories />
-        <Footer />
-      </div>
+    <div>
+      <Navbar />
+      <Carousel />
+      <Recommendations />
+      <Categories />
+      <Footer />
+    </div>
   );
 };
 

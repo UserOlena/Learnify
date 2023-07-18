@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState } from 'react';
 import {
   Button,
   Grid,
@@ -7,18 +7,18 @@ import {
   CardContent,
   Box,
   useTheme,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 // Sample data from the database
 const options = [
-  { name: "Option 1", category: "Category 1" },
-  { name: "Option 2", category: "Category 2" },
-  { name: "Option 3", category: "Category 1" },
+  { name: 'Option 1', category: 'Category 1' },
+  { name: 'Option 2', category: 'Category 2' },
+  { name: 'Option 3', category: 'Category 1' },
   // ... add more options
 ];
 
 function Categories() {
-  const [selectedCategory, setSelectedCategory] = useState("Category 1");
+  const [selectedCategory, setSelectedCategory] = useState('Category 1');
   const theme = useTheme();
 
   // Get all unique categories from the options
@@ -30,31 +30,31 @@ function Categories() {
     : options;
 
   // Function to handle category selection
-  const selectCategory = (category) => {
+  function selectCategory(category) {
     setSelectedCategory(category);
-  };
+  }
 
   return (
     <Box
       border={3}
       borderRadius={8}
-      borderColor={theme.palette.mode === "dark" ? "black" : "white"}
-      backgroundColor={theme.palette.mode === "dark" ? "gray" : "white"}
+      borderColor={theme.palette.mode === 'dark' ? 'black' : 'white'}
+      backgroundColor={theme.palette.mode === 'dark' ? 'gray' : 'white'}
       p={2}
     >
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         Categories
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <div className="category-buttons">
+          <div className='category-buttons'>
             {categories.map((category) => (
               <Button
                 key={category}
-                variant="outlined"
-                size="small"
+                variant='outlined'
+                size='small'
                 className={`category-button ${
-                  selectedCategory === category ? "active" : ""
+                  selectedCategory === category ? 'active' : ''
                 }`}
                 onClick={() => selectCategory(category)}
               >
@@ -68,16 +68,16 @@ function Categories() {
             <Card
               border={3}
               borderRadius={8}
-              borderColor={theme.palette.mode === "dark" ? "white" : "black"}
-              backgroundColor={theme.palette.mode === "dark" ? "gray" : "gray"}
+              borderColor={theme.palette.mode === 'dark' ? 'white' : 'black'}
+              backgroundColor={theme.palette.mode === 'dark' ? 'gray' : 'gray'}
               p={2}
             >
               <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant='h6' gutterBottom>
                   {selectedCategory}
                 </Typography>
                 {/* Add text description for the selected category */}
-                <Typography variant="body1">
+                <Typography variant='body1'>
                   Description for {selectedCategory} category goes here...
                 </Typography>
               </CardContent>
@@ -93,17 +93,17 @@ function Categories() {
                     border={3}
                     borderRadius={8}
                     borderColor={
-                      theme.palette.mode === "dark" ? "white" : "black"
+                      theme.palette.mode === 'dark' ? 'white' : 'black'
                     }
                     backgroundColor={
-                      theme.palette.mode === "dark" ? "gray" : "white"
+                      theme.palette.mode === 'dark' ? 'gray' : 'white'
                     }
                     p={2}
                   >
                     <CardContent>
-                      <Typography variant="subtitle1">{option.name}</Typography>
+                      <Typography variant='subtitle1'>{option.name}</Typography>
                       {/* Additional information about the corresponding category */}
-                      <Typography variant="body2">
+                      <Typography variant='body2'>
                         Additional information about {option.name} goes here...
                       </Typography>
                     </CardContent>
@@ -116,6 +116,6 @@ function Categories() {
       </Grid>
     </Box>
   );
-};
+}
 
 export default Categories;
