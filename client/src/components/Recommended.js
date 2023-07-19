@@ -1,8 +1,7 @@
 import { React, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core';
-import { Card, CardContent, Typography, IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
+import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -130,7 +129,7 @@ function Recommended() {
           disabled={currentIndex === 0}
           onClick={handlePrev}
         >
-          <ArrowBackIcon />
+          <ArrowBack />
         </IconButton>
         <IconButton
           className={classes.arrowButton}
@@ -138,7 +137,7 @@ function Recommended() {
           disabled={currentIndex >= items.length - 4}
           onClick={handleNext}
         >
-          <ArrowForwardIcon />
+          <ArrowForward />
         </IconButton>
       </div>
     </div>
