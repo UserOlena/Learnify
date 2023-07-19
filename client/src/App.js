@@ -9,7 +9,7 @@ import {
 import {
   Footer,
   Navbar,
-} from '../components';
+} from './components';
 
 const client = new ApolloClient({
   uri: '/graphql',
