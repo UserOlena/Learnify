@@ -10,6 +10,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -129,20 +130,23 @@ function Navbar({ darkMode, onDarkModeChange }) {
             <MenuItem onClick={handleMenuClose}>Category 3</MenuItem>
           </Menu>
         </div>
-        <Button
-          variant='contained'
-          color='inherit'
-          className={classes.signUpButton}
-        >
-          Sign Up
-        </Button>
-        <Button
-          variant='contained'
-          color='inherit'
-          className={classes.signUpButton}
-        >
-          Sign In
-        </Button>
+        <NavLink to='/signup'>
+          <Button
+            variant='contained'
+            className={classes.signUpButton}
+          >
+            Sign Up
+          </Button>
+        </NavLink>
+
+        <NavLink to='/signin'>
+          <Button
+            variant='contained'
+            className={classes.signUpButton}
+          >
+            Sign In
+          </Button>
+        </NavLink>
       </Toolbar>
     </AppBar>
   );
