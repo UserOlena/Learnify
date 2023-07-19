@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { React, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -80,11 +80,11 @@ const useStyles = makeStyles((theme) => {
     categoriesMenu: {
       marginTop: theme.spacing(6),
     },
-    logo : {
+    logo: {
       width: '100px',
       height: '80px',
       marginRight: theme.spacing(2),
-      marginTop : theme.spacing(1),
+      marginTop: theme.spacing(1),
       zoom: '1.2',
     },
   };
