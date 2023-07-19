@@ -40,8 +40,8 @@ function Categories() {
       backgroundColor={theme.palette.mode === 'dark' ? 'gray' : 'white'}
       p={2}
     >
-      <Typography variant='h6' gutterBottom>
-        Categories
+      <Typography variant='h5' gutterBottom>
+        Find Tutorials Based on Category!
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>

@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -20,25 +20,25 @@ const useStyles = makeStyles((theme) => {
       justifyContent: 'center',
     },
     card: {
-      width: '400px',
+      width: '800px',
       margin: theme.spacing(2),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       border: '2px solid black',
-      cardImage: {
-        width: '100%',
-        maxHeight: '300px',
-        objectFit: 'cover',
-      },
-      carouselArrows: {
-        margin: theme.spacing(2),
-      },
-      arrowButton: {
-        margin: theme.spacing(0, 1),
-        padding: theme.spacing(1),
-        color: theme.palette.type === 'dark' ? 'white' : 'black',
-      },
+    },
+    cardImage: {
+      width: '100%',
+      maxHeight: '300px',
+      objectFit: 'cover',
+    },
+    carouselArrows: {
+      margin: theme.spacing(2),
+    },
+    arrowButton: {
+      margin: theme.spacing(0, 1),
+      padding: theme.spacing(1),
+      color: theme.palette.type === 'dark' ? 'white' : 'black',
     },
   };
 });
@@ -49,24 +49,29 @@ function Carousel() {
 
   const items = [
     {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      image: 'item1.jpg',
+      title: 'Welcome to Learnify!',
+      description: 'Your learning journey starts here!',
+      image:
+        'https://c0.wallpaperflare.com/preview/272/750/376/business-laptop-office-computer.jpg',
     },
     {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      image: 'item2.jpg',
+      title: 'Tutorials',
+      description:
+        'Lernify contains a wide range of tutorials for you to learn from!',
+      image:
+        'https://c1.wallpaperflare.com/preview/427/745/192/notebook-natural-laptop-macbook.jpg',
     },
     {
-      title: 'Item 3',
-      description: 'Description for Item 3',
-      image: 'item3.jpg',
+      title: 'Recommendations',
+      description: 'Below you will find recommendations to learn from!',
+      image:
+        'https://c1.wallpaperflare.com/preview/811/367/789/technology-computer-creative-design-thumbnail.jpg',
     },
     {
-      title: 'Item 4',
-      description: 'Description for Item 4',
-      image: 'item4.jpg',
+      title: 'Sign In',
+      description: 'Sign in or sign up to start your learning journey!',
+      image:
+        'https://c1.wallpaperflare.com/preview/623/487/747/technology-code-coding-computer.jpg',
     },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -104,7 +109,7 @@ function Carousel() {
 
   return (
     <div className={classes.carousel}>
-      <h2>Carousel Component</h2>
+      <h1>Learnify</h1>
       <div className={classes.carouselContent}>
         {items.map(function (item, index) {
           return (
