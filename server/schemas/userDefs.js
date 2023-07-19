@@ -28,7 +28,7 @@ const userTypeDefs = gql`
 		addUser(username: String!, email: String!, password: String!): Auth
 		removeUser: User
 
-		addTutorialtoUser(thoughtId: ID!): Tutorial
+		addTutorialtoUser(tutorialId: ID!): Tutorial
 
 		removeTutorialfromUser(tutorialId: ID!): Tutorial
 	}
