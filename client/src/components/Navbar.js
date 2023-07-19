@@ -138,7 +138,6 @@ function Navbar({ darkMode, onDarkModeChange }) {
             Sign Up
           </Button>
         </NavLink>
-
         <NavLink to='/signin'>
           <Button
             variant='contained'
