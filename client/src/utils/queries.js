@@ -5,6 +5,7 @@ export const QUERY_TUTORIALS = gql`
         _id
         title
         overview
+        thumbnail
     }}
 `;
 
