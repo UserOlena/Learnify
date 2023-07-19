@@ -97,9 +97,11 @@ function Navbar({ darkMode, onDarkModeChange }) {
   return (
     <AppBar position='static' className={classes.appBar}>
       <Toolbar>
-        <Typography variant='h6' className={classes.title}>
-          <img src='' alt='Learnify' className={classes.logo} />
-        </Typography>
+        <NavLink to='/'>
+          <Typography variant='h6' className={classes.title}>
+            <img src='' alt='Learnify' className={classes.logo} />
+          </Typography>
+        </NavLink>
         <Button
           variant='contained'
           color='inherit'
