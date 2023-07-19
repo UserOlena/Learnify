@@ -13,6 +13,7 @@ import {
   SignUp, 
   SignIn, 
   Home,
+  Tutorial
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -39,6 +40,10 @@ function App() {
             <Route
               path='/signin'
               element={<SignIn />}
+            ></Route>
+            <Route
+            path='/tutorial'
+            element={<Tutorial />}
             ></Route>
           </Routes>
         </Router>

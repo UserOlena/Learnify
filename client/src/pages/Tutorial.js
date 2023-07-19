@@ -21,7 +21,7 @@ export function Tutorial() {
   return (
     <Container maxWidth='sm'>
         <Typography
-          variant='h1'
+          variant='h2'
           style={{
             color: '#283845',
             fontWeight: 'bold'
