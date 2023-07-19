@@ -12,7 +12,7 @@ import './style/App.css';
 import { 
   SignUp, 
   SignIn, 
-  Home, 
+  Home,
 } from './pages';
 import { Footer, Navbar } from './components';
 
