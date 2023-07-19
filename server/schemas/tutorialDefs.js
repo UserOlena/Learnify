@@ -3,13 +3,18 @@ const { gql } = require('apollo-server-express');
 const { Tutorial, Category } = require('../models');
 
 const tutorialTypeDefs = gql`
+  type Teacher {
+    _id: ID!
+    username: String
+  }
+
   type Tutorial {
     _id: ID!
     title: String
     overview: String
     thumbnail: String
     categories: [Category]
-    teacher: [User]
+    teacher: [Teacher]
     lessons: [Lesson]
     reviews: [Review]
     totalDuration: Int
