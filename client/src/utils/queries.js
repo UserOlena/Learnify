@@ -9,4 +9,11 @@ export const QUERY_TUTORIALS = gql`
     }}
 `;
 
-
+export const GET_CATEGORIES = gql`
+    query GetCategories {
+        categories {
+            _id
+            category
+        }
+    }
+`
