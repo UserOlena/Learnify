@@ -19,6 +19,7 @@ export function Tutorial() {
   const classes = useStyles();
 
   return (
+    <div className='root'>
     <Container maxWidth='sm'>
         <Typography
           variant='h2'
@@ -38,5 +39,7 @@ export function Tutorial() {
         <Typography variant='h5'>Runtime: "value" </Typography>
       </Box>
     </Container>
+    
+    </div>
   );
 }
