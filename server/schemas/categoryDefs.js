@@ -68,6 +68,10 @@ const categoryResolvers = {
           categories: updatedCategory._id,
         });
 
+        if (!tutorials) {
+          throw new Error('No tutorial found with that category');
+        }
+
         // Update the category in each associated tutorial
         await Promise.all(
           tutorials.map((tutorial) => {
