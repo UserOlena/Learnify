@@ -30,7 +30,6 @@ const userSchema = new Schema({
       ref: 'Tutorial',
     },
   ],
-  
 });
 
 // set up pre-save middleware to create password

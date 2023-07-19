@@ -16,7 +16,7 @@ const userSeeds = require('./userSeeds.js');
 
 function getRandomId(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
-};
+}
 
 db.once('open', async () => {
   try {
@@ -28,35 +28,35 @@ db.once('open', async () => {
     await User.deleteMany({});
 
     // Add categories to db and get the resulting IDs
-    const categoryResult = await Category.collection.insertMany(categorySeeds);
-    const categoryIds = Object.values(categoryResult.insertedIds);
+    const categoryResult = await Category.create(categorySeeds);
+    const categoryIds = categoryResult.map((category) => category._id);
 
     // Add lessons to db and get the resulting IDs
-    const lessonResult = await Lesson.collection.insertMany(lessonSeeds);
-    const lessonIds = Object.values(lessonResult.insertedIds);
-    
+    const lessonResult = await Lesson.create(lessonSeeds);
+    const lessonIds = lessonResult.map((lesson) => lesson._id);
+
     // Add reviews to db and get the resulting IDs
-    const reviewResult = await Review.collection.insertMany(reviewSeeds);
-    const reviewIds = Object.values(reviewResult.insertedIds);
+    const reviewResult = await Review.create(reviewSeeds);
+    const reviewIds = reviewResult.map((review) => review._id);
 
     // Add users to db and get the resulting IDs
-    const userResult = await User.collection.insertMany(userSeeds);
-    const userIds = Object.values(userResult.insertedIds);
+    const userResult = await User.create(userSeeds);
+    const userIds = userResult.map((user) => user._id);
 
     // For each tutorial, randomly set 2 category IDs, 4 lesson IDs, 2 review IDs, & a teacher ID
     tutorialSeeds.map((tutorial) => {
       tutorial.categories = [];
-      for (let i = 0; i < 2; i ++) {
+      for (let i = 0; i < 2; i++) {
         tutorial.categories.push(getRandomId(categoryIds));
       }
 
       tutorial.lessons = [];
-      for (let i = 0; i < 4; i ++) {
+      for (let i = 0; i < 4; i++) {
         tutorial.lessons.push(getRandomId(lessonIds));
       }
 
       tutorial.reviews = [];
-      for (let i = 0; i < 2; i ++) {
+      for (let i = 0; i < 2; i++) {
         tutorial.reviews.push(getRandomId(reviewIds));
       }
 
@@ -64,7 +64,28 @@ db.once('open', async () => {
     });
 
     // Add tutorials to the db
-    await Tutorial.collection.insertMany(tutorialSeeds);
+    const tutorialResult = await Tutorial.create(tutorialSeeds);
+    const tutorialIds = tutorialResult.map((tutorial) => tutorial._id);
+
+    // Add enrolled tutorials to users
+    const users = await User.find({});
+
+    for (const user of users) {
+      const userTutorials = [];
+      for (let i = 0; i < 2; i++) {
+        userTutorials.push(getRandomId(tutorialIds));
+      }
+
+      await User.updateOne(
+        { _id: user._id },
+        {
+          $addToSet: { tutorials: userTutorials },
+        },
+        {
+          new: true,
+        }
+      );
+    }
   } catch (error) {
     console.error(error);
     process.exit(1);

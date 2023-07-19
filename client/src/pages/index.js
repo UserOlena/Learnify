@@ -1,3 +1,5 @@
-export * from './Home';
-export * from './SignUp';
-export * from './SignIn';
+import Home from './Home';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
+
+export { Home, SignUp, SignIn };

@@ -1,7 +1,9 @@
 import { React, useState } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { isEmptyInput, validateInput } from '../utils/validation';
+import { Link } from 'react-router-dom';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import '../style/SignUp.css';
 
 import {
   Avatar,
@@ -10,7 +12,6 @@ import {
   CssBaseline,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
@@ -27,12 +28,15 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link
-        color='inherit'
+      <a
+        target='_blank'
         href='https://github.com/UserOlena/Learnify/blob/main/LICENSE'
+        style={{
+          color: 'rgba(0, 0, 0, 0.6)',
+        }}
       >
         Learnify
-      </Link>
+      </a>
       {' '}
       {new Date().getFullYear()}
       {'.'}
@@ -48,7 +52,7 @@ export function SignUp() {
     isEmpty: false,
     isValid: true,
     isMatch: true,
-  }
+  };
 
   const [userName, setUserName] = useState(inputDefaultValues);
   const [email, setEmail] = useState(inputDefaultValues);
@@ -60,7 +64,7 @@ export function SignUp() {
   const notValidUserNameErrorMessage =
     'Username should consist of 4 to 12 alphanumeric characters.';
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
@@ -91,7 +95,7 @@ export function SignUp() {
       return;
     }
 
-    // if values of both password and confirmPassword fields !== 0, ensure they
+    // if values length of both password and confirmPassword fields !== 0, ensure they
     // match; otherwise, change state to display corresponding error message
     if (!isEmptyInput(password.value) && !isEmptyInput(confirmPassword.value)) {
       if (password.value !== confirmPassword.value) {
@@ -181,7 +185,6 @@ export function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoFocus
                   required
                   fullWidth
                   id='userName'
@@ -303,7 +306,7 @@ export function SignUp() {
             </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link href='/login' variant='body2'>
+                <Link to='/signin' className='externalLink'>
                   Already have an account? Sign in
                 </Link>
               </Grid>
