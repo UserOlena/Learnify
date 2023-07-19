@@ -7,7 +7,7 @@ import {
   Menu,
   InputBase,
   Button,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 

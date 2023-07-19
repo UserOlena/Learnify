@@ -1,5 +1,11 @@
 import { React } from 'react';
-import { Carousel, Categories, Footer, Navbar, Recommended } from '../components'
+import {
+  Carousel,
+  Categories,
+  Footer,
+  Navbar,
+  Recommended,
+} from '../components';
 
 export function Home() {
   return (
@@ -11,6 +17,6 @@ export function Home() {
       <Footer />
     </div>
   );
-};
+}
 
 export default Home;
