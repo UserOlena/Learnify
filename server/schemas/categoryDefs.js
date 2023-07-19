@@ -106,6 +106,9 @@ const categoryResolvers = {
         await Promise.all(
           tutorials.map((tutorial) => {
             tutorial.categories.pull(categoryToDelete._id);
+            if (!categoryToDelete) {
+              throw new Error('Category not found');
+            }
             return tutorial.save();
           })
         );

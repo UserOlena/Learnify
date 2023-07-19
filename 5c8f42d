@@ -1,0 +1,101 @@
+[33m5c8f42d[m[33m ([m[1;36mHEAD -> [m[1;32mcategoryDefs[m[33m)[m Merge branch 'main' of github.com:UserOlena/Learnify into categoryDefs
+[33mc5526bb[m add additional if-statement to catch error: line 102
+[33m4e107b4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #79 from UserOlena/lessonDefs
+[33m417c94c[m[33m ([m[1;31morigin/lessonDefs[m[33m, [m[1;32mlessonDefs[m[33m)[m Merge branch 'main' of github.com:UserOlena/Learnify into lessonDefs
+[33mac10d7c[m format with prettier
+[33mc3786bc[m[33m ([m[1;31morigin/categoryDefs[m[33m)[m format with prettier
+[33m610565c[m Merge branch 'main' of github.com:UserOlena/Learnify into categoryDefs
+[33mfa553a8[m Merge pull request #77 from UserOlena/update-user-seeds
+[33m84060a7[m Merge pull request #78 from UserOlena/fix-reviewDefs
+[33m52977e7[m remove old file lesson.js and remove reference to tutorialId in addCategory Mutation
+[33m2f9faba[m Merge branch 'main' of github.com:UserOlena/Learnify into categoryDefs
+[33mcbeaa20[m Merge pull request #71 from UserOlena/jwt-tokens
+[33mc6af1bb[m Merge pull request #70 from UserOlena/utils/user-mutation
+[33mfffb463[m[33m ([m[1;31morigin/utils/user-mutation[m[33m)[m SignIn.js_remove autogocus from the form
+[33m1268100[m userMutation.js_Change the names for User Mutation
+[33m2145c61[m add try/catch blocks to queries and mutations
+[33m7056726[m add try/catch blocks to queries and mutations
+[33m0bbc2df[m Merge branch 'main' of github.com:UserOlena/Learnify into categoryDefs
+[33m1a635b1[m restored arrow functions for .map and .forEach cb functions
+[33ma9d6052[m Apply Prettier to reviewDefs
+[33m5adf8b1[m Add try catch blocks to review resolvers
+[33m414ed83[m Change review resolvers from arrow functions to function declarations
+[33mb291c20[m Update seeds to add tutorials to users
+[33me828b1b[m Update SignUp.js
+[33m8ae5b46[m Merge pull request #73 from UserOlena/fix-pw-hash
+[33m61cadb3[m Merge pull request #68 from UserOlena/signin/replace-mui-link-component
+[33m07e20e7[m Merge pull request #67 from UserOlena/signup/replace-mui-link
+[33mfb51622[m Update SignIn.js
+[33mcb21731[m Update SignUp.js
+[33m370c313[m Update SignUp.js
+[33m5849c8d[m Update SignUp.js
+[33ma780390[m Update seeds to use .create instead of .insertMany
+[33m9a97d1b[m Merge pull request #66 from UserOlena/signup/change-signin-href
+[33me6ef6a1[m Fixed typo.
+[33me2bd2e9[m Merge branch 'main' of github.com:UserOlena/Learnify into categoryDefs
+[33m5106e03[m Add auth.js token helper file.
+[33m773e919[m Update mutation names to match User typeDefs from Riley's update that is still in open PR.
+[33m5f06b6f[m Auth User Mutation.
+[33m1f5a3c6[m Replace MUI Link component for the Sign In page due to a conflict with router-DOM Link component.
+[33mb994889[m Replace MUI Link component due to conflict with router-DOM Link component.
+[33m74a3c4b[m Merge branch 'main' of github.com:UserOlena/Learnify into lessonDefs
+[33mddab1e2[m change arrow functions to function declarations
+[33m6df555d[m remove 'add new category to a tutorial' functionality and change arrow functions to function declarations
+[33m9fc96df[m Modify href atttribute to redirect to Sign In page.
+[33m659a5a8[m Merge pull request #63 from UserOlena/login-input-validation
+[33md7266e2[m Merge pull request #54 from UserOlena/lessonDefs
+[33m321963d[m Display error message onBlur if text fields are blank.
+[33m3242428[m add mutations for ADD/UPDATE/DELETE categories that also update associated tutorials
+[33mc0c7a59[m Merge branch 'main' of github.com:UserOlena/Learnify
+[33m4ecb77e[m Merge pull request #58 from UserOlena/add-url-to-signup-to-redirect-to-login
+[33m9350d76[m Merge branch 'add-url-to-signup-to-redirect-to-login' of github.com:UserOlena/Learnify
+[33mdeae20e[m update mutation for 'addLesson' to have new lesson added to the associated tutorial
+[33m4b40624[m[33m ([m[1;31morigin/add-url-to-signup-to-redirect-to-login[m[33m)[m Add URL to redirect to the Login Page if user has an account.
+[33m2ed340d[m Merge branch 'main' of github.com:UserOlena/Learnify into lessonDefs
+[33m2870903[m Merge branch 'main' of github.com:UserOlena/Learnify
+[33m798c9ec[m Merge pull request #55 from UserOlena/login-page-template
+[33mccbcb0d[m delete lesson.js
+[33m60f2f3e[m Merge branch 'login-page-template' of github.com:UserOlena/Learnify
+[33m7a0b56d[m correct duration: type on line 23
+[33m0316330[m Merge branch 'main' of github.com:UserOlena/Learnify
+[33mb29b80d[m Merge pull request #56 from UserOlena/reviewDefs
+[33me713ba8[m Merge branch 'reviewDefs' of github.com:UserOlena/Learnify
+[33mdaf8ab8[m[33m ([m[1;31morigin/login-page-template[m[33m)[m Add 'target: _blank' attribute to open Copyright on another tab.
+[33m66b84f1[m update comments to remove TODO
+[33m891961b[m LogIn Page template.
+[33m4e2f509[m[33m ([m[1;31morigin/reviewDefs[m[33m)[m Add typeDefs and resolvers for reviews
+[33m66077be[m add mutations and update naming conventions to match tutorialDefs
+[33m122e377[m Merge branch 'main' of github.com:UserOlena/Learnify into lessonDefs
+[33m833ec42[m Merge branch 'main' of github.com:UserOlena/Learnify
+[33mc299521[m Merge pull request #52 from UserOlena/tutorialDefs
+[33m29ba4fe[m Merge pull request #51 from UserOlena/signup/confirm-password-validation
+[33m2378efd[m Merge branch 'tutorialDefs' of github.com:UserOlena/Learnify
+[33mff125f3[m stash updates to updateLesson mutation to review a different PR
+[33m967b3ea[m[33m ([m[1;31morigin/tutorialDefs[m[33m)[m Add typeDefs and resolvers for tutorials
+[33mc32e8b1[m Merge branch 'signup/confirm-password-validation' of github.com:UserOlena/Learnify
+[33ma1c262f[m add 'addLesson' mutation
+[33m224f54f[m[33m ([m[1;31morigin/signup/confirm-password-validation[m[33m)[m Add validation to the Confirm Password field.
+[33mb01bb94[m Merge branch 'main' of github.com:UserOlena/Learnify into lessonDefs
+[33m2091ee3[m Merge pull request #43 from UserOlena/updateLessonSchema
+[33m67afb4b[m Merge branch 'main' of github.com:UserOlena/Learnify into lessonDefs
+[33maff9bfb[m[33m ([m[1;31morigin/updateLessonSchema[m[33m, [m[1;32mupdateLessonSchema[m[33m)[m add name field to lessonDefs.js
+[33m5cd5e31[m Merge branch 'main' of github.com:UserOlena/Learnify into updateLessonSchema
+[33m932562e[m Merge pull request #46 from UserOlena/typedefs-resolvers
+[33ma873dc3[m[33m ([m[1;31morigin/typedefs-resolvers[m[33m)[m Set up basic resolver in each schemas file to get queries working
+[33m1d503b4[m add name field to lessonSeeds.js
+[33m8b5cbf4[m Put typedefs and resolvers in separate files, merged in schemas/index.js
+[33m4857574[m add name prop to lessonSchema
+[33me2d3414[m Merge pull request #42 from UserOlena/signup/text-fiel-errors-removal-on-focus
+[33m77c939e[m Remove error message below the text field onBlur.
+[33ma6f5ece[m Merge pull request #40 from UserOlena/signup/login-forms-validation
+[33m037affd[m Fixed PreventDefault() typo.
+[33m38da32d[m[33m ([m[1;32mschemasFolderFileStructure[m[33m, [m[1;32mnewFoldersStructure[m[33m)[m Merge pull request #41 from UserOlena/revert-latest-merge
+[33m8339bdf[m Revert "Merge pull request #35 from UserOlena/schemasFolderFileStructure"
+[33mab15a4e[m Performed validation on input text fields to ensure they are both non-blank and valid.
+[33m7833b30[m Merge pull request #35 from UserOlena/schemasFolderFileStructure
+[33ma99f0e0[m Merge pull request #39 from UserOlena/signup/login-forms-validation
+[33m58e9ef6[m Implemented validation functions to validate the text fields in the Sign Up/Log In process.
+[33m68c7008[m[33m ([m[1;31morigin/schemasFolderFileStructure[m[33m)[m import makeExecutableSchema to index.js and add apollo-server dependency in package.json
+[33m57a7076[m update export syntax for consistency in lessonDefs.js, tutorialDefs.js, and userDefs.js
+[33m2bdcffb[m Merge branch 'main' of github.com:UserOlena/Learnify into schemasFolderFileStructure
+[33m51be046[m move queries and mutations from index.
