@@ -1,3 +1,25 @@
 .App {
   text-align: center;
 }
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.dark-mode {
+  background-color: #333333;
+  color: #FFFFFF;
+  height: 100vh;
+}
+
+.light-mode {
+  background-color: #FFFFFF;
+  color: #000000;
+  height: 100vh;
+}
+
