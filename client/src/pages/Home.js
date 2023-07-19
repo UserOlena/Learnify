@@ -1,7 +1,13 @@
-import { React, useState } from 'react';
-import { Carousel, Categories, Footer, Navbar, Recommended } from '../components'
+import { React } from 'react';
+import {
+  Carousel,
+  Categories,
+  Footer,
+  Navbar,
+  Recommended,
+} from '../components';
 
-const Home = () => {
+export function Home() {
   return (
     <div>
       <Navbar />
@@ -11,6 +17,6 @@ const Home = () => {
       <Footer />
     </div>
   );
-};
+}
 
 export default Home;

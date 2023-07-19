@@ -1,7 +1,13 @@
 import { React, useState, useEffect } from 'react';
-import {  Card,  CardContent,  makeStyles,  Typography,  useTheme,  IconButton  } from "@material-ui/core";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  Typography,
+  useTheme,
+  IconButton,
+} from '@material-ui/core';
+import { ArrowBack, ArrowForward } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -136,14 +142,14 @@ function Carousel() {
           color='primary'
           onClick={handlePrev}
         >
-          <ArrowBackIcon />
+          <ArrowBack />
         </IconButton>
         <IconButton
           className={classes.arrowButton}
           color='primary'
           onClick={handleNext}
         >
-          <ArrowForwardIcon />
+          <ArrowForward />
         </IconButton>
       </div>
     </div>
