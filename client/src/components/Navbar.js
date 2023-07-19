@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { NavLink } from 'react-router-dom';
+import LearnifyLogo from '../images/learnify.png';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -79,6 +80,13 @@ const useStyles = makeStyles((theme) => {
     categoriesMenu: {
       marginTop: theme.spacing(6),
     },
+    logo : {
+      width: '100px',
+      height: '80px',
+      marginRight: theme.spacing(2),
+      marginTop : theme.spacing(1),
+      zoom: '1.2',
+    },
   };
 });
 
@@ -99,7 +107,7 @@ function Navbar({ darkMode, onDarkModeChange }) {
       <Toolbar>
         <NavLink to='/'>
           <Typography variant='h6' className={classes.title}>
-            <img src='' alt='Learnify' className={classes.logo} />
+            <img src={LearnifyLogo} alt='Learnify' className={classes.logo} />
           </Typography>
         </NavLink>
         <Button
@@ -133,18 +141,12 @@ function Navbar({ darkMode, onDarkModeChange }) {
           </Menu>
         </div>
         <NavLink to='/signup'>
-          <Button
-            variant='contained'
-            className={classes.signUpButton}
-          >
+          <Button variant='contained' className={classes.signUpButton}>
             Sign Up
           </Button>
         </NavLink>
         <NavLink to='/signin'>
-          <Button
-            variant='contained'
-            className={classes.signUpButton}
-          >
+          <Button variant='contained' className={classes.signUpButton}>
             Sign In
           </Button>
         </NavLink>
