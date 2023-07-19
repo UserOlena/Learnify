@@ -90,7 +90,7 @@ function Recommended() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { loading, data } = useQuery(QUEREY_TUTORIALS);
+  const { loading, data } = useQuery(QUREY_TUTORIALS);
 
   console.log(data);
   
