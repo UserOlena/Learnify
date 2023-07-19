@@ -79,7 +79,11 @@ function Recommended() {
               }`,
             }}
           >
-            <img src={tutorial.thumbnail} alt={tutorial.title} style={{ width: '100%' }} />
+            <img
+              src={tutorial.thumbnail}
+              alt={tutorial.title}
+              style={{ width: '100%' }}
+            />
             <CardContent>
               <Typography className={classes.cardTitle}>
                 {tutorial.title}
