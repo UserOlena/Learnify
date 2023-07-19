@@ -1,6 +1,6 @@
-export * from './Carousel'
-export * from './Footer'
-export * from './Recommendations'
-export * from './Navbar'
-export * from './Categories'
-
+import Navbar from './Navbar';
+import Carousel from './Carousel';
+import Footer from './Footer';
+import Recommended from './Recommended';
+import Categories from './Categories';
+export { Navbar, Carousel, Footer, Recommended, Categories };

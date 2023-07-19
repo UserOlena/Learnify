@@ -1,13 +1,7 @@
-import  { React, useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import {
-  Card,
-  CardContent,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { React, useState } from 'react';
+import { makeStyles, useTheme } from '@material-ui/core';
+import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
+import { ArrowBack, ArrowForward } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -15,81 +9,79 @@ const useStyles = makeStyles((theme) => {
       margin: theme.spacing(2, 0),
     },
     recommendationsContent: {
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
     },
     card: {
-      width: "calc(25% - 10px)",
+      width: 'calc(25% - 10px)',
       marginBottom: theme.spacing(2),
-      border: `2px solid ${
-        theme.palette.type === "dark" ? "white" : "black"
-      }`,
+      border: `2px solid ${theme.palette.type === 'dark' ? 'white' : 'black'}`,
     },
     cardTitle: {
       fontSize: 18,
-      fontWeight: "bold",
+      fontWeight: 'bold',
     },
     cardDescription: {
       fontSize: 14,
       color: theme.palette.text.secondary,
     },
     recommendationsArrows: {
-      display: "flex",
-      justifyContent: "center",
+      display: 'flex',
+      justifyContent: 'center',
       marginTop: theme.spacing(2),
     },
     arrowButton: {
       padding: theme.spacing(1),
-      color: theme.palette.type === "dark" ? "white" : "black",
+      color: theme.palette.type === 'dark' ? 'white' : 'black',
     },
   };
 });
 
-function Recommendations() {
+function Recommended() {
   const classes = useStyles();
   const theme = useTheme();
 
   const items = [
     {
       id: 1,
-      title: "Recommendation 1",
-      description: "Description for Recommendation 1",
+      title: 'Recommendation 1',
+      description: 'Description for Recommendation 1',
     },
     {
       id: 2,
-      title: "Recommendation 2",
-      description: "Description for Recommendation 2",
+      title: 'Recommendation 2',
+      description: 'Description for Recommendation 2',
     },
     {
       id: 3,
-      title: "Recommendation 3",
-      description: "Description for Recommendation 3",
+      title: 'Recommendation 3',
+      description: 'Description for Recommendation 3',
     },
     {
       id: 4,
-      title: "Recommendation 4",
-      description: "Description for Recommendation 4",
+      title: 'Recommendation 4',
+      description: 'Description for Recommendation 4',
     },
     {
       id: 5,
-      title: "Recommendation 5",
-      description: "Description for Recommendation 5",
+      title: 'Recommendation 5',
+      description: 'Description for Recommendation 5',
     },
     {
       id: 6,
-      title: "Recommendation 6",
-      description: "Description for Recommendation 6",
+      title: 'Recommendation 6',
+      description: 'Description for Recommendation 6',
     },
     {
       id: 7,
-      title: "Recommendation 7",
-      description: "Description for Recommendation 7",
+      title: 'Recommendation 7',
+      description: 'Description for Recommendation 7',
     },
     {
       id: 8,
-      title: "Recommendation 8",
-      description: "Description for Recommendation 8",
+      title: 'Recommendation 8',
+      description: 'Description for Recommendation 8',
     },
   ];
 
@@ -100,9 +92,7 @@ function Recommendations() {
   }
 
   function handleNext() {
-    setCurrentIndex((prevIndex) =>
-      Math.min(prevIndex + 4, items.length - 4)
-    );
+    setCurrentIndex((prevIndex) => Math.min(prevIndex + 4, items.length - 4));
   }
 
   const visibleItems = items.slice(currentIndex, currentIndex + 4);
@@ -117,7 +107,7 @@ function Recommendations() {
             className={classes.card}
             style={{
               border: `2px solid ${
-                theme.palette.type === "dark" ? "white" : "black"
+                theme.palette.type === 'dark' ? 'white' : 'black'
               }`,
             }}
           >
@@ -135,23 +125,23 @@ function Recommendations() {
       <div className={classes.recommendationsArrows}>
         <IconButton
           className={classes.arrowButton}
-          color="primary"
+          color='primary'
           disabled={currentIndex === 0}
           onClick={handlePrev}
         >
-          <ArrowBackIcon />
+          <ArrowBack />
         </IconButton>
         <IconButton
           className={classes.arrowButton}
-          color="primary"
+          color='primary'
           disabled={currentIndex >= items.length - 4}
           onClick={handleNext}
         >
-          <ArrowForwardIcon />
+          <ArrowForward />
         </IconButton>
       </div>
     </div>
   );
 }
 
-export default Recommendations;
+export default Recommended;

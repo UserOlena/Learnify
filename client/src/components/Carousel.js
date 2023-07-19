@@ -1,40 +1,46 @@
-import { React, useState, useEffect } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Card, CardContent, Typography, IconButton } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { React, useState, useEffect } from 'react';
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  Typography,
+  useTheme,
+  IconButton,
+} from '@material-ui/core';
+import { ArrowBack, ArrowForward } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => {
   return {
     carousel: {
-      textAlign: "center",
+      textAlign: 'center',
       margin: theme.spacing(2, 0),
     },
     carouselContent: {
-      display: "flex",
-      justifyContent: "center",
+      display: 'flex',
+      justifyContent: 'center',
     },
     card: {
-      width: "400px",
+      width: '400px',
       margin: theme.spacing(2),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      border: '2px solid black', 
-    cardImage: {
-      width: "100%",
-      maxHeight: "300px",
-      objectFit: "cover",
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      border: '2px solid black',
+      cardImage: {
+        width: '100%',
+        maxHeight: '300px',
+        objectFit: 'cover',
+      },
+      carouselArrows: {
+        margin: theme.spacing(2),
+      },
+      arrowButton: {
+        margin: theme.spacing(0, 1),
+        padding: theme.spacing(1),
+        color: theme.palette.type === 'dark' ? 'white' : 'black',
+      },
     },
-    carouselArrows: {
-      margin: theme.spacing(2),
-    },
-    arrowButton: {
-      margin: theme.spacing(0, 1),
-      padding: theme.spacing(1),
-      color: theme.palette.type === "dark" ? "white" : "black",
-    },
-  }};
+  };
 });
 
 function Carousel() {
@@ -43,39 +49,42 @@ function Carousel() {
 
   const items = [
     {
-      title: "Item 1",
-      description: "Description for Item 1",
-      image: "item1.jpg",
+      title: 'Item 1',
+      description: 'Description for Item 1',
+      image: 'item1.jpg',
     },
     {
-      title: "Item 2",
-      description: "Description for Item 2",
-      image: "item2.jpg",
+      title: 'Item 2',
+      description: 'Description for Item 2',
+      image: 'item2.jpg',
     },
     {
-      title: "Item 3",
-      description: "Description for Item 3",
-      image: "item3.jpg",
+      title: 'Item 3',
+      description: 'Description for Item 3',
+      image: 'item3.jpg',
     },
     {
-      title: "Item 4",
-      description: "Description for Item 4",
-      image: "item4.jpg",
+      title: 'Item 4',
+      description: 'Description for Item 4',
+      image: 'item4.jpg',
     },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(function () {
-    const timer = setInterval(function () {
-      setActiveIndex(function (prevIndex) {
-        return (prevIndex + 1) % items.length;
-      });
-    }, 5000);
+  useEffect(
+    function () {
+      const timer = setInterval(function () {
+        setActiveIndex(function (prevIndex) {
+          return (prevIndex + 1) % items.length;
+        });
+      }, 5000);
 
-    return function () {
-      clearInterval(timer);
-    };
-  }, [items.length]);
+      return function () {
+        clearInterval(timer);
+      };
+    },
+    [items.length]
+  );
 
   function handlePrev() {
     setActiveIndex(function (prevIndex) {
@@ -102,10 +111,10 @@ function Carousel() {
             <div
               key={index}
               className={`carousel-item ${
-                index === activeIndex ? "active" : ""
+                index === activeIndex ? 'active' : ''
               }`}
               style={{
-                display: index === activeIndex ? "block" : "none",
+                display: index === activeIndex ? 'block' : 'none',
               }}
             >
               <Card className={classes.card}>
@@ -115,10 +124,10 @@ function Carousel() {
                   className={classes.cardImage}
                 />
                 <CardContent>
-                  <Typography variant="h5" component="h3" gutterBottom>
+                  <Typography variant='h5' component='h3' gutterBottom>
                     {item.title}
                   </Typography>
-                  <Typography variant="body1" component="p">
+                  <Typography variant='body1' component='p'>
                     {item.description}
                   </Typography>
                 </CardContent>
@@ -130,17 +139,17 @@ function Carousel() {
       <div className={classes.carouselArrows}>
         <IconButton
           className={classes.arrowButton}
-          color="primary"
+          color='primary'
           onClick={handlePrev}
         >
-          <ArrowBackIcon />
+          <ArrowBack />
         </IconButton>
         <IconButton
           className={classes.arrowButton}
-          color="primary"
+          color='primary'
           onClick={handleNext}
         >
-          <ArrowForwardIcon />
+          <ArrowForward />
         </IconButton>
       </div>
     </div>
