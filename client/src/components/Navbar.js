@@ -97,7 +97,7 @@ function Navbar({ darkMode, onDarkModeChange }) {
 
   const linkStyle = {
     textDecoration: 'none',
-    color: 'inherit'
+    color: 'inherit',
   };
 
   function handleMenuOpen(event) {
@@ -143,24 +143,20 @@ function Navbar({ darkMode, onDarkModeChange }) {
           >
             {categories.map((category) => (
               <NavLink to={'category/' + category.category} style={linkStyle}>
-                <MenuItem onClick={handleMenuClose}>{category.category}</MenuItem>
+                <MenuItem onClick={handleMenuClose}>
+                  {category.category}
+                </MenuItem>
               </NavLink>
             ))}
           </Menu>
         </div>
         <NavLink to='/signup'>
-          <Button
-            variant='contained'
-            className={classes.signUpButton}
-          >
+          <Button variant='contained' className={classes.signUpButton}>
             Sign Up
           </Button>
         </NavLink>
         <NavLink to='/signin'>
-          <Button
-            variant='contained'
-            className={classes.signUpButton}
-          >
+          <Button variant='contained' className={classes.signUpButton}>
             Sign In
           </Button>
         </NavLink>
