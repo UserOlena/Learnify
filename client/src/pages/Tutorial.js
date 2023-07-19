@@ -1,8 +1,6 @@
 import { React } from 'react';
 
-import { Navbar, Footer } from '../components';
-
-import { Card, Container, Grid, Typography } from '@material-ui/core';
+import { Box, Card, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 
 import { Rating } from '@material-ui/lab';
 
@@ -12,7 +10,10 @@ const useStyles = makeStyles({
   },
 });
 
-//TODO: Add function to get runtime of tutorial (for line 37)
+//TODO: GET_TITLE (line 32)
+//TODO: GET_RATING (line 37)
+//TODO: GET_TEACHER (line 39)
+//TODO: GET_RUNTIME (line 40)
 
 export function Tutorial() {
   const classes = useStyles();
@@ -29,12 +30,12 @@ export function Tutorial() {
           Tutorial Title
         </Typography>
         <Box>
-        <Rating name="read-only" value={value} readOnly />
+        <Rating name="read-only" value='{value}' readOnly />
         <Typography variant='subtitle1'># Ratings</Typography>
       </Box>
       <Box>
         <Typography variant='h4'>TeacherName</Typography>
-        <Typography variant='h5'>Runtime: {value} </Typography>
+        <Typography variant='h5'>Runtime: "value" </Typography>
       </Box>
     </Container>
   );
