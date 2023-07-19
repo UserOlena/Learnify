@@ -1,5 +1,4 @@
-import Home from './Home';
-import SignUp from './SignUp';
-import SignIn from './SignIn';
-
-export { Home, SignUp, SignIn };
+export * from './AddTutorial';
+export * from './Home';
+export * from './SignIn';
+export * from './SignUp';
