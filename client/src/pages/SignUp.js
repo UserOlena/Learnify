@@ -39,7 +39,8 @@ function Copyright(props) {
         }}
       >
         Learnify
-      </a>{' '}
+      </a>
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -85,7 +86,7 @@ export function SignUp() {
           password: password.value,
         },
       });
-      console.log(data.addUser.user)
+      console.log(data.addUser.user);
       Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);
