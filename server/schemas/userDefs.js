@@ -33,7 +33,7 @@ const userTypeDefs = gql`
     removeTutorialfromUser(tutorialId: ID!): Tutorial
   }
 `;
-// after auth works succeffully, change addUser to return Auth type instead of User
+
 const userResolvers = {
   Query: {
     user: async (parent, { _id }) => {
