@@ -8,12 +8,3 @@ export const QUERY_TUTORIALS = gql`
         thumbnail
     }}
 `;
-
-export const GET_CATEGORIES = gql`
-    query GetCategories {
-        categories {
-            _id
-            category
-        }
-    }
-`

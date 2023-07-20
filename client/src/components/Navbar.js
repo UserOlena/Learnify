@@ -12,7 +12,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import { NavLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { GET_CATEGORIES } from '../utils/queries';
+import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -142,7 +142,11 @@ function Navbar({ darkMode, onDarkModeChange }) {
             onClose={handleMenuClose}
           >
             {categories.map((category) => (
-              <NavLink to={'category/' + category.category} style={linkStyle}>
+              <NavLink 
+                to={'category/' + category.category} 
+                style={linkStyle} 
+                key={category.category}
+              >
                 <MenuItem onClick={handleMenuClose}>
                   {category.category}
                 </MenuItem>
