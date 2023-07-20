@@ -74,10 +74,6 @@ export function AddTutorial() {
     return <p>Loading...</p>;
   }
 
-  function handleChange(event) {
-    setSelectedCategories(event.target.value);
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
