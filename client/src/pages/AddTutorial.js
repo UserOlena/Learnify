@@ -65,17 +65,13 @@ export function AddTutorial() {
   const [title, setTitle] = useState(inputDefaultValues);
   const [overview, setOverview] = useState(inputDefaultValues);
   const [thumbnail, setThumbnail] = useState(inputDefaultValues);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState({...inputDefaultValues, value: []});
 
   const { loading, data } = useQuery(GET_CATEGORIES);
   const categories = data?.categories || [];
 
   if (loading) {
     return <p>Loading...</p>;
-  }
-
-  function handleChange(event) {
-    setSelectedCategories(event.target.value);
   }
 
   function handleSubmit(e) {
@@ -171,7 +167,11 @@ export function AddTutorial() {
         }
         onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
       />
-      <FormControl required className={classes.formControl}>
+      <FormControl 
+        required 
+        className={classes.formControl} 
+        error={selectedCategories.isEmpty} 
+      >
         <InputLabel id='categories-label'>
           Categories (choose all that apply)
         </InputLabel>
@@ -179,8 +179,10 @@ export function AddTutorial() {
           labelId='categories-label'
           id='categories'
           multiple
-          value={selectedCategories}
-          onChange={handleChange}
+          value={selectedCategories.value}
+          onChange={(e) => handleOnChange(e.target.value, setSelectedCategories)}
+          onBlur={(e) => handleOnBlur(e.target.value, setSelectedCategories)}
+          onFocus={() => handleOnFocus(selectedCategories, setSelectedCategories)}
           input={<Input id='categories-input' />}
           renderValue={(selected) => (
             <div className={classes.chips}>
@@ -195,7 +197,7 @@ export function AddTutorial() {
             <MenuItem
               key={category.category}
               value={category.category}
-              style={getStyles(category.category, selectedCategories, theme)}
+              style={getStyles(category.category, selectedCategories.value, theme)}
             >
               {category.category}
             </MenuItem>
