@@ -9,39 +9,41 @@ import {
 } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    carousel: {
-      textAlign: 'center',
-      margin: theme.spacing(2, 0),
+const useStyles = makeStyles((theme) => ({
+  carousel: {
+    textAlign: 'center',
+    margin: theme.spacing(2, 0),
+  },
+  carouselContent: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  card: {
+    width: '800px', // Default width for larger screens
+    margin: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    border: '2px solid black',
+    [theme.breakpoints.down('sm')]: {
+      // Change width to 400px for smaller screens
+      width: '400px',
     },
-    carouselContent: {
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    card: {
-      width: '800px',
-      margin: theme.spacing(2),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      border: '2px solid black',
-    },
-    cardImage: {
-      width: '100%',
-      maxHeight: '300px',
-      objectFit: 'cover',
-    },
-    carouselArrows: {
-      margin: theme.spacing(2),
-    },
-    arrowButton: {
-      margin: theme.spacing(0, 1),
-      padding: theme.spacing(1),
-      color: theme.palette.type === 'dark' ? 'white' : 'black',
-    },
-  };
-});
+  },
+  cardImage: {
+    width: '100%',
+    maxHeight: '300px',
+    objectFit: 'cover',
+  },
+  carouselArrows: {
+    margin: theme.spacing(2),
+  },
+  arrowButton: {
+    margin: theme.spacing(0, 1),
+    padding: theme.spacing(1),
+    color: 'black',
+  },
+}));
 
 function Carousel() {
   const classes = useStyles();
@@ -75,7 +77,7 @@ function Carousel() {
     },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
-  const timerRef = useRef(null);
+  const timerRef = useRef(null); // Create a ref to store the timer
 
   // Define the timer function separately
   function startTimer() {
