@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { gql, useQuery } from '@apollo/client';
-import { QUERY_TUTORIALS } from '../utils/queries/tutorialQueries';
+import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 
 const useStyles = makeStyles((theme) => ({
   recommendations: {
@@ -45,7 +45,7 @@ function Recommended() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { loading, data } = useQuery(QUERY_TUTORIALS);
+  const { loading, data } = useQuery(GET_TUTORIALS);
 
   console.log(data);
 
