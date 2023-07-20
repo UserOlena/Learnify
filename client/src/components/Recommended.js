@@ -4,6 +4,7 @@ import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { gql, useQuery } from '@apollo/client';
 import { QUERY_TUTORIALS } from '../utils/tutorialQuery';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   recommendations: {
@@ -13,11 +14,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column', // Switch to column layout on small screens
+      margin: theme.spacing(0, 1),
+    },
   },
   card: {
     width: 'calc(25% - 10px)',
     marginBottom: theme.spacing(2),
-    border: `2px solid ${theme.palette.type === 'dark' ? 'white' : 'black'}`,
+    border: `2px solid ${theme.palette.type === 'black'}`,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%', // Set the width to 100% on small screens to make cards stack vertically
+    },
   },
   cardTitle: {
     fontSize: 18,
@@ -34,16 +42,16 @@ const useStyles = makeStyles((theme) => ({
   },
   arrowButton: {
     padding: theme.spacing(1),
-    color: theme.palette.type === 'dark' ? 'white' : 'black',
+    color: 'black',
   },
 }));
 
 function Recommended() {
   const classes = useStyles();
   const theme = useTheme();
+  const isFullScreen = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is full screen (md breakpoint)
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const { loading, data } = useQuery(QUERY_TUTORIALS);
 
   console.log(data);
@@ -95,24 +103,27 @@ function Recommended() {
           </Card>
         ))}
       </div>
-      <div className={classes.recommendationsArrows}>
-        <IconButton
-          className={classes.arrowButton}
-          color='primary'
-          disabled={currentIndex === 0}
-          onClick={handlePrev}
-        >
-          <ArrowBack />
-        </IconButton>
-        <IconButton
-          className={classes.arrowButton}
-          color='primary'
-          disabled={currentIndex >= tutorials.length - 4}
-          onClick={handleNext}
-        >
-          <ArrowForward />
-        </IconButton>
-      </div>
+      {/* Render the arrow buttons only if the screen is full screen */}
+      {isFullScreen && (
+        <div className={classes.recommendationsArrows}>
+          <IconButton
+            className={classes.arrowButton}
+            color='primary'
+            disabled={currentIndex === 0}
+            onClick={handlePrev}
+          >
+            <ArrowBack />
+          </IconButton>
+          <IconButton
+            className={classes.arrowButton}
+            color='primary'
+            disabled={currentIndex >= tutorials.length - 4}
+            onClick={handleNext}
+          >
+            <ArrowForward />
+          </IconButton>
+        </div>
+      )}
     </div>
   );
 }
