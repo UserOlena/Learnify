@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import {
   Card,
   CardContent,
@@ -57,7 +57,7 @@ function Carousel() {
     {
       title: 'Tutorials',
       description:
-        'Lernify contains a wide range of tutorials for you to learn from!',
+        'Learnify contains a wide range of tutorials for you to learn from!',
       image:
         'https://c1.wallpaperflare.com/preview/427/745/192/notebook-natural-laptop-macbook.jpg',
     },
@@ -75,37 +75,49 @@ function Carousel() {
     },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
+  const timerRef = useRef(null);
+
+  // Define the timer function separately
+  function startTimer() {
+    return setInterval(function () {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
+    }, 5000);
+  }
 
   useEffect(
     function () {
-      const timer = setInterval(function () {
-        setActiveIndex(function (prevIndex) {
-          return (prevIndex + 1) % items.length;
-        });
-      }, 5000);
+      // Start the initial timer
+      timerRef.current = startTimer();
 
       return function () {
-        clearInterval(timer);
+        clearInterval(timerRef.current);
       };
     },
     [items.length]
   );
 
   function handlePrev() {
-    setActiveIndex(function (prevIndex) {
-      if (prevIndex === 0) {
-        return items.length - 1;
-      } else {
-        return prevIndex - 1;
-      }
+    setActiveIndex((prevIndex) => {
+      const newIndex = prevIndex === 0 ? items.length - 1 : prevIndex - 1;
+      return newIndex;
     });
   }
 
   function handleNext() {
-    setActiveIndex(function (prevIndex) {
-      return (prevIndex + 1) % items.length;
+    setActiveIndex((prevIndex) => {
+      const newIndex = (prevIndex + 1) % items.length;
+      return newIndex;
     });
   }
+
+  useEffect(
+    function () {
+      // Clear and restart the timer every time activeIndex changes
+      clearInterval(timerRef.current);
+      timerRef.current = startTimer();
+    },
+    [activeIndex]
+  );
 
   return (
     <div className={classes.carousel}>
