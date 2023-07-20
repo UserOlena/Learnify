@@ -11,6 +11,8 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { NavLink } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 import LearnifyLogo from '../images/learnify.png';
 
 const useStyles = makeStyles((theme) => {
@@ -94,6 +96,18 @@ function Navbar({ darkMode, onDarkModeChange }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const { loading, data } = useQuery(GET_CATEGORIES);
+  const categories = data?.categories || [];
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  const linkStyle = {
+    textDecoration: 'none',
+    color: 'inherit',
+  };
+
   function handleMenuOpen(event) {
     setAnchorEl(event.currentTarget);
   }
@@ -135,9 +149,17 @@ function Navbar({ darkMode, onDarkModeChange }) {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={handleMenuClose}>Category 1</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Category 2</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Category 3</MenuItem>
+            {categories.map((category) => (
+              <NavLink 
+                to={'category/' + category.category} 
+                style={linkStyle} 
+                key={category.category}
+              >
+                <MenuItem onClick={handleMenuClose}>
+                  {category.category}
+                </MenuItem>
+              </NavLink>
+            ))}
           </Menu>
         </div>
         <NavLink to='/signup'>
