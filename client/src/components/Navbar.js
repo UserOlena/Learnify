@@ -10,8 +10,9 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink } from 'react-router-dom';
-import LearnifyLogo from '../images/learnify.png';
+import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -19,9 +20,10 @@ const useStyles = makeStyles((theme) => {
       userSelect: 'none',
     },
     appBar: {
-      backgroundColor: theme.palette.type === 'dark' ? 'gray' : 'white',
+      backgroundColor: '#FAF0E6',
       color: 'black',
       opacity: '0.8',
+      height: '60px', // Adjust the height as needed
     },
     logo: {
       marginRight: theme.spacing(2),
@@ -87,10 +89,18 @@ const useStyles = makeStyles((theme) => {
       marginTop: theme.spacing(1),
       zoom: '1.2',
     },
+    menuBitton: {
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+    drawer: {
+      width: '250px',
+    },
   };
 });
 
-function Navbar({ darkMode, onDarkModeChange }) {
+function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
