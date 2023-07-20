@@ -1,16 +1,30 @@
 import { gql } from '@apollo/client';
 
+//get single tutorial
 export const GET_TUTORIAL = gql`
-  query GetTutorial {
-    tutorial {
+query GetTutorial($_id: ID!) {
+    tutorial(_id: $_id) {
       _id
       title
       overview
       thumbnail
-      categories
-      teacher
-      lessons
-      reviews
+      categories {
+        _id
+        name
+      }
+      teacher {
+        _id
+        username
+      }
+      lessons {
+        _id
+        title
+      }
+      reviews {
+        _id
+        rating
+        comment
+      }
       totalDuration
     }
   }

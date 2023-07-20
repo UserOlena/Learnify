@@ -1,25 +1,28 @@
 import { React } from 'react';
-
+//Material-UI imports
 import {
   Box,
-  Card,
-  CardActionArea,
-  CardContent,
+  // Card,
+  // CardActionArea,
+  // CardContent,
   CardMedia,
   Container,
   Grid,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import {
-  Info,
-  InfoCaption,
-  InfoSubtitle,
-  InfoTitle,
-} from '@mui-treasury/components/info';
+// import {
+//   Info,
+//   InfoCaption,
+//   InfoSubtitle,
+//   InfoTitle,
+// } from '@mui-treasury/components/info';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
-
 import { Rating } from '@material-ui/lab';
+
+//database-related imports
+import {useQuery } from '@apollo/client';
+import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
 const useStyles = makeStyles({
   root: {
@@ -34,7 +37,6 @@ const useStyles = makeStyles({
     left: 0,
     zIndex: 2,
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
-
   },
 });
 
@@ -43,9 +45,20 @@ const useStyles = makeStyles({
 //TODO: GET_TEACHER (line 39)
 //TODO: GET_RUNTIME (line 40)
 
-export function Tutorial() {
+export function Tutorial({tutorialId}) {
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const classes = useStyles();
+
+  const { loading, err, data } = useQuery(GET_TUTORIAL, {_id: tutorialId });
+  console.log(data);
+  if(loading) {
+    return <p>Loading your tutorial...</p>;
+  }
+  if(err) {
+    return <p>Error loading your tutorial</p>
+  }
+
+  const tutorial = data.tutorial;
 
   return (
     <div className='root'>
@@ -57,7 +70,7 @@ export function Tutorial() {
             fontWeight: 'bold',
           }}
         >
-          Tutorial Title
+          {tutorial.title}
         </Typography>
         <Box>
           <Rating
@@ -73,10 +86,11 @@ export function Tutorial() {
         </Box>
       </Container>
       <Container>
-        <Grid 
-            container
-            className={classes.info}
-            direction='row'>
+        <Grid
+          container
+          className={classes.info}
+          direction='row'
+        >
           <Grid item>
             <Box
               position={'relative'}
