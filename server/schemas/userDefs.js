@@ -25,7 +25,7 @@ const userTypeDefs = gql`
 
 	type Mutation {
 		login(email: String!, password: String!): Auth
-		addUser(username: String!, email: String!, password: String!): Auth
+		addUser(username: String!, email: String!, password: String!): User
 		removeUser: User
 
 		addTutorialtoUser(tutorialId: ID!): Tutorial
@@ -72,42 +72,33 @@ const userResolvers = {
 		addUser: async (parent, { username, email, password }) => {
 			try {
 				const user = await User.create({ username, email, password });
-				const token = signToken(user);
+				// const token = signToken(user);
+				console.log(user)
+				return user;
 			} catch (err) {
 				throw new Error(err);
 			}
 
-			return { token, user };
 		},
 
 		login: async (parent, { email, password }) => {
 			try {
 				const user = await User.findOne({ email });
-			} catch (err) {
-				throw new Error(err);
-			}
 
-			if (!user) {
-				throw new AuthenticationError('No User with this email found!');
-			}
-
-			try {
+				if (!user) {
+					throw new AuthenticationError('No User with this email found!');
+				}
 				const correctPw = await user.isCorrectPassword(password);
+
+				if (!correctPw) {
+					throw new AuthenticationError('Incorrect Password!');
+				}
+				// 	const token = signToken(user);
+				return { user };
+				// return { token, user };
 			} catch (err) {
 				throw new Error(err);
 			}
-
-			if (!correctPw) {
-				throw new AuthenticationError('Incorrect Password!');
-			}
-
-			try {
-				const token = signToken(user);
-			} catch (err) {
-				throw new Error(err);
-			}
-
-			return { token, user };
 		},
 
 		removeUser: async (parent, args, context) => {
