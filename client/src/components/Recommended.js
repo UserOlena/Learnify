@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { QUERY_TUTORIALS } from '../utils/tutorialQuery';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 

@@ -1,4 +1,4 @@
-import  { React, useState } from 'react';
+import { React, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -10,7 +10,6 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink } from 'react-router-dom';
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
 

@@ -1,4 +1,4 @@
-import  { React, useState, useEffect, useRef } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import {
   Card,
   CardContent,
@@ -86,14 +86,17 @@ function Carousel() {
     }, 5000);
   }
 
-  useEffect(function () {
-    // Start the initial timer
-    timerRef.current = startTimer();
+  useEffect(
+    function () {
+      // Start the initial timer
+      timerRef.current = startTimer();
 
-    return function () {
-      clearInterval(timerRef.current);
-    };
-  }, [items.length]);
+      return function () {
+        clearInterval(timerRef.current);
+      };
+    },
+    [items.length]
+  );
 
   function handlePrev() {
     setActiveIndex((prevIndex) => {
@@ -109,11 +112,14 @@ function Carousel() {
     });
   }
 
-  useEffect(function () {
-    // Clear and restart the timer every time activeIndex changes
-    clearInterval(timerRef.current);
-    timerRef.current = startTimer();
-  }, [activeIndex]);
+  useEffect(
+    function () {
+      // Clear and restart the timer every time activeIndex changes
+      clearInterval(timerRef.current);
+      timerRef.current = startTimer();
+    },
+    [activeIndex]
+  );
 
   return (
     <div className={classes.carousel}>
