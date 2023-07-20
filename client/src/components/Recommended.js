@@ -82,7 +82,7 @@ function Recommended() {
             <img
               src={tutorial.thumbnail}
               alt={tutorial.title}
-              style={{ width: '100%' }}
+              style={{ width: '100%', height: '200px' }} // Set a fixed height for the images (adjust the height as needed)
             />
             <CardContent>
               <Typography className={classes.cardTitle}>
