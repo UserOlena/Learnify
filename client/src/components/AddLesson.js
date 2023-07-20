@@ -4,17 +4,7 @@ import {
   TextField, 
   Typography 
 } from '@mui/material';
-// import { useQuery } from '@apollo/client';
 import { isEmptyInput } from '../utils/validation';
-
-
-/*
-tutorialId: ID!
-      name: String!
-      body: String!
-      media: String
-      duration: Int!
-      */
 
 export function AddLesson() {
   const inputDefaultValues = {
