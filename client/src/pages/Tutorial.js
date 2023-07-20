@@ -51,7 +51,7 @@ export function Tutorial() {
     <div className='root'>
       <Container maxWidth='sm'>
         <Typography
-          variant='h2'
+          variant='h3'
           style={{
             color: '#283845',
             fontWeight: 'bold',
@@ -68,8 +68,8 @@ export function Tutorial() {
           <Typography variant='subtitle1'># Ratings</Typography>
         </Box>
         <Box>
-          <Typography variant='h4'>TeacherName</Typography>
-          <Typography variant='h5'>Runtime: "value" </Typography>
+          <Typography variant='h5'>TeacherName</Typography>
+          <Typography variant='h6'>Runtime: "value" </Typography>
         </Box>
       </Container>
       <Container>
