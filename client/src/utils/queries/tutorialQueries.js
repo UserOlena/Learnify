@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GET_TUTORIALS = gql`
-query GetTutorials {
+  query GetTutorials {
     tutorials {
       _id
       title
@@ -13,7 +13,7 @@ query GetTutorials {
 
 //get single tutorial
 export const GET_TUTORIAL = gql`
-query GetTutorial($_id: ID!) {
+  query GetTutorial($_id: ID!) {
     tutorial(_id: $_id) {
       _id
       title

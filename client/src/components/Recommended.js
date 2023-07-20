@@ -54,7 +54,7 @@ function Recommended() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { loading, data } = useQuery(QUERY_TUTORIALS);
+  const { loading, data } = useQuery(GET_TUTORIALS);
 
   console.log(data);
 
