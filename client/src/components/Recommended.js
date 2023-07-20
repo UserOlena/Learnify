@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
-import { useQuery } from '@apollo/client';
-import { QUERY_TUTORIALS } from '../utils/queries';
+import { gql, useQuery } from '@apollo/client';
+import { QUERY_TUTORIALS } from '../utils/queries/tutorialQueries';
 
 const useStyles = makeStyles((theme) => ({
   recommendations: {
@@ -67,7 +67,7 @@ function Recommended() {
 
   return (
     <div className={classes.recommendations}>
-      <h2>Recommendations Component</h2>
+      <h2>Recommendations For You!</h2>
       <div className={classes.recommendationsContent}>
         {visibleTutorials.map((tutorial) => (
           <Card
