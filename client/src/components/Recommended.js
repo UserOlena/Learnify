@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
@@ -93,9 +94,14 @@ function Recommended() {
               style={{ width: '100%', height: '200px' }} // Set a fixed height for the images (adjust the height as needed)
             />
             <CardContent>
-              <Typography className={classes.cardTitle}>
-                {tutorial.title}
-              </Typography>
+              <Link
+                to={`/tutorial/${tutorial._id}`}
+                key={tutorial._id}
+              >
+                <Typography className={classes.cardTitle}>
+                  {tutorial.title}
+                </Typography>
+              </Link>
               <Typography className={classes.cardDescription}>
                 {tutorial.overview}
               </Typography>
