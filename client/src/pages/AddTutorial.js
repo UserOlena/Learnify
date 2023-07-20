@@ -4,15 +4,15 @@ import {
   TextField, 
   Typography 
 } from '@mui/material';
-import { 
-  Chip, 
-  FormControl, 
-  Input, 
-  InputLabel, 
-  makeStyles, 
-  MenuItem, 
-  Select, 
-  useTheme, 
+import {
+  Chip,
+  FormControl,
+  Input,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  useTheme,
 } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { isEmptyInput } from '../utils/validation';
@@ -55,7 +55,7 @@ function getStyles(category, selectedCategories, theme) {
 export function AddTutorial() {
   const classes = useStyles();
   const theme = useTheme();
-  
+
   const inputDefaultValues = {
     value: '',
     isEmpty: false,
@@ -74,9 +74,9 @@ export function AddTutorial() {
     return <p>Loading...</p>;
   }
 
-  function handleChange (event) {
+  function handleChange(event) {
     setSelectedCategories(event.target.value);
-  };
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -150,7 +150,9 @@ export function AddTutorial() {
         onChange={(e) => handleOnChange(e.target.value.trim(), setOverview)}
         onBlur={(e) => handleOnBlur(e.target.value, setOverview)}
         error={overview.isEmpty}
-        helperText={overview.isEmpty && 'Please enter an overview of your tutorial'}
+        helperText={
+          overview.isEmpty && 'Please enter an overview of your tutorial'
+        }
         onFocus={() => handleOnFocus(overview, setOverview)}
       />
       <TextField
@@ -163,18 +165,23 @@ export function AddTutorial() {
         onChange={(e) => handleOnChange(e.target.value.trim(), setThumbnail)}
         onBlur={(e) => handleOnBlur(e.target.value, setThumbnail)}
         error={thumbnail.isEmpty}
-        helperText={thumbnail.isEmpty && 'Please enter the URL of a thumbnail for your tutorial'}
+        helperText={
+          thumbnail.isEmpty &&
+          'Please enter the URL of a thumbnail for your tutorial'
+        }
         onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
       />
       <FormControl required className={classes.formControl}>
-        <InputLabel id="categories-label">Categories (choose all that apply)</InputLabel>
+        <InputLabel id='categories-label'>
+          Categories (choose all that apply)
+        </InputLabel>
         <Select
-          labelId="categories-label"
-          id="categories"
+          labelId='categories-label'
+          id='categories'
           multiple
           value={selectedCategories}
           onChange={handleChange}
-          input={<Input id="categories-input" />}
+          input={<Input id='categories-input' />}
           renderValue={(selected) => (
             <div className={classes.chips}>
               {selected.map((value) => (
@@ -185,15 +192,19 @@ export function AddTutorial() {
           MenuProps={MenuProps}
         >
           {categories.map((category) => (
-            <MenuItem key={category.category} value={category.category} style={getStyles(category.category, selectedCategories, theme)}>
+            <MenuItem
+              key={category.category}
+              value={category.category}
+              style={getStyles(category.category, selectedCategories, theme)}
+            >
               {category.category}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <Button
-        type='submit'
-        variant='contained'
+      <Button 
+        type='submit' 
+        variant='contained' 
         sx={{ mt: 3, mb: 2 }}
       >
         Save Your Tutorial
