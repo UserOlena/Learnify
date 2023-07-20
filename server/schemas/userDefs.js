@@ -25,7 +25,7 @@ const userTypeDefs = gql`
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): User
+    addUser(username: String!, email: String!, password: String!): Auth
     removeUser: User
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
@@ -72,10 +72,8 @@ const userResolvers = {
     addUser: async (parent, { username, email, password }) => {
       try {
         const user = await User.create({ username, email, password });
-        // const token = signToken(user);
-        console.log({ user });
-        return { user };
-        // return { token, user };
+        const token = signToken(user);
+        return { token, user };
       } catch (err) {
         throw new Error(err);
       }
@@ -93,10 +91,8 @@ const userResolvers = {
         if (!correctPw) {
           throw new AuthenticationError('Incorrect Password!');
         }
-        // 	const token = signToken(user);
-        console.log({ user });
-        return { user };
-        // return { token, user };
+        const token = signToken(user);
+        return { token, user };
       } catch (err) {
         throw new Error(err);
       }
