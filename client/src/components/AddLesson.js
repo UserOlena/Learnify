@@ -96,20 +96,12 @@ export function AddLesson() {
         onFocus={() => handleOnFocus(body, setBody)}
       />
       <TextField
-        required
         fullWidth
         id='media'
         name='media'
         label='Media'
         margin='normal'
         onChange={(e) => handleOnChange(e.target.value.trim(), setMedia)}
-        onBlur={(e) => handleOnBlur(e.target.value, setMedia)}
-        error={media.isEmpty}
-        helperText={
-          media.isEmpty &&
-          'Please enter the URL of a media for this lesson'
-        }
-        onFocus={() => handleOnFocus(media, setMedia)}
       />
       <TextField
         required
