@@ -15,6 +15,7 @@ import {
   SignIn, 
   SignUp, 
 } from './pages';
+import Payment from './pages/Payment';
 import { Footer, Navbar } from './components';
 
 const client = new ApolloClient({
@@ -44,6 +45,10 @@ function App() {
             <Route
               path='/tutorials/new'
               element={<AddTutorial />}
+            ></Route>
+            <Route
+              path='/payment'
+              element={<Payment />}
             ></Route>
           </Routes>
         </Router>
