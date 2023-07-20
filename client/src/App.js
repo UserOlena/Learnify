@@ -43,7 +43,7 @@ function App() {
               element={<SignIn />}
             ></Route>
             <Route
-            path='/tutorial'
+            path='/tutorial/:ID'
             element={<ViewTutorial />}
             ></Route>
             <Route
