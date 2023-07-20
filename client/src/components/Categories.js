@@ -9,13 +9,13 @@ import {
   useTheme,
 } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
-import { QUERY_CATEGORIES } from '../utils/categoryQuery';
+import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 
 function Categories() {
   const [selectedCategory, setSelectedCategory] = useState('Category 1');
   const theme = useTheme();
 
-  const { loading, error, data } = useQuery(QUERY_CATEGORIES);
+  const { loading, error, data } = useQuery(GET_CATEGORIES);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
