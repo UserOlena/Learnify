@@ -8,5 +8,3 @@ export const QUERY_TUTORIALS = gql`
         thumbnail
     }}
 `;
-
-
