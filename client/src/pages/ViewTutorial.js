@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 //TODO: GET_TEACHER (line 39)
 //TODO: GET_RUNTIME (line 40)
 
-export function Tutorial({tutorialId}) {
+export function ViewTutorial({tutorialId}) {
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const classes = useStyles();
 
@@ -115,3 +115,5 @@ export function Tutorial({tutorialId}) {
     </div>
   );
 }
+
+export default ViewTutorial;

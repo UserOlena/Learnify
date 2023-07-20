@@ -14,7 +14,7 @@ import {
   Home,
   SignIn, 
   SignUp, 
-  Tutorial
+  ViewTutorial
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -44,7 +44,7 @@ function App() {
             ></Route>
             <Route
             path='/tutorial'
-            element={<Tutorial />}
+            element={<ViewTutorial />}
             ></Route>
             <Route
               path='/tutorials/new'
