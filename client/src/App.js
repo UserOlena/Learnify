@@ -13,10 +13,11 @@ import {
   AddLessons, 
   AddTutorial,
   Home,
+  Payment,
   SignIn, 
   SignUp, 
 } from './pages';
-import Payment from './pages/Payment';
+
 import { Footer, Navbar } from './components';
 
 const client = new ApolloClient({
