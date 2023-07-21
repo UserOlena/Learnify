@@ -8,7 +8,7 @@ import {
   InputBase,
   Button,
   IconButton,
-  Hidden, // Import the Hidden component
+  Hidden,
   makeStyles,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -111,6 +111,7 @@ const useStyles = makeStyles((theme) => {
 function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [categoriesMenuAnchorEl, setCategoriesMenuAnchorEl] = useState(null);
 
   const { loading, data } = useQuery(GET_CATEGORIES);
   const categories = data?.categories || [];
@@ -128,8 +129,13 @@ function Navbar() {
     setAnchorEl(event.currentTarget);
   }
 
-  function handleMenuClose() {
+  function handleCategoriesMenuOpen(event) {
+    setCategoriesMenuAnchorEl(event.currentTarget);
+  }
+
+  function handleCloseMenus() {
     setAnchorEl(null);
+    setCategoriesMenuAnchorEl(null);
   }
 
   return (
@@ -186,7 +192,7 @@ function Navbar() {
               variant='contained'
               color='inherit'
               className={classes.categoriesMenu}
-              onClick={handleMenuOpen}
+              onClick={handleCategoriesMenuOpen}
             >
               Categories
             </Button>
@@ -211,27 +217,42 @@ function Navbar() {
             >
               Sign In
             </Button>
+            <Button
+              variant='contained'
+              color='inherit'
+              className={classes.categoriesMenu}
+              onClick={handleCategoriesMenuOpen}
+            >
+              Categories
+            </Button>
           </div>
         </Hidden>
         <Menu
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
+          onClose={handleCloseMenus}
         >
           <NavLink to='/signup' style={linkStyle}>
-            <MenuItem onClick={handleMenuClose}>Sign Up</MenuItem>
+            <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
           </NavLink>
           <NavLink to='/signin' style={linkStyle}>
-            <MenuItem onClick={handleMenuClose}>Sign In</MenuItem>
+            <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
           </NavLink>
+        </Menu>
+        <Menu
+          anchorEl={categoriesMenuAnchorEl}
+          keepMounted
+          open={Boolean(categoriesMenuAnchorEl)}
+          onClose={handleCloseMenus}
+        >
           {categories.map((category) => (
             <NavLink
               to={'category/' + category.category}
               style={linkStyle}
               key={category.category}
             >
-              <MenuItem onClick={handleMenuClose}>{category.category}</MenuItem>
+              <MenuItem onClick={handleCloseMenus}>{category.category}</MenuItem>
             </NavLink>
           ))}
         </Menu>
