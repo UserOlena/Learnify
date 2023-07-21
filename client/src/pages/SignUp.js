@@ -39,7 +39,8 @@ function Copyright(props) {
         }}
       >
         Learnify
-      </a>{' '}
+      </a>
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -92,10 +93,10 @@ export function SignUp() {
       console.log(err.graphQLErrors[0].message);
       switch (err.graphQLErrors[0].message) {
         case 'Duplicate username':
-          changeIsDuplicateState(setUserName, true);
+          changeIsDuplicateToTrue(setUserName);
           break;
         case 'Duplicate email':
-          changeIsDuplicateState(setEmail, true);
+          changeIsDuplicateToTrue(setEmail);
           break;
         default:
           console.log(
@@ -105,11 +106,19 @@ export function SignUp() {
     }
   }
 
-  // call the function when isDuplicate state change needed for any state
-  function changeIsDuplicateState(setState, value) {
+  // call the function when isDuplicate state key needs to be changed to TRUE for any state
+  function changeIsDuplicateToTrue(setState) {
     setState((otherValues) => ({
       ...otherValues,
-      isDuplicate: value,
+      isDuplicate: true,
+    }));
+  }
+
+  // call the function when isDuplicate state key needs to be changed to FALSE for any state
+  function changeIsDuplicateToFalse(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isDuplicate: false,
     }));
   }
 
@@ -173,13 +182,17 @@ export function SignUp() {
         isValid: true,
       }));
     }
-
-    // change state to remove the error message on Focus if previously password values didn't match
+    // change state to remove the error message on Focus if previously provided password values didn't match
     if (!confirmPassword.isMatch) {
       setConfirmPassword((otherValues) => ({
         ...otherValues,
         isMatch: true,
       }));
+    }
+
+    // change state to remove the error message on Focus if previously provided userName or email values were duplicates in the DB
+    if (state.isDuplicate) {
+      changeIsDuplicateToFalse(setState);
     }
   }
 
