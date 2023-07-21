@@ -16,6 +16,7 @@ import {
   Payment,
   SignIn, 
   SignUp, 
+  Careers
 } from './pages';
 
 import { Footer, Navbar } from './components';
@@ -55,6 +56,10 @@ function App() {
             <Route
               path='/payment'
               element={<Payment />}
+            ></Route>
+            <Route
+              path='/careers'
+              element={<Careers />}
             ></Route>
           </Routes>
         </Router>
