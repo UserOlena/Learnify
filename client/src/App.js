@@ -16,6 +16,7 @@ import {
   Payment,
   SignIn, 
   SignUp, 
+  Careers
   ViewTutorial
 } from './pages';
 
@@ -60,6 +61,10 @@ function App() {
             <Route
               path='/payment'
               element={<Payment />}
+            ></Route>
+            <Route
+              path='/careers'
+              element={<Careers />}
             ></Route>
           </Routes>
         </Router>
