@@ -5,13 +5,11 @@ import clsx from 'clsx';
 import {
   Box,
   Card,
-  CardActionArea,
   CardContent,
   CardMedia,
   Chip,
   Collapse,
   Container,
-  Divider,
   Grid,
   IconButton,
   makeStyles,
