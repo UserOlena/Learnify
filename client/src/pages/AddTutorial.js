@@ -15,9 +15,11 @@ import {
   Select,
   useTheme,
 } from '@material-ui/core';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { isEmptyInput } from '../utils/validation';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
+// import { QUERY_USER } from '../utils/queries/userQueries';
+import { ADD_TUTORIAL } from '../utils/mutations/tutorialMutations';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -68,29 +70,44 @@ export function AddTutorial() {
   const [thumbnail, setThumbnail] = useState(inputDefaultValues);
   const [selectedCategories, setSelectedCategories] = useState({...inputDefaultValues, value: []});
 
-  const { loading, data } = useQuery(GET_CATEGORIES);
-  const categories = data?.categories || [];
+  const { loading: categoryLoading, data: categoryData } = useQuery(GET_CATEGORIES);
+  const categories = categoryData?.categories || [];
 
-  if (loading) {
+  // const { loading, data } = useQuery(QUERY_USER);
+
+  const [addTutorial, { error }] = useMutation(ADD_TUTORIAL);
+
+  // let user;
+
+  // if (userData) {
+  //   user = userData.user;
+  // }
+
+  if (categoryLoading) {
     return <p>Loading...</p>;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
 
     const categoryIds = selectedCategories.value.map((category) => {
       return category._id;
     });
 
-    data.set('categories', categoryIds);
+    const variables = {
+      title: title.value,
+      overview: overview.value,
+      thumbnail: thumbnail.value,
+      categories: categoryIds,
+      // Temporarily hard-coding teacher ID
+      teacher: '64b9507c3f91a8c86fec3503',
+    }
 
-    console.log({
-      title: data.get('title'),
-      overview: data.get('overview'),
-      thumbnail: data.get('thumbnail'),
-      categories: data.get('categories'),
-    });
+    try {
+      await addTutorial({ variables });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // set a new value to the state.value associated to the field that invokes this function
