@@ -8,6 +8,7 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
+  Chip,
   Collapse,
   Container,
   Divider,
@@ -25,17 +26,20 @@ import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 16,
+    margin: '3%',
   },
   title: {
-    marginTop: 16,
+    margin: '3%',
   },
   card: {
     width: '80%',
-    margin: 24,
+    padding: theme.spacing(2),
+  },
+  chip: {
+    margin: theme.spacing(0.5),
   },
   media: {
-    height: 100,
+    height: 140,
     padding: 16,
   },
   expand: {
@@ -79,11 +83,27 @@ export function ViewTutorial() {
   //destructure fields from tutorial object
   const { teacher } = tutorial;
   const username = teacher?.[0]?.username;
+  const { categories } = tutorial;
   const duration = tutorial.totalDuration;
   const { lessons } = tutorial;
   const { reviews } = tutorial;
 
-  //map lessons array for use on line 196
+  //map categories array for use on/around 180
+  function categoryList(categories) {
+    return (
+      <>
+        {categories.map((categories) => (
+          <Chip
+            key={categories._id}
+            label={categories.category}
+            className={classes.chip}
+          />
+        ))}
+      </>
+    );
+  }
+
+  //map lessons array for use on/around line 196
   function lessonList(lessons) {
     return (
       <>
@@ -101,7 +121,7 @@ export function ViewTutorial() {
     );
   }
 
-  //map reviews array
+  //map reviews array for use on/around line 226
   function reviewList(reviews) {
     return (
       <>
@@ -112,7 +132,6 @@ export function ViewTutorial() {
               name='read-only'
               value={reviews.rating}
               readOnly
-              
             />
             <p>{reviews.comment}</p>
           </div>
@@ -130,8 +149,11 @@ export function ViewTutorial() {
   console.log(averageRating);
 
   return (
-    <div className='title'>
-      <Container maxWidth='sm'>
+    <div className='root'>
+      <Container
+        className='title'
+        maxWidth
+      >
         <Typography
           variant='h4'
           style={{
@@ -155,68 +177,76 @@ export function ViewTutorial() {
             Time to complete: {duration} minutes
           </Typography>
         </Box>
+        <Box direction='row'>{categoryList(categories)}</Box>
       </Container>
       <Grid
         container
         className={classes.info}
-        direction='column'
+        direction='row'
+        justifyContent='space-evenly'
+        spacing={20}
       >
-        <Grid item>
-          <Box
-            position={'relative'}
-            p={8}
-          >
-            <Card>
-              <CardActionArea>
-                <CardMedia
-                  classes={classes.media}
-                  component='img'
-                  image={tutorial.thumbnail}
-                  title='Media image provided by user'
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant='h5'
-                    component='h2'
+        <Grid
+          item
+          xs={10}
+          md={5}
+        >
+          <Card className='card'>
+            <CardActionArea>
+              <CardMedia
+                classes={classes.media}
+                component='img'
+                image={tutorial.thumbnail}
+                title='Media image provided by user'
+              />
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant='h5'
+                  component='h2'
+                >
+                  Lessons
+                  <IconButton
+                    className={clsx(classes.expand, {
+                      [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label='show more'
                   >
-                    Lessons
-                    <IconButton
-                      className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
-                      })}
-                      onClick={handleExpandClick}
-                      aria-expanded={expanded}
-                      aria-label='show more'
-                    >
-                      <ExpandMore />
-                    </IconButton>
-                  </Typography>
-                  <Collapse
-                    in={expanded}
-                    timeout='auto'
-                    unmountOnExit
-                  >
-                    <CardContent>{lessonList(lessons)}</CardContent>
-                  </Collapse>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-
-            <Card>
-              <Typography
-                gutterBottom
-                variant='h5'
-                component='h2'
-              >
-                Reviews
-              </Typography>
+                    <ExpandMore />
+                  </IconButton>
+                </Typography>
+                <Collapse
+                  in={expanded}
+                  timeout='auto'
+                  unmountOnExit
+                >
+                  <CardContent>{lessonList(lessons)}</CardContent>
+                </Collapse>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid
+          item
+          xs={10}
+          md={5}
+        >
+          <Card className='card'>
+            <Typography
+              gutterBottom
+              variant='h5'
+              component='h2'
+            >
+              Reviews
+            </Typography>
+            <Divider />
+            <Typography>
+              {reviewList(reviews)}
               <Divider />
-              <Typography>{reviewList(reviews)}
-              <Divider />
-              </Typography>
-            </Card>
-          </Box>
+            </Typography>
+          </Card>
         </Grid>
       </Grid>
     </div>
