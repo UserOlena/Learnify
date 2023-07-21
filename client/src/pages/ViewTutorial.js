@@ -1,70 +1,139 @@
-import { React } from 'react';
-import { useParams } from 'react-router-dom';
+import { React, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 //Material-UI imports
+import clsx from 'clsx';
 import {
   Box,
-  // Card,
-  // CardActionArea,
-  // CardContent,
+  Card,
+  CardActionArea,
+  CardContent,
   CardMedia,
+  Collapse,
   Container,
+  Divider,
   Grid,
+  IconButton,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-// import {
-//   Info,
-//   InfoCaption,
-//   InfoSubtitle,
-//   InfoTitle,
-// } from '@mui-treasury/components/info';
-// import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
-// import { Rating } from '@material-ui/lab';
+import { ExpandMore } from '@material-ui/icons';
+import { Rating } from '@material-ui/lab';
 
 //database-related imports
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    margin: 16,
   },
-  media: {},
-  banner: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    bottom: 0,
-    left: 0,
-    zIndex: 2,
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+  title: {
+    marginTop: 16,
   },
-});
-
+  card: {
+    width: '80%',
+    margin: 24,
+  },
+  media: {
+    height: 100,
+    padding: 16,
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+}));
 
 export function ViewTutorial() {
-  const {ID} = useParams();
-  console.log(ID);
-  // const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const classes = useStyles();
 
-  const { loading, err, data } = useQuery(GET_TUTORIAL, {variables: {id: ID
-  }} );
+  const [expanded, setExpanded] = useState(false);
+  //function to handle click on expand icon and update State
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  //get ID from URL and get associated {tutorial} from db
+  const { ID } = useParams();
+  const { loading, err, data } = useQuery(GET_TUTORIAL, {
+    variables: { id: ID },
+  });
   console.log(loading, err, data);
-  if(loading) {
+  if (loading) {
     return <p>Loading your tutorial...</p>;
   }
-  if(err) {
-    return <p>Error loading your tutorial</p>
+  if (err) {
+    return <p>Error loading your tutorial</p>;
   }
 
   const tutorial = data?.tutorial;
-// return <div>{JSON.stringify(data)}</div>
+  if (!tutorial) {
+    return <p>Tutorial not found</p>;
+  }
+  //destructure fields from tutorial object
+  const { teacher } = tutorial;
+  const username = teacher?.[0]?.username;
+  const duration = tutorial.totalDuration;
+  const { lessons } = tutorial;
+  const { reviews } = tutorial;
+
+  //map lessons array for use on line 196
+  function lessonList(lessons) {
+    return (
+      <>
+        {lessons.map((lessons) => (
+          <div key={lessons._id}>
+            <Link
+              to={`/lesson/${lessons._id}`}
+              key={lessons._id}
+            >
+              <p>{lessons.name}</p>
+            </Link>
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  //map reviews array
+  function reviewList(reviews) {
+    return (
+      <>
+        {reviews.map((reviews) => (
+          <div key={reviews._id}>
+            <Divider />
+            <Rating
+              name='read-only'
+              value={reviews.rating}
+              readOnly
+              
+            />
+            <p>{reviews.comment}</p>
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  //calculate average rating
+  let totalRating = 0;
+  for (const review of reviews) {
+    totalRating += review.rating;
+  }
+  const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
+  console.log(averageRating);
+
   return (
-    <div className='root'>
+    <div className='title'>
       <Container maxWidth='sm'>
         <Typography
-          variant='h3'
+          variant='h4'
           style={{
             color: '#283845',
             fontWeight: 'bold',
@@ -73,45 +142,83 @@ export function ViewTutorial() {
           {tutorial?.title}
         </Typography>
         <Box>
-          {/* <Rating
+          <Rating
             name='read-only'
-            value='{value}'
+            value={averageRating}
             readOnly
-          /> */}
-          <Typography variant='subtitle1'># Ratings</Typography>
+          />
+          <Typography variant='subtitle1'>{reviews.length} Ratings</Typography>
         </Box>
         <Box>
-          <Typography variant='h5'>TeacherName</Typography>
-          <Typography variant='h6'>Runtime: "value" </Typography>
+          <Typography variant='h5'>{username}</Typography>
+          <Typography variant='h6'>
+            Time to complete: {duration} minutes
+          </Typography>
         </Box>
       </Container>
-      <Container>
-        <Grid
-          container
-          className={classes.info}
-          direction='row'
-        >
-          <Grid item>
-            <Box
-              position={'relative'}
-              width={'100%'}
-              height={'100%'}
-              p={2}
-            >
-              <CardMedia
-                // classes={mediaStyles}
-                image={
-                  'https://docs.google.com/drawings/d/e/2PACX-1vRWBUuFWRsWIG4VPDY_GFqy0yK7TPzEogdw6a0jySJDtQGHdbJH7RNeZn6D_alAU2gvkSh5016DupBk/pub?w=519&h=688'
-                }
-                title='tutorial-thumbnail'
-              />
-              <Box position={'relative'}>
-                <h3>Banner Text</h3>
-              </Box>
-            </Box>
-          </Grid>
+      <Grid
+        container
+        className={classes.info}
+        direction='column'
+      >
+        <Grid item>
+          <Box
+            position={'relative'}
+            p={8}
+          >
+            <Card>
+              <CardActionArea>
+                <CardMedia
+                  classes={classes.media}
+                  component='img'
+                  image={tutorial.thumbnail}
+                  title='Media image provided by user'
+                />
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant='h5'
+                    component='h2'
+                  >
+                    Lessons
+                    <IconButton
+                      className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                      })}
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label='show more'
+                    >
+                      <ExpandMore />
+                    </IconButton>
+                  </Typography>
+                  <Collapse
+                    in={expanded}
+                    timeout='auto'
+                    unmountOnExit
+                  >
+                    <CardContent>{lessonList(lessons)}</CardContent>
+                  </Collapse>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+
+            <Card>
+              <Typography
+                gutterBottom
+                variant='h5'
+                component='h2'
+              >
+                Reviews
+              </Typography>
+              <Divider />
+              <Typography>{reviewList(reviews)}
+              <Divider />
+              </Typography>
+            </Card>
+          </Box>
         </Grid>
-      </Container>
+      </Grid>
     </div>
   );
 }
