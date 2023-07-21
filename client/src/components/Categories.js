@@ -29,6 +29,13 @@ function SubCategory({ subCategory }) {
   useEffect(() => {
     setSelectedSubCategory(subCategory);
   }, [subCategory]);
+
+  const imgStyle = {
+    width: '90%',
+    height: 'auto',
+    overflow: 'hidden',
+    objectFit: 'cover',
+  }
   
 
   if (loading) { 
@@ -76,6 +83,7 @@ function SubCategory({ subCategory }) {
                     <Typography variant='subtitle1'>
                       {option.title}
                     </Typography>
+                    <img src={option.thumbnail} alt={option.title} style={imgStyle} />
                     <Typography variant='body2'>
                       {option.overview}
                     </Typography>
@@ -104,19 +112,6 @@ function Categories({ categories }) {
     setSelectedCategory(category);
     setCategorySelected(true);
   };
-
-  
-
-  // if(selectCategory) {
-  //   const { loading, error, data } = useQuery(QUERY_TUTORIALS_BY_CATEGORY, {
-  //     variables: { categoryId: selectedCategory },
-  //   });
-  //   console.log(data);
-  // }
-  
-  //${
-  //   selectedCategory.category === category.category ? 'active' : ''
-  // }
 
   return (
     <Box
