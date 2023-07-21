@@ -16,15 +16,15 @@ const server = new ApolloServer({
 });
 
 //stripe intigration
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
+const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET_KEY, {
   apiVersion: '2022-08-01',
 });
 
 app.get('/config', (req, res) => {
   res.json({
-    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    publishableKey: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,
   });
-  console.log(process.env.STRIPE_PUBLISHABLE_KEY);
+  console.log(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 });
 
 app.post('/create-payment-intent', async (req, res) => {
