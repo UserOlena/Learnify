@@ -1,12 +1,11 @@
 import { React, useState } from 'react';
 import { 
-  Button, 
   TextField, 
   Typography 
 } from '@mui/material';
 import { isEmptyInput } from '../utils/validation';
 
-export function AddLesson() {
+export function AddLesson(props) {
   const inputDefaultValues = {
     value: '',
     isEmpty: false,
@@ -17,17 +16,6 @@ export function AddLesson() {
   const [body, setBody] = useState(inputDefaultValues);
   const [media, setMedia] = useState(inputDefaultValues);
   const [duration, setDuration] = useState(inputDefaultValues);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log({
-      name: data.get('name'),
-      body: data.get('body'),
-      media: data.get('media'),
-      duration: data.get('duration'),
-    });
-  }
 
   // set a new value to the state.value associated to the text field that invokes this function
   function handleOnChange(inputValue, setState) {
@@ -64,13 +52,13 @@ export function AddLesson() {
 
   return (
     <div>
-      <Typography component='h1' variant='h5'>
-        Add Lessons to Your Tutorial
+      <Typography>
+        Lesson #{props.number}
       </Typography>
       <TextField
         required
         fullWidth
-        id='name'
+        id={'name' + props.number}
         name='name'
         label='Name'
         margin='normal'
@@ -83,7 +71,7 @@ export function AddLesson() {
       <TextField
         required
         fullWidth
-        id='body'
+        id={'body' + props.number}
         name='body'
         label='Body'
         margin='normal'
@@ -97,7 +85,7 @@ export function AddLesson() {
       />
       <TextField
         fullWidth
-        id='media'
+        id={'media' + props.number}
         name='media'
         label='Media'
         margin='normal'
@@ -106,7 +94,7 @@ export function AddLesson() {
       <TextField
         required
         fullWidth
-        id='duration'
+        id={'duration' + props.number}
         name='duration'
         label='Duration'
         margin='normal'
@@ -119,19 +107,6 @@ export function AddLesson() {
         }
         onFocus={() => handleOnFocus(duration, setDuration)}
       />
-      <Button 
-        variant='contained' 
-        sx={{ mt: 3, mb: 2 }}
-      >
-        Add Another Lesson
-      </Button>
-      <Button 
-        type='submit' 
-        variant='contained' 
-        sx={{ mt: 3, mb: 2 }}
-      >
-        Submit All Lessons
-      </Button>
     </div>
   );
 }
