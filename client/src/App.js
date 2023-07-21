@@ -10,11 +10,15 @@ import {
 } from '@apollo/client';
 import './style/App.css';
 import { 
+  AddLessons, 
   AddTutorial,
   Home,
+  Payment,
   SignIn, 
   SignUp, 
+  Careers
 } from './pages';
+
 import { Footer, Navbar } from './components';
 
 const client = new ApolloClient({
@@ -44,6 +48,18 @@ function App() {
             <Route
               path='/tutorials/new'
               element={<AddTutorial />}
+            ></Route>
+            <Route
+              path='/:tutorialId/lessons/add'
+              element={<AddLessons />}
+            ></Route>
+            <Route
+              path='/payment'
+              element={<Payment />}
+            ></Route>
+            <Route
+              path='/careers'
+              element={<Careers />}
             ></Route>
           </Routes>
         </Router>
