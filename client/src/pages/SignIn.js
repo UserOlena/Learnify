@@ -85,7 +85,8 @@ export function SignIn() {
     } catch (err) {
       console.log(err.graphQLErrors[0].message);
       switch (err.graphQLErrors[0].message) {
-        case 'No email found!', 'Incorrect Password!':
+        case 'No email found!':
+        case 'Incorrect Password!':
           console.log('switch works');
           changeIsVerifiedInputToFalse(setVerifyInput);
           break;
