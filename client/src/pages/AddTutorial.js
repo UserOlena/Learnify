@@ -1,5 +1,6 @@
-// React imports
+// React / router imports
 import { React, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Material UI imports
 import { 
@@ -81,6 +82,7 @@ export function AddTutorial() {
     ...inputDefaultValues,
     value: [],
   });
+  const [loggedOut, setLoggedOut] = useState(false);
 
   // Get category data to populate select list
   const { data: categoryData } = useQuery(GET_CATEGORIES);
@@ -100,6 +102,12 @@ export function AddTutorial() {
   // When form is submitted, add the tutorial to the db
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // If user is not logged in, set state to show error and exit submit function
+    if (!user) {
+      setLoggedOut(true);
+      return;
+    }
 
     // Get only the IDs of the selected categories
     const categoryIds = selectedCategories.value.map((category) => {
@@ -279,6 +287,11 @@ export function AddTutorial() {
             ))}
           </Select>
         </FormControl>
+        {loggedOut && (
+          <Typography color='error' component='p'>
+            You must be signed in to submit a tutorial. <Link to='/signin'>Sign In</Link>
+          </Typography>
+        )}
         <Button 
           type='submit' 
           variant='contained' 
