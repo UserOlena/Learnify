@@ -10,6 +10,7 @@ import {
 } from '@apollo/client';
 import './style/App.css';
 import { 
+  AddLessons, 
   AddTutorial,
   Home,
   SignIn, 
@@ -49,6 +50,10 @@ function App() {
             <Route
               path='/tutorials/new'
               element={<AddTutorial />}
+            ></Route>
+            <Route
+              path='/:tutorialId/lessons/add'
+              element={<AddLessons />}
             ></Route>
           </Routes>
         </Router>
