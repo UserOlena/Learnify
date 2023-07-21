@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+const { gql, AuthenticationError } = require('apollo-server-express');
 
 const { Tutorial, Category } = require('../models');
 
@@ -93,19 +93,25 @@ const tutorialResolvers = {
     // Add a tutorial
     addTutorial: async function (
       parent,
-      { title, overview, thumbnail, categories, teacher }
+      { title, overview, thumbnail, categories, teacher },
+      context
     ) {
-      try {
-        return await Tutorial.create({
-          title,
-          overview,
-          thumbnail,
-          categories,
-          teacher,
-        });
-      } catch (error) {
-        throw new Error(`Failed to add tutorial: ${error.message}`);
+      // If user is logged in, add the tutorial to the db
+      if (context.user) {
+        try {
+          return await Tutorial.create({
+            title,
+            overview,
+            thumbnail,
+            categories,
+            teacher,
+          });
+        } catch (error) {
+          throw new Error(`Failed to add tutorial: ${error.message}`);
+        }
       }
+      // If user is not logged in, throw authentication error
+      throw new AuthenticationError('User must be logged in to add a tutorial');
     },
 
     // Update a tutorial's title, overview, thumbnail, and/or categories
