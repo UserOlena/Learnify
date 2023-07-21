@@ -12,11 +12,11 @@ import './style/App.css';
 import { 
   AddLessons, 
   AddTutorial,
+  Careers,
   Home,
   Payment,
   SignIn, 
   SignUp, 
-  Careers
   ViewTutorial
 } from './pages';
 

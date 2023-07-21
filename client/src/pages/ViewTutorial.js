@@ -39,12 +39,6 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.button,
     backgroundColor: '#98b7f5',
   },
-  media: {
-    height: 140,
-    padding: 16,
-    border: '2%',
-    borderColor: '#dce6f5',
-  },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -95,10 +89,10 @@ export function ViewTutorial() {
   function categoryList(categories) {
     return (
       <>
-        {categories.map((categories) => (
+        {categories.map((category) => (
           <Chip
-            key={categories._id}
-            label={categories.category}
+            key={category.id}
+            label={category.category}
             className={classes.chip}
           />
         ))}
@@ -110,13 +104,13 @@ export function ViewTutorial() {
   function lessonList(lessons) {
     return (
       <>
-        {lessons.map((lessons) => (
-            <Link
-              to={`/lesson/${lessons._id}`}
-              key={lessons._id}
-            >
-              <p>{lessons.name}</p>
-            </Link>
+        {lessons.map((lesson) => (
+          <Link
+            to={`/lesson/${lesson.id}`}
+            key={lesson._id}
+          >
+            <p>{lesson.name}</p>
+          </Link>
         ))}
       </>
     );
@@ -126,17 +120,18 @@ export function ViewTutorial() {
   function reviewList(reviews) {
     return (
       <>
-        {reviews.map((reviews) => (
-          
-            <Card key={reviews._id} style={{backgroundColor: '#dce6f5', margin: 2, }} >
+        {reviews.map((review) => (
+          <Card
+            key={review.id}
+            style={{ backgroundColor: '#dce6f5', margin: 2 }}
+          >
             <Rating
               name='read-only'
-              value={reviews.rating}
+              value={review.rating}
               readOnly
             />
-            <p>{reviews.comment}</p>
-            </Card>
-          
+            <p>{review.comment}</p>
+          </Card>
         ))}
       </>
     );
@@ -152,10 +147,7 @@ export function ViewTutorial() {
 
   return (
     <div className='root'>
-      <Container
-        className='title'
-        maxWidth
-      >
+      <Container className='title'>
         <Typography
           variant='h4'
           style={{
@@ -194,40 +186,43 @@ export function ViewTutorial() {
           xs={10}
           md={5}
         >
-          <Card style={{backgroundColor: '#dce6f5', margin: '5%', border: '1rem solid #6393f2'}}>
-              <CardMedia
-                classes={classes.media}
-                component='img'
-                image={tutorial.thumbnail}
-                title='Media image provided by user'
-                
-              />
-              <CardContent>
-                <Typography
-                  variant='h5'
-                  component='h2'
-                 
+          <Card
+            style={{
+              backgroundColor: '#dce6f5',
+              margin: '5%',
+              border: '1rem solid #6393f2',
+            }}
+          >
+            <CardMedia
+              component='img'
+              image={tutorial.thumbnail}
+              title='Media image provided by user'
+            />
+            <CardContent>
+              <Typography
+                variant='h5'
+                component='h2'
+              >
+                Lessons
+                <IconButton
+                  className={clsx(classes.expand, {
+                    [classes.expandOpen]: expanded,
+                  })}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label='show more'
                 >
-                  Lessons
-                  <IconButton
-                    className={clsx(classes.expand, {
-                      [classes.expandOpen]: expanded,
-                    })}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label='show more'
-                  >
-                    <ExpandMore />
-                  </IconButton>
-                </Typography>
-                <Collapse
-                  in={expanded}
-                  timeout='auto'
-                  unmountOnExit
-                >
-                  <CardContent>{lessonList(lessons)}</CardContent>
-                </Collapse>
-              </CardContent>
+                  <ExpandMore />
+                </IconButton>
+              </Typography>
+              <Collapse
+                in={expanded}
+                timeout='auto'
+                unmountOnExit
+              >
+                <CardContent>{lessonList(lessons)}</CardContent>
+              </Collapse>
+            </CardContent>
           </Card>
         </Grid>
         <Grid
@@ -235,18 +230,24 @@ export function ViewTutorial() {
           xs={10}
           md={5}
         >
-          <Card  style={{backgroundColor: '#6393f2', margin: '5%', paddingTop: '3%',}} >
+          <Card
+            style={{
+              backgroundColor: '#6393f2',
+              margin: '5%',
+              paddingTop: '3%',
+            }}
+          >
             <Typography
               variant='h5'
               component='h2'
-
             >
               Reviews
             </Typography>
-            
-            <Card  style={{backgroundColor: '#6393f2', margin: 3, padding: 10}}>
+
+            <Card
+              style={{ backgroundColor: '#6393f2', margin: 3, padding: 10 }}
+            >
               {reviewList(reviews)}
-              
             </Card>
           </Card>
         </Grid>
