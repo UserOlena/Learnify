@@ -88,7 +88,7 @@ const userResolvers = {
         const user = await User.findOne({ email });
 
         if (!user) {
-          throw new AuthenticationError('No User with this email found!');
+          throw new AuthenticationError('No email found!');
         }
         const correctPw = await user.isCorrectPassword(password);
 
