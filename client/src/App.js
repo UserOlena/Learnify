@@ -1,23 +1,15 @@
-import { 
-  BrowserRouter as Router, 
-  Routes, 
-  Route 
-} from 'react-router-dom';
-import { 
-  ApolloClient, 
-  ApolloProvider, 
-  InMemoryCache 
-} from '@apollo/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import './style/App.css';
-import { 
-  AddLessons, 
+import {
+  AddLessons,
   AddTutorial,
   Careers,
   Home,
   Payment,
-  SignIn, 
-  SignUp, 
-  ViewTutorial
+  SignIn,
+  SignUp,
+  ViewTutorial,
 } from './pages';
 
 import { Footer, Navbar } from './components';
@@ -47,8 +39,8 @@ function App() {
               element={<SignIn />}
             ></Route>
             <Route
-            path='/tutorial/:ID'
-            element={<ViewTutorial />}
+              path='/tutorial/:ID'
+              element={<ViewTutorial />}
             ></Route>
             <Route
               path='/tutorials/new'
