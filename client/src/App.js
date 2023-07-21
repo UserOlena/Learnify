@@ -14,7 +14,8 @@ import {
   AddTutorial,
   Home,
   SignIn, 
-  SignUp, 
+  SignUp,
+  About 
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -50,9 +51,13 @@ function App() {
               path='/:tutorialId/lessons/add'
               element={<AddLessons />}
             ></Route>
+            <Route
+              path='/about'
+              element={<About />}
+            ></Route>
           </Routes>
+          <Footer />
         </Router>
-        <Footer />
       </ApolloProvider>
     </div>
   );
