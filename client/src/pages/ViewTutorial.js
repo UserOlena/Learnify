@@ -18,8 +18,8 @@ import {
 //   InfoSubtitle,
 //   InfoTitle,
 // } from '@mui-treasury/components/info';
-import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
-import { Rating } from '@material-ui/lab';
+// import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
+// import { Rating } from '@material-ui/lab';
 
 //database-related imports
 import { useQuery } from '@apollo/client';
@@ -43,13 +43,14 @@ const useStyles = makeStyles({
 
 
 export function ViewTutorial() {
-  const tutorialId = useParams();
-  console.log(tutorialId);
-  const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
+  const {ID} = useParams();
+  console.log(ID);
+  // const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const classes = useStyles();
 
-  const { loading, err, data } = useQuery(GET_TUTORIAL, {tutorialId} );
-  console.log(data);
+  const { loading, err, data } = useQuery(GET_TUTORIAL, {variables: {id: ID
+  }} );
+  console.log(loading, err, data);
   if(loading) {
     return <p>Loading your tutorial...</p>;
   }
@@ -58,7 +59,7 @@ export function ViewTutorial() {
   }
 
   const tutorial = data?.tutorial;
-
+// return <div>{JSON.stringify(data)}</div>
   return (
     <div className='root'>
       <Container maxWidth='sm'>
@@ -72,11 +73,11 @@ export function ViewTutorial() {
           {tutorial?.title}
         </Typography>
         <Box>
-          <Rating
+          {/* <Rating
             name='read-only'
             value='{value}'
             readOnly
-          />
+          /> */}
           <Typography variant='subtitle1'># Ratings</Typography>
         </Box>
         <Box>
@@ -98,7 +99,7 @@ export function ViewTutorial() {
               p={2}
             >
               <CardMedia
-                classes={mediaStyles}
+                // classes={mediaStyles}
                 image={
                   'https://docs.google.com/drawings/d/e/2PACX-1vRWBUuFWRsWIG4VPDY_GFqy0yK7TPzEogdw6a0jySJDtQGHdbJH7RNeZn6D_alAU2gvkSh5016DupBk/pub?w=519&h=688'
                 }

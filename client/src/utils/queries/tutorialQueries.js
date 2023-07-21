@@ -13,23 +13,22 @@ export const GET_TUTORIALS = gql`
 
 //get single tutorial
 export const GET_TUTORIAL = gql`
-  query GetTutorial($tutorialId: ID!) {
+query GetTutorial($id: ID!) {
     tutorial(_id: $id) {
       _id
       title
       overview
       thumbnail
       categories {
-        _id
-        name
+        category
       }
       teacher {
-        _id
         username
+        _id
       }
       lessons {
         _id
-        title
+        name
       }
       reviews {
         _id
@@ -40,3 +39,4 @@ export const GET_TUTORIAL = gql`
     }
   }
 `;
+
