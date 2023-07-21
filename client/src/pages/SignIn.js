@@ -1,8 +1,6 @@
 import { React, useState } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { isEmptyInput } from '../utils/validation';
-import { Link } from 'react-router-dom';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar,
   Button,
@@ -15,6 +13,11 @@ import {
   Box,
   Grid,
 } from '@mui/material';
+import { isEmptyInput } from '../utils/validation';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations/userMutations';
+import Auth from '../utils/auth';
 
 function Copyright(props) {
   return (
@@ -55,13 +58,30 @@ export function SignIn() {
   const [email, setEmail] = useState(inputDefaultValues);
   const [password, setPassword] = useState(inputDefaultValues);
 
-  function handleSubmit(e) {
+  const [login, { error, data }] = useMutation(LOGIN_USER);
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    try {
+      const { data } = await login({
+        variables: {
+          email: email.value,
+          password: password.value,
+        },
+      });
+
+      Auth.login(data.login.token);
+      console.log('user logged in')
+      console.log(data)
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   // set a new value to the state.value associated to the text field that invokes this function
@@ -97,11 +117,15 @@ export function SignIn() {
     }
   }
 
-  console.log('password ' + password.value);
+  // console.log('password ' + password.value);
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component='main' sx={{ height: '100vh' }}>
+      <Grid
+        container
+        component='main'
+        sx={{ height: '100vh' }}
+      >
         <CssBaseline />
         <Grid
           item
@@ -120,7 +144,15 @@ export function SignIn() {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
               my: 8,
@@ -133,7 +165,10 @@ export function SignIn() {
             <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component='h1' variant='h5'>
+            <Typography
+              component='h1'
+              variant='h5'
+            >
               Sign in
             </Typography>
             <Box
@@ -153,9 +188,7 @@ export function SignIn() {
                 onChange={(e) =>
                   handleOnChange(e.target.value.trim(), setEmail)
                 }
-                onBlur={(e) =>
-                  handleOnBlur(e.target.value, setEmail)
-                }
+                onBlur={(e) => handleOnBlur(e.target.value, setEmail)}
                 error={email.isEmpty}
                 helperText={email.isEmpty && 'Email field is required'}
                 onFocus={() => handleOnFocus(email, setEmail)}
@@ -172,15 +205,18 @@ export function SignIn() {
                 onChange={(e) =>
                   handleOnChange(e.target.value.trim(), setPassword)
                 }
-                onBlur={(e) =>
-                  handleOnBlur(e.target.value, setPassword)
-                }
+                onBlur={(e) => handleOnBlur(e.target.value, setPassword)}
                 error={password.isEmpty}
                 helperText={password.isEmpty && 'Password field is required'}
                 onFocus={() => handleOnFocus(password, setPassword)}
               />
               <FormControlLabel
-                control={<Checkbox value='remember' color='primary' />}
+                control={
+                  <Checkbox
+                    value='remember'
+                    color='primary'
+                  />
+                }
                 label='Remember me'
               />
               <Button
@@ -192,13 +228,22 @@ export function SignIn() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link to='#' className='externalLink'>
+                <Grid
+                  item
+                  xs
+                >
+                  <Link
+                    to='#'
+                    className='externalLink'
+                  >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to='/signup' className='externalLink'>
+                  <Link
+                    to='/signup'
+                    className='externalLink'
+                  >
                     Don't have an account? Sign Up
                   </Link>
                 </Grid>
