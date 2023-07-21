@@ -61,7 +61,7 @@ export function SignIn() {
   const [login, { error, data }] = useMutation(LOGIN_USER);
 
   const wrongInputErrorMessage =
-    'Sorry, the combination of the username and password you provided does not match our records. Please double-check your credentials and try again.';
+    'Sorry, the combination of the email and password you provided does not match our records. Please double-check your credentials and try again.';
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -85,7 +85,7 @@ export function SignIn() {
     } catch (err) {
       console.log(err.graphQLErrors[0].message);
       switch (err.graphQLErrors[0].message) {
-        case 'No email found!' || 'Incorrect Password!':
+        case 'No email found!', 'Incorrect Password!':
           console.log('switch works');
           changeIsVerifiedInputToFalse(setVerifyInput);
           break;
@@ -104,6 +104,14 @@ export function SignIn() {
       isVerifiedInput: false,
     }));
   }
+
+  // call the function when isVerifiedInput state key needs to be changed to FALSE for any state
+  function changeIsVerifiedInputToTrue(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isVerifiedInput: true,
+    }));
+  }  
 
   // set a new value to the state.value associated to the text field that invokes this function
   function handleOnChange(inputValue, setState) {
@@ -135,6 +143,11 @@ export function SignIn() {
         isEmpty: false,
       }));
       return;
+    }
+
+    // change state to remove the error message on Focus if previously provided input was wrong
+    if (!verifyInput.isVerifiedInput) {
+      changeIsVerifiedInputToTrue(setVerifyInput);
     }
   }
 
