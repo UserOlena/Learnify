@@ -3,6 +3,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { isEmptyInput, validateInput } from '../utils/validation';
 import { Link } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations/userMutations';
+import Auth from '../utils/auth';
 import '../style/SignUp.css';
 
 import {
@@ -58,13 +61,15 @@ export function SignUp() {
   const [email, setEmail] = useState(inputDefaultValues);
   const [password, setPassword] = useState(inputDefaultValues);
   const [confirmPassword, setConfirmPassword] = useState(inputDefaultValues);
+  const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const notValidPasswordErrorMessage =
     'Password should consist of at least one digit, one special character, one uppercase letter, one lowercase letter and have 8 to 16 characters';
   const notValidUserNameErrorMessage =
     'Username should consist of 4 to 12 alphanumeric characters.';
 
-  function handleSubmit(e) {
+  // on form submit call mutation query, passing fields value in order to create a new user and token
+  async function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
@@ -72,6 +77,20 @@ export function SignUp() {
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    try {
+      const { data } = await addUser({
+        variables: {
+          username: userName.value,
+          email: email.value,
+          password: password.value,
+        },
+      });
+      console.log(data.addUser.user);
+      Auth.login(data.addUser.token);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   // set a new value to the state.value associated to the text field that invokes this function
@@ -144,15 +163,18 @@ export function SignUp() {
     }
   }
 
-  console.log('value ' + password.value);
-  console.log('value ' + confirmPassword.value);
-  console.log('isEmpty ' + confirmPassword.isEmpty);
-  console.log('isValid ' + confirmPassword.isValid);
-  console.log('isMatch ' + confirmPassword.isMatch);
+  // console.log('value ' + password.value);
+  // console.log('value ' + confirmPassword.value);
+  // console.log('isEmpty ' + confirmPassword.isEmpty);
+  // console.log('isValid ' + confirmPassword.isValid);
+  // console.log('isMatch ' + confirmPassword.isMatch);
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component='main' maxWidth='xs'>
+      <Container
+        component='main'
+        maxWidth='xs'
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -165,7 +187,10 @@ export function SignUp() {
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography
+            component='h1'
+            variant='h5'
+          >
             Sign up
           </Typography>
           <Typography
@@ -182,8 +207,14 @@ export function SignUp() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
+            <Grid
+              container
+              spacing={2}
+            >
+              <Grid
+                item
+                xs={12}
+              >
                 <TextField
                   required
                   fullWidth
@@ -205,7 +236,10 @@ export function SignUp() {
                   onFocus={() => handleOnFocus(userName, setUserName)}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+              >
                 <TextField
                   required
                   fullWidth
@@ -228,7 +262,10 @@ export function SignUp() {
                   onFocus={() => handleOnFocus(email, setEmail)}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+              >
                 <TextField
                   required
                   fullWidth
@@ -251,7 +288,10 @@ export function SignUp() {
                   onFocus={() => handleOnFocus(password, setPassword)}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+              >
                 <TextField
                   required
                   fullWidth
@@ -287,10 +327,16 @@ export function SignUp() {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+              >
                 <FormControlLabel
                   control={
-                    <Checkbox value='allowExtraEmails' color='primary' />
+                    <Checkbox
+                      value='allowExtraEmails'
+                      color='primary'
+                    />
                   }
                   label='I want to receive inspiration, marketing promotions and updates via email'
                 />
@@ -304,9 +350,15 @@ export function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent='flex-end'>
+            <Grid
+              container
+              justifyContent='flex-end'
+            >
               <Grid item>
-                <Link to='/signin' className='externalLink'>
+                <Link
+                  to='/signin'
+                  className='externalLink'
+                >
                   Already have an account? Sign in
                 </Link>
               </Grid>
