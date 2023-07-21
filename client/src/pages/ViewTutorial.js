@@ -32,15 +32,18 @@ const useStyles = makeStyles((theme) => ({
     margin: '3%',
   },
   card: {
-    width: '80%',
-    padding: theme.spacing(2),
+    backgroundColor: '#dce6f5',
   },
   chip: {
-    margin: theme.spacing(0.5),
+    margin: 2,
+    ...theme.typography.button,
+    backgroundColor: '#98b7f5',
   },
   media: {
     height: 140,
     padding: 16,
+    border: '2%',
+    borderColor: '#dce6f5',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -108,14 +111,12 @@ export function ViewTutorial() {
     return (
       <>
         {lessons.map((lessons) => (
-          <div key={lessons._id}>
             <Link
               to={`/lesson/${lessons._id}`}
               key={lessons._id}
             >
               <p>{lessons.name}</p>
             </Link>
-          </div>
         ))}
       </>
     );
@@ -126,15 +127,16 @@ export function ViewTutorial() {
     return (
       <>
         {reviews.map((reviews) => (
-          <div key={reviews._id}>
-            <Divider />
+          
+            <Card key={reviews._id} style={{backgroundColor: '#dce6f5', margin: 2, }} >
             <Rating
               name='read-only'
               value={reviews.rating}
               readOnly
             />
             <p>{reviews.comment}</p>
-          </div>
+            </Card>
+          
         ))}
       </>
     );
@@ -184,26 +186,27 @@ export function ViewTutorial() {
         className={classes.info}
         direction='row'
         justifyContent='space-evenly'
-        spacing={20}
+        alignItems='center'
+        // spacing={20}
       >
         <Grid
           item
           xs={10}
           md={5}
         >
-          <Card className='card'>
-            <CardActionArea>
+          <Card style={{backgroundColor: '#dce6f5', margin: '5%', border: '1rem solid #6393f2'}}>
               <CardMedia
                 classes={classes.media}
                 component='img'
                 image={tutorial.thumbnail}
                 title='Media image provided by user'
+                
               />
               <CardContent>
                 <Typography
-                  gutterBottom
                   variant='h5'
                   component='h2'
+                 
                 >
                   Lessons
                   <IconButton
@@ -225,7 +228,6 @@ export function ViewTutorial() {
                   <CardContent>{lessonList(lessons)}</CardContent>
                 </Collapse>
               </CardContent>
-            </CardActionArea>
           </Card>
         </Grid>
         <Grid
@@ -233,19 +235,19 @@ export function ViewTutorial() {
           xs={10}
           md={5}
         >
-          <Card className='card'>
+          <Card  style={{backgroundColor: '#6393f2', margin: '5%', paddingTop: '3%',}} >
             <Typography
-              gutterBottom
               variant='h5'
               component='h2'
+
             >
               Reviews
             </Typography>
-            <Divider />
-            <Typography>
+            
+            <Card  style={{backgroundColor: '#6393f2', margin: 3, padding: 10}}>
               {reviewList(reviews)}
-              <Divider />
-            </Typography>
+              
+            </Card>
           </Card>
         </Grid>
       </Grid>
