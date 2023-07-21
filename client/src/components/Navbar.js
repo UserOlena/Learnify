@@ -1,4 +1,4 @@
-import  { React, useState } from 'react';
+import { React, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -252,7 +252,9 @@ function Navbar() {
               style={linkStyle}
               key={category.category}
             >
-              <MenuItem onClick={handleCloseMenus}>{category.category}</MenuItem>
+              <MenuItem onClick={handleCloseMenus}>
+                {category.category}
+              </MenuItem>
             </NavLink>
           ))}
         </Menu>
