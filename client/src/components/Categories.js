@@ -8,28 +8,26 @@ import {
   Box,
   useTheme,
 } from '@material-ui/core';
-
-// Sample data from the database
-const options = [
-  { name: 'Option 1', category: 'Category 1' },
-  { name: 'Option 2', category: 'Category 2' },
-  { name: 'Option 3', category: 'Category 1' },
-  // ... add more options
-];
+import { gql, useQuery } from '@apollo/client';
+import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 
 function Categories() {
   const [selectedCategory, setSelectedCategory] = useState('Category 1');
   const theme = useTheme();
 
-  // Get all unique categories from the options
-  const categories = [...new Set(options.map((option) => option.category))];
+  const { loading, error, data } = useQuery(GET_CATEGORIES);
 
-  // Filter options based on selected category
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const categories = data.categories.map((category) => category.category);
+
   const filteredOptions = selectedCategory
-    ? options.filter((option) => option.category === selectedCategory)
-    : options;
+    ? data.categories.filter(
+        (category) => category.category === selectedCategory
+      )
+    : data.categories;
 
-  // Function to handle category selection
   function selectCategory(category) {
     setSelectedCategory(category);
   }
@@ -42,8 +40,8 @@ function Categories() {
       backgroundColor={theme.palette.mode === 'dark' ? 'gray' : 'white'}
       p={2}
     >
-      <Typography variant='h6' gutterBottom>
-        Categories
+      <Typography variant='h5' gutterBottom>
+        Find Tutorials Based on Category!
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -76,7 +74,6 @@ function Categories() {
                 <Typography variant='h6' gutterBottom>
                   {selectedCategory}
                 </Typography>
-                {/* Add text description for the selected category */}
                 <Typography variant='body1'>
                   Description for {selectedCategory} category goes here...
                 </Typography>
@@ -88,7 +85,7 @@ function Categories() {
           <Grid item xs={12}>
             <Grid container spacing={2}>
               {filteredOptions.map((option) => (
-                <Grid item xs={12} sm={6} md={3} key={option.name}>
+                <Grid item xs={12} sm={6} md={3} key={option._id}>
                   <Card
                     border={3}
                     borderRadius={8}
@@ -101,10 +98,12 @@ function Categories() {
                     p={2}
                   >
                     <CardContent>
-                      <Typography variant='subtitle1'>{option.name}</Typography>
-                      {/* Additional information about the corresponding category */}
+                      <Typography variant='subtitle1'>
+                        {option.category}
+                      </Typography>
                       <Typography variant='body2'>
-                        Additional information about {option.name} goes here...
+                        Additional information about {option.category} goes
+                        here...
                       </Typography>
                     </CardContent>
                   </Card>
