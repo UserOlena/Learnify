@@ -1,5 +1,4 @@
 const { gql, AuthenticationError } = require('apollo-server-express');
-
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 
@@ -75,7 +74,12 @@ const userResolvers = {
         const token = signToken(user);
         return { token, user };
       } catch (err) {
-        throw new Error(err);
+        let message = 'Server error'
+
+        if (err.message.includes('duplicate')) {
+          message = 'Duplicate ' + (err.message.includes('email') ? 'email' : 'username');
+        }
+        throw new Error(message)
       }
     },
 
