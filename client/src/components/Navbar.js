@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import  { React, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -7,8 +7,11 @@ import {
   Menu,
   InputBase,
   Button,
+  IconButton,
+  Hidden, // Import the Hidden component
   makeStyles,
 } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { NavLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
@@ -24,7 +27,7 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: '#FAF0E6',
       color: 'black',
       opacity: '0.8',
-      height: '60px', // Adjust the height as needed
+      height: '60px',
     },
     logo: {
       marginRight: theme.spacing(2),
@@ -76,12 +79,18 @@ const useStyles = makeStyles((theme) => {
       height: 40,
       fontSize: 16,
       textTransform: 'none',
+      color: 'black', // Set the text color to black
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
     },
     modeSwitch: {
       marginLeft: 'auto',
     },
     categoriesMenu: {
-      marginTop: theme.spacing(6),
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
     },
     logo: {
       width: '100px',
@@ -90,13 +99,11 @@ const useStyles = makeStyles((theme) => {
       marginTop: theme.spacing(1),
       zoom: '1.2',
     },
-    menuBitton: {
+    menuButton: {
+      marginRight: theme.spacing(2),
       [theme.breakpoints.up('md')]: {
         display: 'none',
       },
-    },
-    drawer: {
-      width: '250px',
     },
   };
 });
@@ -128,19 +135,20 @@ function Navbar() {
   return (
     <AppBar position='static' className={classes.appBar}>
       <Toolbar>
+        <IconButton
+          edge='start'
+          className={classes.menuButton}
+          color='inherit'
+          aria-label='menu'
+          onClick={handleMenuOpen}
+        >
+          <MenuIcon />
+        </IconButton>
         <NavLink to='/'>
           <Typography variant='h6' className={classes.title}>
             <img src={LearnifyLogo} alt='Learnify' className={classes.logo} />
           </Typography>
         </NavLink>
-        <Button
-          variant='contained'
-          color='inherit'
-          className={classes.signUpButton}
-          onClick={handleMenuOpen}
-        >
-          Categories
-        </Button>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
@@ -152,35 +160,81 @@ function Navbar() {
               input: classes.inputInput,
             }}
           />
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            {categories.map((category) => (
-              <NavLink 
-                to={'category/' + category.category} 
-                style={linkStyle} 
-                key={category.category}
-              >
-                <MenuItem onClick={handleMenuClose}>
-                  {category.category}
-                </MenuItem>
-              </NavLink>
-            ))}
-          </Menu>
         </div>
-        <NavLink to='/signup'>
-          <Button variant='contained' className={classes.signUpButton}>
-            Sign Up
-          </Button>
-        </NavLink>
-        <NavLink to='/signin'>
-          <Button variant='contained' className={classes.signUpButton}>
-            Sign In
-          </Button>
-        </NavLink>
+        {/* Show buttons in navbar on full-size screens */}
+        <Hidden smDown>
+          <div className={classes.navButtons}>
+            <NavLink to='/signup'>
+              <Button
+                variant='contained'
+                color='inherit'
+                className={classes.signUpButton}
+              >
+                Sign Up
+              </Button>
+            </NavLink>
+            <NavLink to='/signin'>
+              <Button
+                variant='contained'
+                color='inherit'
+                className={classes.signUpButton}
+              >
+                Sign In
+              </Button>
+            </NavLink>
+            <Button
+              variant='contained'
+              color='inherit'
+              className={classes.categoriesMenu}
+              onClick={handleMenuOpen}
+            >
+              Categories
+            </Button>
+          </div>
+        </Hidden>
+        {/* Show buttons in dropdown menu on small screens */}
+        <Hidden mdUp>
+          <div className={classes.mobileButtons}>
+            <Button
+              variant='contained'
+              color='inherit'
+              className={classes.signUpButton}
+              onClick={handleMenuOpen}
+            >
+              Sign Up
+            </Button>
+            <Button
+              variant='contained'
+              color='inherit'
+              className={classes.signUpButton}
+              onClick={handleMenuOpen}
+            >
+              Sign In
+            </Button>
+          </div>
+        </Hidden>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <NavLink to='/signup' style={linkStyle}>
+            <MenuItem onClick={handleMenuClose}>Sign Up</MenuItem>
+          </NavLink>
+          <NavLink to='/signin' style={linkStyle}>
+            <MenuItem onClick={handleMenuClose}>Sign In</MenuItem>
+          </NavLink>
+          {categories.map((category) => (
+            <NavLink
+              to={'category/' + category.category}
+              style={linkStyle}
+              key={category.category}
+            >
+              <MenuItem onClick={handleMenuClose}>{category.category}</MenuItem>
+            </NavLink>
+          ))}
+        </Menu>
       </Toolbar>
     </AppBar>
   );
