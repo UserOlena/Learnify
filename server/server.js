@@ -2,6 +2,7 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
+const env = require("dotenv").config({ path: "./.env" });
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
@@ -12,6 +13,35 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
+});
+
+//stripe intigration
+const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET_KEY, {
+  apiVersion: '2022-08-01',
+});
+
+app.get('/config', (req, res) => {
+  res.json({
+    publishableKey: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,
+  });
+  console.log(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+});
+
+app.post('/create-payment-intent', async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: 'usd',
+      amount: 1000,
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+  
+    res.send({ clientSecret: paymentIntent.client_secret })
+    
+  } catch (e) {
+    return res.status(400).send({ error: { message: e.message } });
+  }
 });
 
 app.use(express.urlencoded({ extended: false }));

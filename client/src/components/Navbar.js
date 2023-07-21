@@ -11,6 +11,9 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { NavLink } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
+import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -18,9 +21,10 @@ const useStyles = makeStyles((theme) => {
       userSelect: 'none',
     },
     appBar: {
-      backgroundColor: theme.palette.type === 'dark' ? 'gray' : 'white',
+      backgroundColor: '#FAF0E6',
       color: 'black',
       opacity: '0.8',
+      height: '60px', // Adjust the height as needed
     },
     logo: {
       marginRight: theme.spacing(2),
@@ -79,12 +83,39 @@ const useStyles = makeStyles((theme) => {
     categoriesMenu: {
       marginTop: theme.spacing(6),
     },
+    logo: {
+      width: '100px',
+      height: '80px',
+      marginRight: theme.spacing(2),
+      marginTop: theme.spacing(1),
+      zoom: '1.2',
+    },
+    menuBitton: {
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+    drawer: {
+      width: '250px',
+    },
   };
 });
 
-function Navbar({ darkMode, onDarkModeChange }) {
+function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const { loading, data } = useQuery(GET_CATEGORIES);
+  const categories = data?.categories || [];
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  const linkStyle = {
+    textDecoration: 'none',
+    color: 'inherit',
+  };
 
   function handleMenuOpen(event) {
     setAnchorEl(event.currentTarget);
@@ -99,7 +130,7 @@ function Navbar({ darkMode, onDarkModeChange }) {
       <Toolbar>
         <NavLink to='/'>
           <Typography variant='h6' className={classes.title}>
-            <img src='' alt='Learnify' className={classes.logo} />
+            <img src={LearnifyLogo} alt='Learnify' className={classes.logo} />
           </Typography>
         </NavLink>
         <Button
@@ -127,24 +158,26 @@ function Navbar({ darkMode, onDarkModeChange }) {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={handleMenuClose}>Category 1</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Category 2</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Category 3</MenuItem>
+            {categories.map((category) => (
+              <NavLink 
+                to={'category/' + category.category} 
+                style={linkStyle} 
+                key={category.category}
+              >
+                <MenuItem onClick={handleMenuClose}>
+                  {category.category}
+                </MenuItem>
+              </NavLink>
+            ))}
           </Menu>
         </div>
         <NavLink to='/signup'>
-          <Button
-            variant='contained'
-            className={classes.signUpButton}
-          >
+          <Button variant='contained' className={classes.signUpButton}>
             Sign Up
           </Button>
         </NavLink>
         <NavLink to='/signin'>
-          <Button
-            variant='contained'
-            className={classes.signUpButton}
-          >
+          <Button variant='contained' className={classes.signUpButton}>
             Sign In
           </Button>
         </NavLink>
