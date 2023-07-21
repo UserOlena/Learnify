@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { 
+  Box, 
   Button, 
   TextField, 
   Typography 
@@ -77,6 +78,13 @@ export function AddTutorial() {
   function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+
+    const categoryIds = selectedCategories.value.map((category) => {
+      return category._id;
+    });
+
+    data.set('categories', categoryIds);
+
     console.log({
       title: data.get('title'),
       overview: data.get('overview'),
@@ -85,7 +93,7 @@ export function AddTutorial() {
     });
   }
 
-  // set a new value to the state.value associated to the text field that invokes this function
+  // set a new value to the state.value associated to the field that invokes this function
   function handleOnChange(inputValue, setState) {
     setState((otherValues) => ({
       ...otherValues,
@@ -123,94 +131,102 @@ export function AddTutorial() {
       <Typography component='h1' variant='h5'>
         Add a Tutorial
       </Typography>
-      <TextField
-        required
-        fullWidth
-        id='title'
-        name='title'
-        label='Title'
-        margin='normal'
-        onChange={(e) => handleOnChange(e.target.value.trim(), setTitle)}
-        onBlur={(e) => handleOnBlur(e.target.value, setTitle)}
-        error={title.isEmpty}
-        helperText={title.isEmpty && 'Please enter a title for your tutorial'}
-        onFocus={() => handleOnFocus(title, setTitle)}
-      />
-      <TextField
-        required
-        fullWidth
-        id='overview'
-        name='overview'
-        label='Overview (1-2 sentences)'
-        margin='normal'
-        onChange={(e) => handleOnChange(e.target.value.trim(), setOverview)}
-        onBlur={(e) => handleOnBlur(e.target.value, setOverview)}
-        error={overview.isEmpty}
-        helperText={
-          overview.isEmpty && 'Please enter an overview of your tutorial'
-        }
-        onFocus={() => handleOnFocus(overview, setOverview)}
-      />
-      <TextField
-        required
-        fullWidth
-        id='thumbnail'
-        name='thumbnail'
-        label='Thumbnail Image URL'
-        margin='normal'
-        onChange={(e) => handleOnChange(e.target.value.trim(), setThumbnail)}
-        onBlur={(e) => handleOnBlur(e.target.value, setThumbnail)}
-        error={thumbnail.isEmpty}
-        helperText={
-          thumbnail.isEmpty &&
-          'Please enter the URL of a thumbnail for your tutorial'
-        }
-        onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
-      />
-      <FormControl 
-        required 
-        className={classes.formControl} 
-        error={selectedCategories.isEmpty} 
+      <Box
+        component='form'
+        noValidate
+        onSubmit={handleSubmit}
+        sx={{ mt: 1 }}
       >
-        <InputLabel id='categories-label'>
-          Categories (choose all that apply)
-        </InputLabel>
-        <Select
-          labelId='categories-label'
-          id='categories'
-          multiple
-          value={selectedCategories.value}
-          onChange={(e) => handleOnChange(e.target.value, setSelectedCategories)}
-          onBlur={(e) => handleOnBlur(e.target.value, setSelectedCategories)}
-          onFocus={() => handleOnFocus(selectedCategories, setSelectedCategories)}
-          input={<Input id='categories-input' />}
-          renderValue={(selected) => (
-            <div className={classes.chips}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} className={classes.chip} />
-              ))}
-            </div>
-          )}
-          MenuProps={MenuProps}
+        <TextField
+          required
+          fullWidth
+          id='title'
+          name='title'
+          label='Title'
+          margin='normal'
+          onChange={(e) => handleOnChange(e.target.value.trim(), setTitle)}
+          onBlur={(e) => handleOnBlur(e.target.value, setTitle)}
+          error={title.isEmpty}
+          helperText={title.isEmpty && 'Please enter a title for your tutorial'}
+          onFocus={() => handleOnFocus(title, setTitle)}
+        />
+        <TextField
+          required
+          fullWidth
+          id='overview'
+          name='overview'
+          label='Overview (1-2 sentences)'
+          margin='normal'
+          onChange={(e) => handleOnChange(e.target.value.trim(), setOverview)}
+          onBlur={(e) => handleOnBlur(e.target.value, setOverview)}
+          error={overview.isEmpty}
+          helperText={
+            overview.isEmpty && 'Please enter an overview of your tutorial'
+          }
+          onFocus={() => handleOnFocus(overview, setOverview)}
+        />
+        <TextField
+          required
+          fullWidth
+          id='thumbnail'
+          name='thumbnail'
+          label='Thumbnail Image URL'
+          margin='normal'
+          onChange={(e) => {handleOnChange(e.target.value.trim(), setThumbnail)}}
+          onBlur={(e) => handleOnBlur(e.target.value, setThumbnail)}
+          error={thumbnail.isEmpty}
+          helperText={
+            thumbnail.isEmpty &&
+            'Please enter the URL of a thumbnail for your tutorial'
+          }
+          onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
+        />
+        <FormControl 
+          required 
+          className={classes.formControl} 
+          error={selectedCategories.isEmpty} 
         >
-          {categories.map((category) => (
-            <MenuItem
-              key={category.category}
-              value={category.category}
-              style={getStyles(category.category, selectedCategories.value, theme)}
-            >
-              {category.category}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Button 
-        type='submit' 
-        variant='contained' 
-        sx={{ mt: 3, mb: 2 }}
-      >
-        Save Your Tutorial
-      </Button>
+          <InputLabel id='categories-label'>
+            Categories (choose all that apply)
+          </InputLabel>
+          <Select
+            labelId='categories-label'
+            id='categories'
+            name='categories'
+            multiple
+            value={selectedCategories.value}
+            onChange={(e) => handleOnChange(e.target.value, setSelectedCategories)}
+            onBlur={(e) => handleOnBlur(e.target.value, setSelectedCategories)}
+            onFocus={() => handleOnFocus(selectedCategories, setSelectedCategories)}
+            input={<Input id='categories-input' />}
+            renderValue={(selected) => (
+              <div className={classes.chips}>
+                {selected.map((value) => (
+                  <Chip key={value._id} label={value.category} className={classes.chip} />
+                ))}
+              </div>
+            )}
+            MenuProps={MenuProps}
+          >
+            {categories.map((category) => (
+              <MenuItem
+                key={category.category}
+                value={category}
+                style={getStyles(category.category, selectedCategories.value, theme)}
+              >
+                {category.category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button 
+          type='submit' 
+          variant='contained' 
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Save Your Tutorial
+        </Button>
+      </Box>
     </div>
   );
 }
