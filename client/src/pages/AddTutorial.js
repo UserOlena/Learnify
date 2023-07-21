@@ -1,4 +1,7 @@
+// React imports
 import { React, useState } from 'react';
+
+// Material UI imports
 import { 
   Box, 
   Button, 
@@ -15,11 +18,15 @@ import {
   Select,
   useTheme,
 } from '@material-ui/core';
+
+// Imports for interacting with the db
 import { useQuery, useMutation } from '@apollo/client';
-import { isEmptyInput } from '../utils/validation';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
-// import { QUERY_USER } from '../utils/queries/userQueries';
+import { GET_USER } from '../utils/queries/userQueries';
 import { ADD_TUTORIAL } from '../utils/mutations/tutorialMutations';
+
+// Imports for other utilities
+import { isEmptyInput } from '../utils/validation';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -46,6 +53,7 @@ const MenuProps = {
   },
 };
 
+// Bold the selected categories in the select list
 function getStyles(category, selectedCategories, theme) {
   return {
     fontWeight:
@@ -59,6 +67,7 @@ export function AddTutorial() {
   const classes = useStyles();
   const theme = useTheme();
 
+  // Set default state values
   const inputDefaultValues = {
     value: '',
     isEmpty: false,
@@ -70,26 +79,26 @@ export function AddTutorial() {
   const [thumbnail, setThumbnail] = useState(inputDefaultValues);
   const [selectedCategories, setSelectedCategories] = useState({...inputDefaultValues, value: []});
 
-  const { loading: categoryLoading, data: categoryData } = useQuery(GET_CATEGORIES);
+  // Get category data to populate select list
+  const { data: categoryData } = useQuery(GET_CATEGORIES);
   const categories = categoryData?.categories || [];
 
-  // const { loading, data } = useQuery(QUERY_USER);
-
+  // Set up mutation to add the tutorial to the db
   const [addTutorial, { error }] = useMutation(ADD_TUTORIAL);
 
-  // let user;
+  // Get the logged in user's information
+  const { data: userData } = useQuery(GET_USER);
 
-  // if (userData) {
-  //   user = userData.user;
-  // }
-
-  if (categoryLoading) {
-    return <p>Loading...</p>;
+  let user;
+  if (userData) {
+    user = userData.me;
   }
 
+  // When form is submitted, add the tutorial to the db
   async function handleSubmit(e) {
     e.preventDefault();
 
+    // Get only the IDs of the selected categories
     const categoryIds = selectedCategories.value.map((category) => {
       return category._id;
     });
@@ -99,8 +108,7 @@ export function AddTutorial() {
       overview: overview.value,
       thumbnail: thumbnail.value,
       categories: categoryIds,
-      // Temporarily hard-coding teacher ID
-      teacher: '64b9507c3f91a8c86fec3503',
+      teacher: user._id,
     }
 
     try {
