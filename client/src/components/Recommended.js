@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
-import { QUERY_TUTORIALS } from '../utils/queries/tutorialQueries';
+import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,8 @@ function Recommended() {
   const isFullScreen = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is full screen (md breakpoint)
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { loading, data } = useQuery(QUERY_TUTORIALS);
+
+  const { loading, data } = useQuery(GET_TUTORIALS);
 
   console.log(data);
 

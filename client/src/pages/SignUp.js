@@ -55,6 +55,7 @@ export function SignUp() {
     isEmpty: false,
     isValid: true,
     isMatch: true,
+    isDuplicate: false,
   };
 
   const [userName, setUserName] = useState(inputDefaultValues);
@@ -88,9 +89,37 @@ export function SignUp() {
       });
       console.log(data.addUser.user);
       Auth.login(data.addUser.token);
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.log(err.graphQLErrors[0].message);
+      switch (err.graphQLErrors[0].message) {
+        case 'Duplicate username':
+          changeIsDuplicateToTrue(setUserName);
+          break;
+        case 'Duplicate email':
+          changeIsDuplicateToTrue(setEmail);
+          break;
+        default:
+          console.log(
+            "Apologies, but it seems like something went wrong on our end. We'll work to fix the issue as soon as possible. Please try again later. Thank you for your understanding."
+          );
+      }
     }
+  }
+
+  // call the function when isDuplicate state key needs to be changed to TRUE for any state
+  function changeIsDuplicateToTrue(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isDuplicate: true,
+    }));
+  }
+
+  // call the function when isDuplicate state key needs to be changed to FALSE for any state
+  function changeIsDuplicateToFalse(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isDuplicate: false,
+    }));
   }
 
   // set a new value to the state.value associated to the text field that invokes this function
@@ -153,13 +182,17 @@ export function SignUp() {
         isValid: true,
       }));
     }
-
-    // change state to remove the error message on Focus if previously password values didn't match
+    // change state to remove the error message on Focus if previously provided password values didn't match
     if (!confirmPassword.isMatch) {
       setConfirmPassword((otherValues) => ({
         ...otherValues,
         isMatch: true,
       }));
+    }
+
+    // change state to remove the error message on Focus if previously provided userName or email values were duplicates in the DB
+    if (state.isDuplicate) {
+      changeIsDuplicateToFalse(setState);
     }
   }
 
@@ -228,10 +261,16 @@ export function SignUp() {
                   onBlur={(e) =>
                     handleOnBlur(e.target.value, e.target.id, setUserName)
                   }
-                  error={userName.isEmpty || !userName.isValid}
+                  error={
+                    userName.isEmpty ||
+                    !userName.isValid ||
+                    userName.isDuplicate
+                  }
                   helperText={
                     (userName.isEmpty && 'Username field is required') ||
-                    (!userName.isValid && notValidUserNameErrorMessage)
+                    (!userName.isValid && notValidUserNameErrorMessage) ||
+                    (userName.isDuplicate &&
+                      "The username address you've provided is already in use!")
                   }
                   onFocus={() => handleOnFocus(userName, setUserName)}
                 />
@@ -253,11 +292,13 @@ export function SignUp() {
                   onBlur={(e) =>
                     handleOnBlur(e.target.value, e.target.id, setEmail)
                   }
-                  error={!email.isValid || email.isEmpty}
+                  error={!email.isValid || email.isEmpty || email.isDuplicate}
                   helperText={
                     (email.isEmpty && 'Email field is required') ||
                     (!email.isValid &&
-                      'Kindly provide a legitimate email address')
+                      'Kindly provide a legitimate email address') ||
+                    (email.isDuplicate &&
+                      "The email you've provided is already in use!")
                   }
                   onFocus={() => handleOnFocus(email, setEmail)}
                 />
