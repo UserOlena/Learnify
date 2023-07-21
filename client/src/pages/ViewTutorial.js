@@ -177,7 +177,6 @@ export function ViewTutorial() {
         direction='row'
         justifyContent='space-evenly'
         alignItems='center'
-        // spacing={20}
       >
         <Grid
           item

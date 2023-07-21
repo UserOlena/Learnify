@@ -13,7 +13,7 @@ export const GET_TUTORIALS = gql`
 
 //get single tutorial
 export const GET_TUTORIAL = gql`
-query GetTutorial($id: ID!) {
+  query GetTutorial($id: ID!) {
     tutorial(_id: $id) {
       _id
       title
@@ -39,4 +39,3 @@ query GetTutorial($id: ID!) {
     }
   }
 `;
-
