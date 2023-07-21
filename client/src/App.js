@@ -6,24 +6,24 @@ import {
 } from 'react-router-dom';
 
 // Apollo server imports
-import { 
-  ApolloClient, 
-  ApolloProvider, 
-  InMemoryCache, 
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 // Import pages/components and styles
 import './style/App.css';
-import { 
-  AddLessons, 
+import {
+  AddLessons,
   AddTutorial,
+  Careers,
   Home,
   Payment,
-  SignIn, 
-  SignUp, 
-  Careers
+  SignIn,
+  SignUp,
 } from './pages';
 import { Footer, Navbar } from './components';
 

@@ -77,7 +77,10 @@ export function AddTutorial() {
   const [title, setTitle] = useState(inputDefaultValues);
   const [overview, setOverview] = useState(inputDefaultValues);
   const [thumbnail, setThumbnail] = useState(inputDefaultValues);
-  const [selectedCategories, setSelectedCategories] = useState({...inputDefaultValues, value: []});
+  const [selectedCategories, setSelectedCategories] = useState({
+    ...inputDefaultValues,
+    value: [],
+  });
 
   // Get category data to populate select list
   const { data: categoryData } = useQuery(GET_CATEGORIES);
@@ -109,7 +112,7 @@ export function AddTutorial() {
       thumbnail: thumbnail.value,
       categories: categoryIds,
       teacher: user._id,
-    }
+    };
 
     try {
       await addTutorial({ variables });
@@ -169,11 +172,17 @@ export function AddTutorial() {
           name='title'
           label='Title'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setTitle)}
-          onBlur={(e) => handleOnBlur(e.target.value, setTitle)}
+          onChange={(e) => 
+            handleOnChange(e.target.value.trim(), setTitle)
+          }
+          onBlur={(e) => 
+            handleOnBlur(e.target.value, setTitle)
+          }
           error={title.isEmpty}
           helperText={title.isEmpty && 'Please enter a title for your tutorial'}
-          onFocus={() => handleOnFocus(title, setTitle)}
+          onFocus={() => 
+            handleOnFocus(title, setTitle)
+          }
         />
         <TextField
           required
@@ -182,13 +191,19 @@ export function AddTutorial() {
           name='overview'
           label='Overview (1-2 sentences)'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setOverview)}
-          onBlur={(e) => handleOnBlur(e.target.value, setOverview)}
+          onChange={(e) => 
+            handleOnChange(e.target.value.trim(), setOverview)
+          }
+          onBlur={(e) => 
+            handleOnBlur(e.target.value, setOverview)
+          }
           error={overview.isEmpty}
           helperText={
             overview.isEmpty && 'Please enter an overview of your tutorial'
           }
-          onFocus={() => handleOnFocus(overview, setOverview)}
+          onFocus={() => 
+            handleOnFocus(overview, setOverview)
+          }
         />
         <TextField
           required
@@ -197,19 +212,25 @@ export function AddTutorial() {
           name='thumbnail'
           label='Thumbnail Image URL'
           margin='normal'
-          onChange={(e) => {handleOnChange(e.target.value.trim(), setThumbnail)}}
-          onBlur={(e) => handleOnBlur(e.target.value, setThumbnail)}
+          onChange={(e) => {
+            handleOnChange(e.target.value.trim(), setThumbnail);
+          }}
+          onBlur={(e) => 
+            handleOnBlur(e.target.value, setThumbnail)
+          }
           error={thumbnail.isEmpty}
           helperText={
             thumbnail.isEmpty &&
             'Please enter the URL of a thumbnail for your tutorial'
           }
-          onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
+          onFocus={() => 
+            handleOnFocus(thumbnail, setThumbnail)
+          }
         />
-        <FormControl 
-          required 
-          className={classes.formControl} 
-          error={selectedCategories.isEmpty} 
+        <FormControl
+          required
+          className={classes.formControl}
+          error={selectedCategories.isEmpty}
         >
           <InputLabel id='categories-label'>
             Categories (choose all that apply)
@@ -220,14 +241,24 @@ export function AddTutorial() {
             name='categories'
             multiple
             value={selectedCategories.value}
-            onChange={(e) => handleOnChange(e.target.value, setSelectedCategories)}
-            onBlur={(e) => handleOnBlur(e.target.value, setSelectedCategories)}
-            onFocus={() => handleOnFocus(selectedCategories, setSelectedCategories)}
+            onChange={(e) =>
+              handleOnChange(e.target.value, setSelectedCategories)
+            }
+            onBlur={(e) => 
+              handleOnBlur(e.target.value, setSelectedCategories)
+            }
+            onFocus={() =>
+              handleOnFocus(selectedCategories, setSelectedCategories)
+            }
             input={<Input id='categories-input' />}
             renderValue={(selected) => (
               <div className={classes.chips}>
                 {selected.map((value) => (
-                  <Chip key={value._id} label={value.category} className={classes.chip} />
+                  <Chip
+                    key={value._id}
+                    label={value.category}
+                    className={classes.chip}
+                  />
                 ))}
               </div>
             )}
@@ -237,7 +268,11 @@ export function AddTutorial() {
               <MenuItem
                 key={category.category}
                 value={category}
-                style={getStyles(category.category, selectedCategories.value, theme)}
+                style={getStyles(
+                  category.category,
+                  selectedCategories.value,
+                  theme
+                )}
               >
                 {category.category}
               </MenuItem>
