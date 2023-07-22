@@ -1,5 +1,9 @@
 import { React, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+
+//import Learnify components
+import { ViewLesson } from '../components';
+
 //Material-UI imports
 import clsx from 'clsx';
 import {
@@ -221,108 +225,106 @@ export function ViewTutorial() {
         </Grid>
       </Container>
       <Divider variant='middle' />
-      <Container >
-      <Grid
-        container
-        direction='row'
-        justifyContent='space-evenly'
-        alignItems='center'
-        style={{
-          color: '#283845',
-          margin: '2%',
-        }}
-      >
+      <Container>
         <Grid
-          item
-          xs={10}
-          md={5}
+          container
+          direction='row'
+          justifyContent='space-evenly'
+          alignItems='center'
+          style={{
+            color: '#283845',
+            margin: '2%',
+          }}
         >
-          <Card
-            style={{
-              backgroundColor: '#dae9f7',
-              border: '1rem solid #92b4d4',
-            }}
+          <Grid
+            item
+            xs={10}
+            md={5}
           >
-            <CardMedia
-              component='img'
-              image={tutorial.thumbnail}
-              title='Media image provided by user'
-            />
-            <CardContent>
+            <Card
+              style={{
+                backgroundColor: '#dae9f7',
+                border: '1rem solid #92b4d4',
+              }}
+            >
+              <CardMedia
+                component='img'
+                image={tutorial.thumbnail}
+                title='Media image provided by user'
+              />
+              <CardContent>
+                <Typography
+                  variant='h5'
+                  component='h2'
+                >
+                  Lessons
+                  <IconButton
+                    className={clsx(classes.expand, {
+                      [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label='show more'
+                  >
+                    <ExpandMore />
+                  </IconButton>
+                </Typography>
+                <Collapse
+                  in={expanded}
+                  timeout='auto'
+                  unmountOnExit
+                >
+                  <CardContent>{lessonList(lessons)}</CardContent>
+                </Collapse>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid
+            item
+            xs={10}
+            md={5}
+          >
+            <Card
+              style={{
+                backgroundColor: '#92b4d4',
+                margin: '5%',
+                paddingTop: '3%',
+              }}
+            >
               <Typography
                 variant='h5'
                 component='h2'
               >
-                Lessons
-                <IconButton
-                  className={clsx(classes.expand, {
-                    [classes.expandOpen]: expanded,
-                  })}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label='show more'
-                >
-                  <ExpandMore />
-                </IconButton>
+                Reviews
               </Typography>
-              <Collapse
-                in={expanded}
-                timeout='auto'
-                unmountOnExit
-              >
-                <CardContent>{lessonList(lessons)}</CardContent>
-              </Collapse>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid
-          item
-          xs={10}
-          md={5}
-        >
-          <Card
-            style={{
-              backgroundColor: '#92b4d4',
-              margin: '5%',
-              paddingTop: '3%',
-            }}
-          >
-            <Typography
-              variant='h5'
-              component='h2'
-            >
-              Reviews
-            </Typography>
 
-            <Card
-              style={{ backgroundColor: '#92b4d4', margin: 3, padding: 3 }}
-            >
-              {reviewList(reviews)}
+              <Card
+                style={{ backgroundColor: '#92b4d4', margin: 3, padding: 3 }}
+              >
+                {reviewList(reviews)}
+              </Card>
             </Card>
-          </Card>
+          </Grid>
         </Grid>
-      </Grid>
       </Container>
       <Container>
-        <Grid 
-        container 
-        direction='row'
-        justifyContent='space-around'
-        style={{
-          color: '#283845',
-          margin: '2%',
-        }}
+        <Grid
+          container
+          direction='row'
+          justifyContent='space-around'
+          style={{
+            color: '#283845',
+            margin: '2%',
+          }}
         >
           <Grid item>
-          <SkipPrevious/>
+            <SkipPrevious />
           </Grid>
           <Grid item>
-            <Card>
-
-            </Card>
+            <ViewLesson />
           </Grid>
           <Grid item>
-          <SkipNext/>
+            <SkipNext />
           </Grid>
         </Grid>
       </Container>

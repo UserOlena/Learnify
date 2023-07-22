@@ -5,6 +5,7 @@ import CheckoutForm from './CheckoutForm';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Recommended from './Recommended';
+import ViewLesson from './ViewLesson';
 
 export { 
   AddLesson, 
@@ -13,5 +14,6 @@ export {
   CheckoutForm,
   Footer, 
   Navbar, 
-  Recommended 
+  Recommended,
+  ViewLesson,
 };
