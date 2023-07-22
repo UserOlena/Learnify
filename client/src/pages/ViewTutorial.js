@@ -96,7 +96,7 @@ export function ViewTutorial() {
   if (!tutorial) {
     return <p>Tutorial not found</p>;
   }
-  // //destructure fields from tutorial object
+  // destructure fields from tutorial object
   const { teacher, categories, lessons, overview, reviews } = tutorial;
   const username = teacher?.[0]?.username;
   const duration = tutorial.totalDuration;
@@ -197,7 +197,7 @@ export function ViewTutorial() {
             xs={3}
           >
             <Typography variant='h6'>
-              Time to complete: {duration} minutes
+              Time to complete: {duration} minute(s)
             </Typography>
           </Grid>
           <Divider
