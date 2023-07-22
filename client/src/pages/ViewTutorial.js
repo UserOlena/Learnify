@@ -10,6 +10,7 @@ import {
   Chip,
   Collapse,
   Container,
+  Divider,
   Grid,
   IconButton,
   makeStyles,
@@ -26,16 +27,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: '3%',
   },
-  title: {
-    margin: '3%',
-  },
-  card: {
-    backgroundColor: '#dce6f5',
-  },
   chip: {
-    margin: 2,
+    margin: 8,
     ...theme.typography.button,
     backgroundColor: '#98b7f5',
+    fontWeight: 'bold', 
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -145,31 +141,64 @@ export function ViewTutorial() {
 
   return (
     <div className='root'>
-      <Container className='title'>
-        <Typography
-          variant='h4'
-          style={{
-            color: '#283845',
-            fontWeight: 'bold',
-          }}
+      <Container>
+      <Typography
+        variant='h4'
+        style={{
+          color: '#283845',
+          fontWeight: 'bold',
+          margin: '3%'
+        }}
+      >
+        {tutorial?.title}
+      </Typography>
+      <Grid
+        container
+        justifyContent='space-around'
+        className='title'
+      >
+        <Grid
+          item
+          xs={3}
         >
-          {tutorial?.title}
-        </Typography>
-        <Box>
+          <Typography variant='h6'>Instructor: {username}</Typography>
+        </Grid>
+        <Divider
+          orientation='vertical'
+          flexItem
+        />
+        <Grid
+          item
+          xs={3}
+        >
+          <Typography variant='h6'>
+            Time to complete: {duration} minutes
+          </Typography>
+        </Grid>
+        <Divider
+          orientation='vertical'
+          flexItem
+        />
+        <Grid
+          item
+          xs={3}
+        >
           <Rating
             name='read-only'
             value={averageRating}
             readOnly
           />
           <Typography variant='subtitle1'>{reviews.length} Ratings</Typography>
-        </Box>
-        <Box>
-          <Typography variant='h5'>{username}</Typography>
-          <Typography variant='h6'>
-            Time to complete: {duration} minutes
-          </Typography>
-        </Box>
-        <Box direction='row'>{categoryList(categories)}</Box>
+        </Grid>
+        <Box></Box>
+        <Grid
+          item
+          xs={10}
+          direction='row'
+        >
+          {categoryList(categories)}
+        </Grid>
+      </Grid>
       </Container>
       <Grid
         container
