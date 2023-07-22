@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 8,
     ...theme.typography.button,
     backgroundColor: '#98b7f5',
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -144,76 +144,83 @@ export function ViewTutorial() {
   return (
     <div className='root'>
       <Container>
-      <Typography
-        variant='h4'
-        style={{
-          color: '#283845',
-          fontWeight: 'bold',
-          margin: '2%'
-        }}
-      >
-        {tutorial?.title}
-      </Typography>
-      <Grid
-        container
-        justifyContent='space-around'
-        className='title'
-      >
-        <Grid
-          item
-          xs={3}
+        <Typography
+          variant='h4'
+          style={{
+            color: '#283845',
+            fontWeight: 'bold',
+            margin: '2%',
+          }}
         >
-          <Typography variant='h6'>Instructor: {username}</Typography>
-        </Grid>
-        <Divider
-          orientation='vertical'
-          flexItem
-        />
+          {tutorial?.title}
+        </Typography>
         <Grid
-          item
-          xs={3}
+          container
+          justifyContent='space-around'
+          className='title'
         >
-          <Typography variant='h6'>
-            Time to complete: {duration} minutes
-          </Typography>
-        </Grid>
-        <Divider
-          orientation='vertical'
-          flexItem
-        />
-        <Grid
-          item
-          xs={3}
-        >
-          <Rating
-            name='read-only'
-            value={averageRating}
-            readOnly
-          />
-          <Typography variant='subtitle1'>{reviews.length} Ratings</Typography>
-        </Grid>
-        </Grid>
-        <Grid container justifyContent='center' spacing={2} style={{
-          color: '#283845',
-          margin: '2%'
-        }}>
           <Grid
-          item
-          xs={10}
-          direction='row'
-        >
-          <Typography variant='body1'>{overview}</Typography>
+            item
+            xs={3}
+          >
+            <Typography variant='h6'>Instructor: {username}</Typography>
+          </Grid>
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant='h6'>
+              Time to complete: {duration} minutes
+            </Typography>
+          </Grid>
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
+          <Grid
+            item
+            xs={3}
+          >
+            <Rating
+              name='read-only'
+              value={averageRating}
+              readOnly
+            />
+            <Typography variant='subtitle1'>
+              {reviews.length} Ratings
+            </Typography>
+          </Grid>
         </Grid>
         <Grid
-          item
-          xs={10}
-          direction='row'
+          container
+          justifyContent='center'
+          spacing={2}
+          style={{
+            color: '#283845',
+            margin: '2%',
+          }}
         >
-          {categoryList(categories)}
+          <Grid
+            item
+            xs={10}
+            direction='row'
+          >
+            <Typography variant='body1'>{overview}</Typography>
+          </Grid>
+          <Grid
+            item
+            xs={10}
+            direction='row'
+          >
+            {categoryList(categories)}
+          </Grid>
         </Grid>
-      </Grid>
       </Container>
-      <Divider variant="middle" />
+      <Divider variant='middle' />
       <Grid
         container
         className={classes.info}
