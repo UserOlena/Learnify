@@ -11,7 +11,6 @@ import {
   CardMedia,
   Container,
   Grid,
-  makeStyles,
   Typography,
 } from '@material-ui/core';
 
@@ -19,14 +18,10 @@ import {
 import { useQuery } from '@apollo/client';
 import { GET_LESSON } from '../utils/queries/lessonQueries';
 
-const useStyles = makeStyles({
-  root: {
-    // maxWidth: 345,
-  },
-});
+
 
 export function ViewLesson() {
-  const classes = useStyles();
+
 
   //get index and ID from URL and get associated lesson data from db
   const { index, lessonId } = useParams();
@@ -62,7 +57,7 @@ export function ViewLesson() {
           item
           xs={10}
         >
-          <Card className={classes.root}>
+          <Card>
             <CardActionArea>
               <CardMedia
                 component='img'
