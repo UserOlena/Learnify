@@ -42,10 +42,8 @@ export function ViewLesson() {
   }
 
   //destructure fields from lesson object
-  const name = lesson.name;
-  const body = lesson.body;
-  const media = lesson.media;
-  const duration = lesson.duration;
+  const { name, body, media, duration } = lesson;
+
 
   return (
     <Container>
