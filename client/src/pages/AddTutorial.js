@@ -27,7 +27,7 @@ import { GET_USER } from '../utils/queries/userQueries';
 import { ADD_TUTORIAL } from '../utils/mutations/tutorialMutations';
 
 // Imports for other utilities
-import { isEmptyInput } from '../utils/validation';
+import { isEmptyInput, validateInput } from '../utils/validation';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -139,7 +139,7 @@ export function AddTutorial() {
 
   // verify that the input is non-blank
   // set the associated state to display the appropriate error message based on the validation result
-  function handleOnBlur(inputValue, setState) {
+  function handleOnBlur(inputValue, state, setState) {
     // ensure that the input is not empty
     if (isEmptyInput(inputValue)) {
       setState((otherValues) => ({
@@ -147,6 +147,14 @@ export function AddTutorial() {
         isEmpty: true,
       }));
       return;
+    }
+
+    // validate whether the input conforms to the regex pattern
+    if (!validateInput(inputValue, state)) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: false,
+      }));
     }
   }
 
@@ -159,6 +167,14 @@ export function AddTutorial() {
         isEmpty: false,
       }));
       return;
+    }
+
+    // change state to remove the error message on Focus if previously input didn't pass the validation
+    if (!state.isValid) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: true,
+      }));
     }
   }
 
@@ -184,7 +200,7 @@ export function AddTutorial() {
             handleOnChange(e.target.value.trim(), setTitle)
           }
           onBlur={(e) => 
-            handleOnBlur(e.target.value, setTitle)
+            handleOnBlur(e.target.value, e.target.id, setTitle)
           }
           error={title.isEmpty}
           helperText={title.isEmpty && 'Please enter a title for your tutorial'}
@@ -203,7 +219,7 @@ export function AddTutorial() {
             handleOnChange(e.target.value.trim(), setOverview)
           }
           onBlur={(e) => 
-            handleOnBlur(e.target.value, setOverview)
+            handleOnBlur(e.target.value, e.target.id, setOverview)
           }
           error={overview.isEmpty}
           helperText={
@@ -224,12 +240,17 @@ export function AddTutorial() {
             handleOnChange(e.target.value.trim(), setThumbnail);
           }}
           onBlur={(e) => 
-            handleOnBlur(e.target.value, setThumbnail)
+            handleOnBlur(e.target.value, e.target.id, setThumbnail)
           }
-          error={thumbnail.isEmpty}
+          error={
+            thumbnail.isEmpty || 
+            !thumbnail.isValid
+          }
           helperText={
             thumbnail.isEmpty &&
-            'Please enter the URL of a thumbnail for your tutorial'
+            'Please enter the URL of a thumbnail for your tutorial' ||
+            !thumbnail.isValid && 
+            'Please enter a valid URL. It must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif".'
           }
           onFocus={() => 
             handleOnFocus(thumbnail, setThumbnail)
@@ -253,7 +274,7 @@ export function AddTutorial() {
               handleOnChange(e.target.value, setSelectedCategories)
             }
             onBlur={(e) => 
-              handleOnBlur(e.target.value, setSelectedCategories)
+              handleOnBlur(e.target.value, e.target.id, setSelectedCategories)
             }
             onFocus={() =>
               handleOnFocus(selectedCategories, setSelectedCategories)
