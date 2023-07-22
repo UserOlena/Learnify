@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '3%',
   },
   chip: {
-    margin: 8,
+    marginLeft: 8,
+    marginRight: 8,
     ...theme.typography.button,
     backgroundColor: '#98b7f5',
     fontWeight: 'bold', 
@@ -74,6 +75,7 @@ export function ViewTutorial() {
   //destructure fields from tutorial object
   const { teacher } = tutorial;
   const username = teacher?.[0]?.username;
+  const overview = tutorial.overview;
   const { categories } = tutorial;
   const duration = tutorial.totalDuration;
   const { lessons } = tutorial;
@@ -147,7 +149,7 @@ export function ViewTutorial() {
         style={{
           color: '#283845',
           fontWeight: 'bold',
-          margin: '3%'
+          margin: '2%'
         }}
       >
         {tutorial?.title}
@@ -190,7 +192,18 @@ export function ViewTutorial() {
           />
           <Typography variant='subtitle1'>{reviews.length} Ratings</Typography>
         </Grid>
-        <Box></Box>
+        </Grid>
+        <Grid container justifyContent='center' spacing={2} style={{
+          color: '#283845',
+          margin: '2%'
+        }}>
+          <Grid
+          item
+          xs={10}
+          direction='row'
+        >
+          <Typography variant='body1'>{overview}</Typography>
+        </Grid>
         <Grid
           item
           xs={10}
@@ -200,6 +213,7 @@ export function ViewTutorial() {
         </Grid>
       </Grid>
       </Container>
+      <Divider variant="middle" />
       <Grid
         container
         className={classes.info}
