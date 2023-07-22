@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function Navbar() {
+export function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 

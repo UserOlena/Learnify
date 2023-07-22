@@ -11,7 +11,7 @@ import {
 import { gql, useQuery } from '@apollo/client';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 
-function Categories() {
+export function Categories() {
   const [selectedCategory, setSelectedCategory] = useState('Category 1');
   const theme = useTheme();
 

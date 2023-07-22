@@ -1,17 +1,9 @@
-import AddLesson from './AddLesson';
-import Carousel from './Carousel';
-import Categories from './Categories';
-import CheckoutForm from './CheckoutForm';
-import Footer from './Footer';
-import Navbar from './Navbar';
-import Recommended from './Recommended';
-
-export { 
-  AddLesson, 
-  Carousel, 
-  Categories, 
-  CheckoutForm,
-  Footer, 
-  Navbar, 
-  Recommended 
-};
+export * from './AddLesson';
+export * from './Carousel';
+export * from './Categories';
+export * from './CheckoutForm';
+export * from './Footer';
+export * from './Navbar';
+export * from './Recommended';
+export * from './DashboardCarousel';
+export * from './DashboardCard';
