@@ -105,9 +105,12 @@ export function AddLessons() {
       tutorialId,
       name: name.value,
       body: body.value,
-      media: media.value,
       duration: parseInt(duration.value),
     };
+
+    if (media.value) {
+      variables.media = media.value;
+    }
 
     try {
       await addLesson({ variables });
@@ -186,7 +189,7 @@ export function AddLessons() {
           value={name.value}
           label='Name'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setName)}
+          onChange={(e) => handleOnChange(e.target.value, setName)}
           onBlur={(e) => handleOnBlur(e.target.value, setName)}
           error={name.isEmpty}
           helperText={
@@ -202,7 +205,7 @@ export function AddLessons() {
           value={body.value}
           label='Body'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setBody)}
+          onChange={(e) => handleOnChange(e.target.value, setBody)}
           onBlur={(e) => handleOnBlur(e.target.value, setBody)}
           error={body.isEmpty}
           helperText={
@@ -217,7 +220,7 @@ export function AddLessons() {
           value={media.value}
           label='Media'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setMedia)}
+          onChange={(e) => handleOnChange(e.target.value, setMedia)}
         />
         <TextField
           required
@@ -225,9 +228,9 @@ export function AddLessons() {
           id='duration'
           name='duration'
           value={duration.value}
-          label='Duration'
+          label='Duration (minutes)'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setDuration)}
+          onChange={(e) => handleOnChange(e.target.value, setDuration)}
           onBlur={(e) => handleOnBlur(e.target.value, setDuration)}
           error={duration.isEmpty}
           helperText={
@@ -246,7 +249,11 @@ export function AddLessons() {
       <Typography component='h2' variant='h6'>
         Lessons in This Tutorial
       </Typography>
-      <Box>{lessonList(lessons)}</Box>
+      {
+        lessons && lessons.length > 0 ? 
+          <Box>{lessonList(lessons)}</Box> :
+          <p>No lessons yet! Add one above.</p>
+      }
     </div>
   );
 }
