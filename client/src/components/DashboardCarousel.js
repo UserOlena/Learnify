@@ -46,24 +46,47 @@ const useStyles = makeStyles((theme) => ({
   card: {
     boxShadow: 'none',
     textAlign: 'left',
+    width: '100%',
   },
 
   cardContent: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     backgroundColor: 'var(--main-bg-color)',
-    padding: '1em 0 0 0 !important',
+    padding: '1em 0 1em 0 !important',
   },
 
   p: {
     margin: 0,
     fontWeight: 'bold',
-    textShadow: '1px 1px 1px #999796',
+    textShadow: '1px 1px 1px #cfccca',
   },
 
   actionBox: {
     display: 'flex',
     justifyContent: 'space-between',
+    position: 'relative',
+    bottom: 0
   },
+
+  carouselItem: {
+    width: '16rem !important',
+    margin: '0 1em 1em 0',
+    display: 'block'
+  },
+
+  img: {
+    height: '10rem',
+    border: 'solid 1px #d1d7dc',
+    // boxShadow: '10px 8px 5px rgba(0,0,0,0.9),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12) !important',
+    boxShadow:
+      'inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3) !important',
+  },
+
+  descriptionBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between !important',
+  }
 }));
 
 export function DashboardCarousel(props) {
@@ -106,7 +129,7 @@ export function DashboardCarousel(props) {
       removeArrowOnDeviceType={['tablet', 'mobile']}
       // deviceType={this.props.deviceType}
       dotListClass='custom-dot-list-style'
-      itemClass='carousel-item-padding-40-px'
+      itemClass={`${classes.carouselItem}`}
     >
       {props.items.map(({ id, overview, thumbnail, title }, index) => {
         return (
@@ -118,23 +141,29 @@ export function DashboardCarousel(props) {
               boxShadow: 'none',
             }}
             style={{}}
-            className={`${classes.card}`}
+            className={`${classes.card} `}
           >
             <CardMedia
               component='img'
-              alt=''
-              height='180'
+              alt='tutorial image'
               image={thumbnail}
+              className={`${classes.img}`}
             />
-            <CardContent className={`${classes.cardContent}`}>
-              <p className={`${classes.p}`}>{title}</p>
-            </CardContent>
-            <CardActions className={` ${classes.cardContent}`}>
-              <IconButton aria-label='add to favorites' >
-                <FavoriteIcon />
-              </IconButton>
-              <Button size='small'>Learn More</Button>
-            </CardActions>
+            <div
+                className={`${classes.descriptionBox}`}
+            >
+              <CardContent className={`${classes.cardContent}`}>
+                <p className={`${classes.p}`}>{title}</p>
+              </CardContent>
+              <CardActions
+                className={` ${classes.cardContent} ${classes.actionBox}`}
+              >
+                <IconButton aria-label='add to favorites'>
+                  <FavoriteIcon />
+                </IconButton>
+                <Button size='small'>Learn More</Button>
+              </CardActions>
+            </div>
           </Card>
         );
       })}
