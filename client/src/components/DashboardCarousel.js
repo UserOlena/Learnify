@@ -11,7 +11,6 @@ import {
   Button,
   IconButton,
 } from '@mui/material';
-import '../style/DashboardCarousel.css';
 
 const useStyles = makeStyles((theme) => ({
   pushLeft: {
@@ -42,36 +41,35 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 'calc(15px + (80 - 15) * ((100vw - 600px) / (1200 - 600)))',
     },
   },
+  //   kghk
+
+  containerClass: {
+    display: 'flex',
+  },
+
+  carouselItem: {
+    width: '16rem !important',
+    margin: '0 1em 1em 0',
+    display: 'block',
+    height: 'inherit',
+  },
 
   card: {
+    backgroundColor: 'var(--main-bg-color) !important',
     boxShadow: 'none',
     textAlign: 'left',
     width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
 
   cardContent: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     backgroundColor: 'var(--main-bg-color)',
     padding: '1em 0 1em 0 !important',
-  },
-
-  p: {
-    margin: 0,
-    fontWeight: 'bold',
-    textShadow: '1px 1px 1px #cfccca',
-  },
-
-  actionBox: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    position: 'relative',
-    bottom: 0
-  },
-
-  carouselItem: {
-    width: '16rem !important',
-    margin: '0 1em 1em 0',
-    display: 'block'
+    
   },
 
   img: {
@@ -86,7 +84,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between !important',
-  }
+    margin: 'auto 0',
+  },
+
+  p: {
+    margin: 0,
+    fontWeight: 'bold',
+    textShadow: '1px 1px 1px #cfccca',
+  },
+
+  actionBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    position: 'relative',
+    bottom: 0,
+  },
 }));
 
 export function DashboardCarousel(props) {
@@ -125,10 +137,10 @@ export function DashboardCarousel(props) {
       keyBoardControl={true}
       customTransition='all .5'
       transitionDuration={500}
-      containerClass='carousel-container'
       removeArrowOnDeviceType={['tablet', 'mobile']}
       // deviceType={this.props.deviceType}
       dotListClass='custom-dot-list-style'
+      containerClass={`'carousel-container' ${classes.containerClass} `}
       itemClass={`${classes.carouselItem}`}
     >
       {props.items.map(({ id, overview, thumbnail, title }, index) => {
@@ -143,27 +155,26 @@ export function DashboardCarousel(props) {
             style={{}}
             className={`${classes.card} `}
           >
+            <div>
             <CardMedia
               component='img'
               alt='tutorial image'
               image={thumbnail}
               className={`${classes.img}`}
             />
-            <div
-                className={`${classes.descriptionBox}`}
-            >
-              <CardContent className={`${classes.cardContent}`}>
-                <p className={`${classes.p}`}>{title}</p>
-              </CardContent>
-              <CardActions
-                className={` ${classes.cardContent} ${classes.actionBox}`}
-              >
-                <IconButton aria-label='add to favorites'>
-                  <FavoriteIcon />
-                </IconButton>
-                <Button size='small'>Learn More</Button>
-              </CardActions>
+
+            <CardContent className={`${classes.cardContent}`}>
+              <p className={`${classes.p}`}>{title}</p>
+            </CardContent>
             </div>
+            <CardActions
+              className={` ${classes.cardContent} ${classes.actionBox}`}
+            >
+              <IconButton aria-label='add to favorites'>
+                <FavoriteIcon />
+              </IconButton>
+              <Button size='small'>Learn More</Button>
+            </CardActions>
           </Card>
         );
       })}
