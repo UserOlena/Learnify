@@ -29,6 +29,9 @@ export const GET_TUTORIAL = gql`
       lessons {
         _id
         name
+        body
+        media
+        duration
       }
       reviews {
         _id

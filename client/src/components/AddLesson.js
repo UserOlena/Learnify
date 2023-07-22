@@ -7,16 +7,38 @@ import {
   Box,
   Button, 
   TextField, 
+  Typography,
 } from '@mui/material';
+import {
+  Chip,
+  makeStyles,
+} from '@material-ui/core';
 
 // Imports for interacting with the db
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { ADD_LESSON } from '../utils/mutations/lessonMutations';
+import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
 // Imports for other utilities
 import { isEmptyInput } from '../utils/validation';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: '3%',
+  },
+  title: {
+    margin: '3%',
+  },
+  chip: {
+    margin: 2,
+    ...theme.typography.button,
+    backgroundColor: '#98b7f5',
+  },
+}));
+
 export function AddLesson() {
+  const classes = useStyles();
+
   // Set default state values
   const inputDefaultValues = {
     value: '',
@@ -30,10 +52,53 @@ export function AddLesson() {
   const [duration, setDuration] = useState(inputDefaultValues);
 
   // Set up mutation to add the tutorial to the db
-  const [addLesson, { error }] = useMutation(ADD_LESSON);
+  const [addLesson, { error: lessonError }] = useMutation(ADD_LESSON);
 
   // Get tutorial ID from URL wildcard
   const { tutorialId } = useParams();
+
+  // Set up query to get the tutorial from the db
+  const { loading, error, data } = useQuery(GET_TUTORIAL, {
+    variables: { id: tutorialId },
+  });
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  const tutorial = data.tutorial;
+  const { categories, lessons } = tutorial;
+  
+  //map categories array for rendering
+  function categoryList(categories) {
+    return (
+      <>
+        {categories.map((category) => (
+          <Chip
+            key={category.id}
+            label={category.category}
+            className={classes.chip}
+          />
+        ))}
+      </>
+    );
+  }
+
+  //map lessons array for rendering
+  function lessonList(lessons) {
+    return (
+      <>
+        {lessons.map((lesson) => (
+          <div>
+            <p>Name: {lesson.name}</p>
+            <p>Body: {lesson.body}</p>
+            <p>Media: {lesson.media}</p>
+            <p>Duration: {lesson.duration}</p>
+          </div>
+        ))}
+      </>
+    );
+  }
 
   // When form is submitted, add the lesson to the db
   async function handleSubmit(e) {
@@ -49,6 +114,12 @@ export function AddLesson() {
 
     try {
       await addLesson({ variables });
+
+      // Reset all of the form fields after successful submission
+      resetFormFields(setName);
+      resetFormFields(setBody);
+      resetFormFields(setMedia);
+      resetFormFields(setDuration);
     } catch (error) {
       console.log(error);
     }
@@ -87,8 +158,20 @@ export function AddLesson() {
     }
   }
 
+  // Function to reset the form fields to their default values
+  function resetFormFields(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      value: '',
+    }));
+  }
+
   return (
     <div>
+      <Typography component='h2' variant='h6'>
+        Tutorial: {tutorial.title}
+      </Typography>
+      <Box direction='row'>{categoryList(categories)}</Box>
       <Box
         component='form'
         noValidate
@@ -100,6 +183,7 @@ export function AddLesson() {
           fullWidth
           id='name'
           name='name'
+          value={name.value}
           label='Name'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value.trim(), setName)}
@@ -113,6 +197,7 @@ export function AddLesson() {
           fullWidth
           id='body'
           name='body'
+          value={body.value}
           label='Body'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value.trim(), setBody)}
@@ -127,6 +212,7 @@ export function AddLesson() {
           fullWidth
           id='media'
           name='media'
+          value={media.value}
           label='Media'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value.trim(), setMedia)}
@@ -136,6 +222,7 @@ export function AddLesson() {
           fullWidth
           id='duration'
           name='duration'
+          value={duration.value}
           label='Duration'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value.trim(), setDuration)}
@@ -155,6 +242,10 @@ export function AddLesson() {
           Save Lesson
         </Button>
       </Box>
+      <Typography component='h2' variant='h6'>
+        Lessons in This Tutorial
+      </Typography>
+      <Box>{lessonList(lessons)}</Box>
     </div>
   );
 }
