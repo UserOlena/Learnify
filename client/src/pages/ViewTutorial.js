@@ -16,7 +16,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import { ExpandMore, SkipPrevious, SkipNext } from '@material-ui/icons';
 import { Rating } from '@material-ui/lab';
 
 //database-related imports
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 8,
     marginRight: 8,
     ...theme.typography.button,
-    backgroundColor: '#98b7f5',
+    backgroundColor: '#92b4d4',
     fontWeight: 'bold',
   },
   expand: {
@@ -119,7 +119,7 @@ export function ViewTutorial() {
         {reviews.map((review) => (
           <Card
             key={review.id}
-            style={{ backgroundColor: '#dce6f5', margin: 2 }}
+            style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
             <Rating
               name='read-only'
@@ -221,12 +221,16 @@ export function ViewTutorial() {
         </Grid>
       </Container>
       <Divider variant='middle' />
+      <Container >
       <Grid
         container
-        className={classes.info}
         direction='row'
         justifyContent='space-evenly'
         alignItems='center'
+        style={{
+          color: '#283845',
+          margin: '2%',
+        }}
       >
         <Grid
           item
@@ -235,9 +239,8 @@ export function ViewTutorial() {
         >
           <Card
             style={{
-              backgroundColor: '#dce6f5',
-              margin: '5%',
-              border: '1rem solid #6393f2',
+              backgroundColor: '#dae9f7',
+              border: '1rem solid #92b4d4',
             }}
           >
             <CardMedia
@@ -279,7 +282,7 @@ export function ViewTutorial() {
         >
           <Card
             style={{
-              backgroundColor: '#6393f2',
+              backgroundColor: '#92b4d4',
               margin: '5%',
               paddingTop: '3%',
             }}
@@ -292,13 +295,37 @@ export function ViewTutorial() {
             </Typography>
 
             <Card
-              style={{ backgroundColor: '#6393f2', margin: 3, padding: 3 }}
+              style={{ backgroundColor: '#92b4d4', margin: 3, padding: 3 }}
             >
               {reviewList(reviews)}
             </Card>
           </Card>
         </Grid>
       </Grid>
+      </Container>
+      <Container>
+        <Grid 
+        container 
+        direction='row'
+        justifyContent='space-around'
+        style={{
+          color: '#283845',
+          margin: '2%',
+        }}
+        >
+          <Grid item>
+          <SkipPrevious/>
+          </Grid>
+          <Grid item>
+            <Card>
+
+            </Card>
+          </Grid>
+          <Grid item>
+          <SkipNext/>
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 }
