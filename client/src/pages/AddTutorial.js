@@ -62,7 +62,7 @@ const MenuProps = {
 function getStyles(category, selectedCategories, theme) {
   const selectedCategoryNames = selectedCategories.map((selectedCategory) => {
     return selectedCategory.category;
-  })
+  });
   return {
     fontWeight:
       selectedCategoryNames.indexOf(category) === -1
@@ -183,16 +183,18 @@ export function AddTutorial() {
         component='form'
         noValidate
         onSubmit={handleSubmit}
-        sx={{ 
+        sx={{
           mt: 1,
           ml: 'auto',
           mr: 'auto',
           width: '80%',
           maxWidth: '800px',
-         }}
+        }}
       >
-        <Typography component='p' >
-          Fill in the fields below to start creating your tutorial. Upon clicking the save button, you will be taken to a page where you can add your lessons to the tutorial.
+        <Typography component='p'>
+          Fill in the fields below to start creating your tutorial. Upon
+          clicking the save button, you will be taken to a page where you can
+          add your lessons to the tutorial.
         </Typography>
         <TextField
           required
@@ -232,9 +234,7 @@ export function AddTutorial() {
           helperText={
             overview.isEmpty && 'Please enter an overview of your tutorial'
           }
-          onFocus={() => 
-            handleOnFocus(overview, setOverview)
-          }
+          onFocus={() => handleOnFocus(overview, setOverview)}
         />
         <TextField
           required
@@ -312,7 +312,8 @@ export function AddTutorial() {
         </FormControl>
         {loggedOut && (
           <Typography color='error' component='p'>
-            You must be signed in to submit a tutorial. <Link to='/signin'>Sign In</Link>
+            You must be signed in to submit a tutorial. 
+            <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
         <Button 
