@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 2,
   },
 }));
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -62,6 +63,7 @@ function getStyles(category, selectedCategories, theme) {
         : theme.typography.fontWeightBold,
   };
 }
+
 export function AddTutorial() {
   const classes = useStyles();
   const theme = useTheme();
@@ -72,6 +74,7 @@ export function AddTutorial() {
     isEmpty: false,
     isValid: true,
   };
+
   const [title, setTitle] = useState(inputDefaultValues);
   const [overview, setOverview] = useState(inputDefaultValues);
   const [thumbnail, setThumbnail] = useState(inputDefaultValues);
@@ -128,12 +131,12 @@ export function AddTutorial() {
 
   // set a new value to the state.value associated to the field that invokes this function
   function handleOnChange(inputValue, setState) {
-    console.log('inputValue', inputValue);
     setState((otherValues) => ({
       ...otherValues,
       value: inputValue,
     }));
   }
+
   // verify that the input is non-blank
   // set the associated state to display the appropriate error message based on the validation result
   function handleOnBlur(inputValue, setState) {
@@ -146,6 +149,7 @@ export function AddTutorial() {
       return;
     }
   }
+
   // update the state to clear the error when the user focuses on that field
   function handleOnFocus(state, setState) {
     // change state to remove the error message on Focus if previously input was empty
@@ -157,6 +161,7 @@ export function AddTutorial() {
       return;
     }
   }
+
   return (
     <div>
       <Typography component='h1' variant='h5'>
@@ -298,7 +303,5 @@ export function AddTutorial() {
     </div>
   );
 }
+
 export default AddTutorial;
-
-
-
