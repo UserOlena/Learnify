@@ -292,7 +292,7 @@ export function ViewTutorial() {
             </Typography>
 
             <Card
-              style={{ backgroundColor: '#6393f2', margin: 3, padding: 10 }}
+              style={{ backgroundColor: '#6393f2', margin: 3, padding: 3 }}
             >
               {reviewList(reviews)}
             </Card>
