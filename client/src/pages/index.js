@@ -6,4 +6,4 @@ export * from './Payment';
 export * from './SignIn';
 export * from './SignUp';
 export * from './ViewTutorial';
-
+export * from './Dashboard';
