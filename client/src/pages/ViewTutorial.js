@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 
 //import Learnify components
 import { ViewLesson } from '../components';
@@ -27,14 +27,13 @@ import { Rating } from '@material-ui/lab';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '3%',
   },
   button: {
     background: '#f7d148',
-    '&:hover': { background: '#f2bf07'}
+    '&:hover': { background: '#f2bf07' },
   },
   chip: {
     marginLeft: 8,
@@ -57,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
 export function ViewTutorial() {
   const classes = useStyles();
+  //get current URL to pass to lessonList function
+  const location = useLocation();
 
   const [expanded, setExpanded] = useState(false);
   //function to handle click on expand icon and update State
@@ -106,12 +107,12 @@ export function ViewTutorial() {
   }
 
   //map lessons array for use on/around line 196
-  function lessonList(lessons) {
+  function lessonList(lessons, location) {
     return (
       <>
-        {lessons.map((lesson) => (
+        {lessons.map((lesson, location) => (
           <Link
-            to={`/lesson/${lesson.id}`}
+            to={`${location}/lesson/${lesson._id}`}
             key={lesson._id}
           >
             <p>{lesson.name}</p>
@@ -217,14 +218,12 @@ export function ViewTutorial() {
           <Grid
             item
             xs={10}
-            direction='row'
           >
             <Typography variant='body1'>{overview}</Typography>
           </Grid>
           <Grid
             item
             xs={10}
-            direction='row'
           >
             {categoryList(categories)}
           </Grid>
@@ -328,17 +327,21 @@ export function ViewTutorial() {
               variant='contained'
               className={classes.button}
               startIcon={<SkipPrevious fontSize='large' />}
-              >Previous Lesson</Button>
+            >
+              Previous Lesson
+            </Button>
           </Grid>
           <Grid item>
             <ViewLesson />
           </Grid>
           <Grid item>
-          <Button
+            <Button
               variant='contained'
               className={classes.button}
               endIcon={<SkipNext fontSize='large' />}
-              >Next Lesson</Button>
+            >
+              Next Lesson
+            </Button>
           </Grid>
         </Grid>
       </Container>

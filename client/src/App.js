@@ -1,9 +1,5 @@
 // React Router imports
-import { 
-  BrowserRouter as Router, 
-  Routes, 
-  Route 
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Apollo server imports
 import {
@@ -49,7 +45,7 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <div 
+    <div
       className='App'
       style={{
         height: '100%',
@@ -80,10 +76,7 @@ function App() {
               path='/tutorial/:tutorialId'
               element={<ViewTutorial />}
             ></Route>
-            <Route
-              path='/tutorials/:tutorialId/lesson/:lessonId'
-              element={<AddTutorial />}
-            ></Route>
+
             <Route
               path='/tutorials/new'
               element={<AddTutorial />}
@@ -99,6 +92,10 @@ function App() {
             <Route
               path='/careers'
               element={<Careers />}
+            ></Route>
+            <Route
+              path='/tutorial/:tutorialId/:index/lesson/:lessonId'
+              element={<ViewTutorial />}
             ></Route>
           </Routes>
         </Router>
