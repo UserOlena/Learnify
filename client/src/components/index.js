@@ -8,13 +8,13 @@ import Recommended from './Recommended';
 import TutorialContext from './TutorialContextProvider';
 import ViewLesson from './ViewLesson';
 
-export { 
-  AddLesson, 
-  Carousel, 
-  Categories, 
+export {
+  AddLesson,
+  Carousel,
+  Categories,
   CheckoutForm,
-  Footer, 
-  Navbar, 
+  Footer,
+  Navbar,
   Recommended,
   TutorialContext,
   ViewLesson,

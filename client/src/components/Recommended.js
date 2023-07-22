@@ -8,7 +8,6 @@ import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { TutorialContext } from '../components';
 
-
 const useStyles = makeStyles((theme) => ({
   recommendations: {
     margin: theme.spacing(2, 0),

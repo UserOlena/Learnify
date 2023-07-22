@@ -22,7 +22,6 @@ import { GET_LESSON } from '../utils/queries/lessonQueries';
 const useStyles = makeStyles({
   root: {
     // maxWidth: 345,
-   
   },
 });
 
@@ -54,47 +53,50 @@ export function ViewLesson() {
   const duration = lesson.duration;
 
   return (
-    <Container >
+    <Container>
       <Grid
         container
         justifyContent='center'
       >
-        <Grid item xs={10}>
-        <Card className={classes.root} >
-          <CardActionArea>
-            <CardMedia
-              component='img'
-              alt='User-provided image'
-              height='140'
-              image={media}
-              title='Lesson Media'
-            />
-            <CardContent>
-              <Typography
-                gutterBottom
-                variant='h5'
-                component='h2'
-              >
-                {name}
-              </Typography>
-              <Typography
-                gutterBottom
-                variant='body2'
-                color='textSecondary'
-                component='p'
-              >
-                Time: {duration} minutes
-              </Typography>
-              <Typography
-                variant='body2'
-                color='textSecondary'
-                component='p'
-              >
-                {body}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        <Grid
+          item
+          xs={10}
+        >
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                component='img'
+                alt='User-provided image'
+                height='140'
+                image={media}
+                title='Lesson Media'
+              />
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant='h5'
+                  component='h2'
+                >
+                  {name}
+                </Typography>
+                <Typography
+                  gutterBottom
+                  variant='body2'
+                  color='textSecondary'
+                  component='p'
+                >
+                  Time: {duration} minutes
+                </Typography>
+                <Typography
+                  variant='body2'
+                  color='textSecondary'
+                  component='p'
+                >
+                  {body}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
         </Grid>
       </Grid>
     </Container>
