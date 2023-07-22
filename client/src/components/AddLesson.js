@@ -1,5 +1,6 @@
-// React imports
+// React / router imports
 import { React, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 // Material UI imports
 import { 
@@ -31,13 +32,15 @@ export function AddLesson() {
   // Set up mutation to add the tutorial to the db
   const [addLesson, { error }] = useMutation(ADD_LESSON);
 
+  // Get tutorial ID from URL wildcard
+  const { tutorialId } = useParams();
+
   // When form is submitted, add the lesson to the db
   async function handleSubmit(e) {
     e.preventDefault();
 
     const variables = {
-      // Temporarily hard-coding tutorialId
-      tutorialId: '64bafa1562eda466115edd33',
+      tutorialId,
       name: name.value,
       body: body.value,
       media: media.value,
