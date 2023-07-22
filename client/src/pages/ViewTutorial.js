@@ -208,6 +208,7 @@ export function ViewTutorial() {
             margin: '2%',
           }}
         >
+          {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
           <Grid
             item
             xs={10}
