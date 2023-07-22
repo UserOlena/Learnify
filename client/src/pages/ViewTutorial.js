@@ -16,6 +16,7 @@ import {
   Container,
   Divider,
   Grid,
+
   IconButton,
   makeStyles,
   Typography,
@@ -62,12 +63,17 @@ export function ViewTutorial() {
 
   //declare State variables
   const [expanded, setExpanded] = useState(false);
-  
+  const [isVisible, setIsVisible] = useState(false);
 
   //function to handle click on expand icon and update State
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  //function to toggle visibility of lesson card container
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  }
 
   //get ID from URL and get associated {tutorial} from db
   const { tutorialId } = useParams();
@@ -112,13 +118,14 @@ export function ViewTutorial() {
   }
   //
   //map lessons array for use in list on/around line 196
-  function lessonList(lessons, location) {
+  function lessonList(lessons, location) { 
     return (
       <>
         {lessons.map((lesson, location) => (
           <Link
             to={`${location}/lesson/${lesson._id}`}
             key={lesson._id}
+            onClick={toggleVisibility}
           >
             <p>{lesson.name}</p>
           </Link>
@@ -241,6 +248,7 @@ export function ViewTutorial() {
           direction='row'
           justifyContent='space-evenly'
           alignItems='center'
+          spacing={2}
           style={{
             color: '#283845',
             margin: '2%',
@@ -297,7 +305,6 @@ export function ViewTutorial() {
             <Card
               style={{
                 backgroundColor: '#92b4d4',
-                margin: '5%',
                 paddingTop: '3%',
               }}
             >
@@ -317,10 +324,13 @@ export function ViewTutorial() {
           </Grid>
         </Grid>
       </Container>
-      <Container>
+              {isVisible
+              ?
+      <Container  toggleVisibility={toggleVisibility}>
         <Grid
           container
           justifyContent='space-around'
+          spacing={2}
           style={{
             color: '#283845',
             margin: '2%',
@@ -353,6 +363,8 @@ export function ViewTutorial() {
         </Grid>
         <ViewLesson />
       </Container>
+      : null}
+    
     </div>
   );
 }

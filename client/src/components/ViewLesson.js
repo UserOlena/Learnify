@@ -21,7 +21,8 @@ import { GET_LESSON } from '../utils/queries/lessonQueries';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    // maxWidth: 345,
+   
   },
 });
 
@@ -53,12 +54,13 @@ export function ViewLesson() {
   const duration = lesson.duration;
 
   return (
-    <Container>
+    <Container >
       <Grid
         container
         justifyContent='center'
       >
-        <Card className={classes.root}>
+        <Grid item xs={10}>
+        <Card className={classes.root} >
           <CardActionArea>
             <CardMedia
               component='img'
@@ -93,6 +95,7 @@ export function ViewLesson() {
             </CardContent>
           </CardActionArea>
         </Card>
+        </Grid>
       </Grid>
     </Container>
   );
