@@ -97,14 +97,11 @@ export function ViewTutorial() {
     return <p>Tutorial not found</p>;
   }
   // //destructure fields from tutorial object
-  const { teacher } = tutorial;
+  const { teacher, categories, lessons, overview, reviews } = tutorial;
   const username = teacher?.[0]?.username;
-  const overview = tutorial.overview;
-  const { categories } = tutorial;
   const duration = tutorial.totalDuration;
-  const { lessons } = tutorial;
   const numberofLessons = tutorial.lessons.length;
-  const { reviews } = tutorial;
+  
 
   //map categories array for use on/around 180
   function categoryList(categories) {
