@@ -28,7 +28,17 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <div className='App'>
+    <div 
+      className='App'
+      style={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <ApolloProvider client={client}>
         <Router>
           <Navbar />

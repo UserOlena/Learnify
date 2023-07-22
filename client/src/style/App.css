@@ -1,8 +1,7 @@
 :root {
   --primary-color: #282c34;
   --secondary-color: #61dafb;
-  background-color: #FAF0E6;
-
+  background-color: #e8e8e8;
 }
 
 .App {
@@ -18,6 +17,3 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-
-
