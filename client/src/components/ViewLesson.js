@@ -27,9 +27,6 @@ const useStyles = makeStyles({
 
 export function ViewLesson() {
   const classes = useStyles();
-  
-
- 
 
   //get index and ID from URL and get associated lesson data from db
   const { index, lessonId } = useParams();
@@ -44,55 +41,59 @@ export function ViewLesson() {
     return <p>Error loading your lesson</p>;
   }
 
+  const lesson = data?.lesson;
+  if (!lesson) {
+    return <p>Lesson not found</p>;
+  }
+
+  //destructure fields from lesson object
+  const name = lesson.name;
+  const body = lesson.body;
+  const media = lesson.media;
+  const duration = lesson.duration;
+
   return (
     <Container>
-    <Grid
-      container
-      justifyContent='center'
-    >
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia
-            component='img'
-            alt='Contemplative Reptile'
-            height='140'
-            image='/static/images/cards/contemplative-reptile.jpg'
-            title='Contemplative Reptile'
-          />
-          <CardContent>
-            <Typography
-              gutterBottom
-              variant='h5'
-              component='h2'
-            >
-              Lizard
-            </Typography>
-            <Typography
-              variant='body2'
-              color='textSecondary'
-              component='p'
-            >
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button
-            size='small'
-            color='primary'
-          >
-            Share
-          </Button>
-          <Button
-            size='small'
-            color='primary'
-          >
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
+      <Grid
+        container
+        justifyContent='center'
+      >
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              component='img'
+              alt='User-provided image'
+              height='140'
+              image={media}
+              title='Lesson Media'
+            />
+            <CardContent>
+              <Typography
+                gutterBottom
+                variant='h5'
+                component='h2'
+              >
+                {name}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant='body2'
+                color='textSecondary'
+                component='p'
+              >
+                Time: {duration} minutes
+              </Typography>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                component='p'
+              >
+                {body}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
     </Container>
   );
 }
