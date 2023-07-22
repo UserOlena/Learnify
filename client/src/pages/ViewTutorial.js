@@ -7,7 +7,7 @@ import { ViewLesson } from '../components';
 //Material-UI imports
 import clsx from 'clsx';
 import {
-  Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -27,9 +27,14 @@ import { Rating } from '@material-ui/lab';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '3%',
+  },
+  button: {
+    background: '#f7d148',
+    '&:hover': { background: '#f2bf07'}
   },
   chip: {
     marginLeft: 8,
@@ -319,13 +324,21 @@ export function ViewTutorial() {
           }}
         >
           <Grid item>
-            <SkipPrevious />
+            <Button
+              variant='contained'
+              className={classes.button}
+              startIcon={<SkipPrevious fontSize='large' />}
+              >Previous Lesson</Button>
           </Grid>
           <Grid item>
             <ViewLesson />
           </Grid>
           <Grid item>
-            <SkipNext />
+          <Button
+              variant='contained'
+              className={classes.button}
+              endIcon={<SkipNext fontSize='large' />}
+              >Next Lesson</Button>
           </Grid>
         </Grid>
       </Container>
