@@ -97,7 +97,7 @@ function App() {
                 element={<Careers />}
               ></Route>
               <Route
-                path='/tutorial/:tutorialId/:index/lesson/:lessonId'
+                path='/tutorial/:tutorialId/lesson/:lessonId'
                 element={<ViewTutorial />}
               ></Route>
             </Routes>

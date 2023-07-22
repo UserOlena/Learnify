@@ -127,7 +127,7 @@ export function ViewTutorial() {
       <>
         {lessons.map((lesson) => (
           <Link
-            to={`${tutorialId}/lesson/${lesson._id}`}
+            to={`/tutorial/${tutorialId}/lesson/${lesson._id}`}
             key={lesson._id}
             onClick={toggleVisibility}
           >
