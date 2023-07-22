@@ -57,9 +57,9 @@ const useStyles = makeStyles((theme) => ({
 
 export function ViewTutorial() {
   const classes = useStyles();
-  
+
   //declare tutorialId from TutorialContext
-  const { tutorialId }= useContext(TutorialContext);
+  const { tutorialId } = useContext(TutorialContext);
   console.log(tutorialId);
 
   //declare State variables
@@ -339,7 +339,7 @@ export function ViewTutorial() {
               margin: '2%',
             }}
           >
-            <Grid
+            {/* <Grid
               item
               xs={5}
             >
@@ -363,8 +363,14 @@ export function ViewTutorial() {
                 Next Lesson
               </Button>
             </Grid>
+           */}
+            <Grid
+              item
+              xs={10}
+            >
+              <ViewLesson />
+            </Grid>
           </Grid>
-          <ViewLesson />
         </Container>
       ) : null}
     </div>
