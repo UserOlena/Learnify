@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 //import Learnify components
 import { ViewLesson } from '../components';
@@ -16,7 +16,6 @@ import {
   Container,
   Divider,
   Grid,
-
   IconButton,
   makeStyles,
   Typography,
@@ -58,12 +57,9 @@ const useStyles = makeStyles((theme) => ({
 export function ViewTutorial() {
   const classes = useStyles();
 
-  //get current URL to pass to lessonList function
-  const location = useLocation();
-
   //declare State variables
   const [expanded, setExpanded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
 
   //function to handle click on expand icon and update State
   const handleExpandClick = () => {
@@ -72,8 +68,13 @@ export function ViewTutorial() {
 
   //function to toggle visibility of lesson card container
   const toggleVisibility = () => {
-    setIsVisible(!isVisible);
-  }
+    if (isHidden) {
+      setIsHidden(!isHidden);
+      setExpanded(!expanded);
+    } else {
+      return;
+    }
+  };
 
   //get ID from URL and get associated {tutorial} from db
   const { tutorialId } = useParams();
@@ -101,6 +102,7 @@ export function ViewTutorial() {
   const { lessons } = tutorial;
   const numberofLessons = tutorial.lessons.length;
   const { reviews } = tutorial;
+  const tutorialURL = `tutorial/${tutorialId}`;
 
   //map categories array for use on/around 180
   function categoryList(categories) {
@@ -118,12 +120,12 @@ export function ViewTutorial() {
   }
   //
   //map lessons array for use in list on/around line 196
-  function lessonList(lessons, location) { 
+  function lessonList(lessons, tutorialURL) {
     return (
       <>
-        {lessons.map((lesson, location) => (
+        {lessons.map((lesson) => (
           <Link
-            to={`${location}/lesson/${lesson._id}`}
+            to={`${tutorialURL}/lesson/${lesson._id}`}
             key={lesson._id}
             onClick={toggleVisibility}
           >
@@ -324,47 +326,45 @@ export function ViewTutorial() {
           </Grid>
         </Grid>
       </Container>
-              {isVisible
-              ?
-      <Container  toggleVisibility={toggleVisibility}>
-        <Grid
-          container
-          justifyContent='space-around'
-          spacing={2}
-          style={{
-            color: '#283845',
-            margin: '2%',
-          }}
-        >
+      {!isHidden ? (
+        <Container toggleVisibility={toggleVisibility}>
           <Grid
-            item
-            xs={5}
+            container
+            justifyContent='space-around'
+            spacing={2}
+            style={{
+              color: '#283845',
+              margin: '2%',
+            }}
           >
-            <Button
-              variant='contained'
-              className={classes.button}
-              startIcon={<SkipPrevious fontSize='large' />}
+            <Grid
+              item
+              xs={5}
             >
-              Previous Lesson
-            </Button>
-          </Grid>
-          <Grid
-            item
-            xs={5}
-          >
-            <Button
-              variant='contained'
-              className={classes.button}
-              endIcon={<SkipNext fontSize='large' />}
+              <Button
+                variant='contained'
+                className={classes.button}
+                startIcon={<SkipPrevious fontSize='large' />}
+              >
+                Previous Lesson
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={5}
             >
-              Next Lesson
-            </Button>
+              <Button
+                variant='contained'
+                className={classes.button}
+                endIcon={<SkipNext fontSize='large' />}
+              >
+                Next Lesson
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-        <ViewLesson />
-      </Container>
-      : null}
-    
+          <ViewLesson />
+        </Container>
+      ) : null}
     </div>
   );
 }
