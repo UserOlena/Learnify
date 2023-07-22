@@ -2,15 +2,16 @@ import { React, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
   Card,
   CardActions,
   CardContent,
   CardMedia,
   Button,
+  IconButton,
 } from '@mui/material';
 import '../style/DashboardCarousel.css';
-
 
 const useStyles = makeStyles((theme) => ({
   pushLeft: {
@@ -45,19 +46,24 @@ const useStyles = makeStyles((theme) => ({
   card: {
     boxShadow: 'none',
     textAlign: 'left',
-},
+  },
 
-cardContent: {
+  cardContent: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     backgroundColor: 'var(--main-bg-color)',
-    padding: '1em 0 0 0 !important'
-},
+    padding: '1em 0 0 0 !important',
+  },
 
-p: {
+  p: {
     margin: 0,
-},
+    fontWeight: 'bold',
+    textShadow: '1px 1px 1px #999796',
+  },
 
-
+  actionBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 }));
 
 export function DashboardCarousel(props) {
@@ -90,7 +96,7 @@ export function DashboardCarousel(props) {
       responsive={responsive}
       ssr={true} // means to render carousel on server-side.
       infinite={true}
-    //   autoPlay={true}
+      //   autoPlay={true}
       autoPlaySpeed={10000}
       shouldResetAutoplay={true}
       keyBoardControl={true}
@@ -109,10 +115,9 @@ export function DashboardCarousel(props) {
             value={id}
             sx={{
               maxWidth: 285,
-              boxShadow: 'none'
+              boxShadow: 'none',
             }}
-            style={{
-            }}
+            style={{}}
             className={`${classes.card}`}
           >
             <CardMedia
@@ -121,21 +126,14 @@ export function DashboardCarousel(props) {
               height='180'
               image={thumbnail}
             />
-            <CardContent
-              className={`${classes.cardContent}`}
-            >
-              <p
-                className={`${classes.p}`}
-              >
-                {title}
-              </p>
+            <CardContent className={`${classes.cardContent}`}>
+              <p className={`${classes.p}`}>{title}</p>
             </CardContent>
-            <CardActions
-                className={` ${classes.cardContent}`}
-            >
-
-              {/* <Button size='small'>Share</Button>
-              <Button size='small'>Learn More</Button> */}
+            <CardActions className={` ${classes.cardContent}`}>
+              <IconButton aria-label='add to favorites' >
+                <FavoriteIcon />
+              </IconButton>
+              <Button size='small'>Learn More</Button>
             </CardActions>
           </Card>
         );
