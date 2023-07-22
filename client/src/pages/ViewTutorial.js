@@ -1,8 +1,9 @@
-import { React, useState } from 'react';
+import { React, useContext, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 //import Learnify components
 import { ViewLesson } from '../components';
+import { TutorialContext } from '../components';
 
 //Material-UI imports
 import clsx from 'clsx';
@@ -56,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
 
 export function ViewTutorial() {
   const classes = useStyles();
+  
+  //declare tutorialId from TutorialContext
+  const { tutorialId }= useContext(TutorialContext);
+  console.log(tutorialId);
 
   //declare State variables
   const [expanded, setExpanded] = useState(false);
@@ -70,14 +75,12 @@ export function ViewTutorial() {
   const toggleVisibility = () => {
     if (isHidden) {
       setIsHidden(!isHidden);
-      setExpanded(!expanded);
     } else {
       return;
     }
   };
 
-  //get ID from URL and get associated {tutorial} from db
-  const { tutorialId } = useParams();
+  // get tutorial data and destructure fields to render
   const { loading, err, data } = useQuery(GET_TUTORIAL, {
     variables: { tutorialId: tutorialId },
   });
@@ -93,7 +96,7 @@ export function ViewTutorial() {
   if (!tutorial) {
     return <p>Tutorial not found</p>;
   }
-  //destructure fields from tutorial object
+  // //destructure fields from tutorial object
   const { teacher } = tutorial;
   const username = teacher?.[0]?.username;
   const overview = tutorial.overview;
@@ -102,7 +105,6 @@ export function ViewTutorial() {
   const { lessons } = tutorial;
   const numberofLessons = tutorial.lessons.length;
   const { reviews } = tutorial;
-  const tutorialURL = `tutorial/${tutorialId}`;
 
   //map categories array for use on/around 180
   function categoryList(categories) {
@@ -110,7 +112,7 @@ export function ViewTutorial() {
       <>
         {categories.map((category) => (
           <Chip
-            key={category.id}
+            key={category._id}
             label={category.category}
             className={classes.chip}
           />
@@ -118,14 +120,14 @@ export function ViewTutorial() {
       </>
     );
   }
-  //
+
   //map lessons array for use in list on/around line 196
-  function lessonList(lessons, tutorialURL) {
+  function lessonList(lessons) {
     return (
       <>
         {lessons.map((lesson) => (
           <Link
-            to={`${tutorialURL}/lesson/${lesson._id}`}
+            to={`${tutorialId}/lesson/${lesson._id}`}
             key={lesson._id}
             onClick={toggleVisibility}
           >
@@ -142,7 +144,7 @@ export function ViewTutorial() {
       <>
         {reviews.map((review) => (
           <Card
-            key={review.id}
+            key={review._id}
             style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
             <Rating
