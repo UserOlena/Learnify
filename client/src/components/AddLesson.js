@@ -9,10 +9,7 @@ import {
   TextField, 
   Typography,
 } from '@mui/material';
-import {
-  Chip,
-  makeStyles,
-} from '@material-ui/core';
+import { Chip, makeStyles } from '@material-ui/core';
 
 // Imports for interacting with the db
 import { useMutation, useQuery } from '@apollo/client';
@@ -68,7 +65,7 @@ export function AddLesson() {
 
   const tutorial = data.tutorial;
   const { categories, lessons } = tutorial;
-  
+
   //map categories array for rendering
   function categoryList(categories) {
     return (
@@ -172,10 +169,10 @@ export function AddLesson() {
         Tutorial: {tutorial.title}
       </Typography>
       <Box direction='row'>{categoryList(categories)}</Box>
-      <Box
-        component='form'
-        noValidate
-        onSubmit={handleSubmit}
+      <Box 
+        component='form' 
+        noValidate 
+        onSubmit={handleSubmit} 
         sx={{ mt: 1 }}
       >
         <TextField
@@ -189,7 +186,9 @@ export function AddLesson() {
           onChange={(e) => handleOnChange(e.target.value.trim(), setName)}
           onBlur={(e) => handleOnBlur(e.target.value, setName)}
           error={name.isEmpty}
-          helperText={name.isEmpty && 'Please enter a name for your lesson'}
+          helperText={
+            name.isEmpty && 'Please enter the name of this lesson'
+          }
           onFocus={() => handleOnFocus(name, setName)}
         />
         <TextField
@@ -204,7 +203,7 @@ export function AddLesson() {
           onBlur={(e) => handleOnBlur(e.target.value, setBody)}
           error={body.isEmpty}
           helperText={
-            body.isEmpty && 'Please enter the body of your lesson'
+            body.isEmpty && 'Please enter the body of this lesson'
           }
           onFocus={() => handleOnFocus(body, setBody)}
         />
@@ -229,8 +228,7 @@ export function AddLesson() {
           onBlur={(e) => handleOnBlur(e.target.value, setDuration)}
           error={duration.isEmpty}
           helperText={
-            duration.isEmpty &&
-            'Please enter the duration of this lesson'
+            duration.isEmpty && 'Please enter the time to complete the process(es) in this lesson'
           }
           onFocus={() => handleOnFocus(duration, setDuration)}
         />
