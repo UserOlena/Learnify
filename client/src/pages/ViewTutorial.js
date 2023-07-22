@@ -56,10 +56,14 @@ const useStyles = makeStyles((theme) => ({
 
 export function ViewTutorial() {
   const classes = useStyles();
+
   //get current URL to pass to lessonList function
   const location = useLocation();
 
+  //declare State variables
   const [expanded, setExpanded] = useState(false);
+  
+
   //function to handle click on expand icon and update State
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -89,6 +93,7 @@ export function ViewTutorial() {
   const { categories } = tutorial;
   const duration = tutorial.totalDuration;
   const { lessons } = tutorial;
+  const numberofLessons = tutorial.lessons.length;
   const { reviews } = tutorial;
 
   //map categories array for use on/around 180
@@ -105,8 +110,8 @@ export function ViewTutorial() {
       </>
     );
   }
-
-  //map lessons array for use on/around line 196
+  //
+  //map lessons array for use in list on/around line 196
   function lessonList(lessons, location) {
     return (
       <>
@@ -262,7 +267,7 @@ export function ViewTutorial() {
                   variant='h5'
                   component='h2'
                 >
-                  Lessons
+                  This tutorial has {numberofLessons} lessons:
                   <IconButton
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expanded,
@@ -315,14 +320,16 @@ export function ViewTutorial() {
       <Container>
         <Grid
           container
-          direction='row'
           justifyContent='space-around'
           style={{
             color: '#283845',
             margin: '2%',
           }}
         >
-          <Grid item>
+          <Grid
+            item
+            xs={5}
+          >
             <Button
               variant='contained'
               className={classes.button}
@@ -331,10 +338,10 @@ export function ViewTutorial() {
               Previous Lesson
             </Button>
           </Grid>
-          <Grid item>
-            <ViewLesson />
-          </Grid>
-          <Grid item>
+          <Grid
+            item
+            xs={5}
+          >
             <Button
               variant='contained'
               className={classes.button}
@@ -344,6 +351,7 @@ export function ViewTutorial() {
             </Button>
           </Grid>
         </Grid>
+        <ViewLesson />
       </Container>
     </div>
   );
