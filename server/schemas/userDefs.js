@@ -57,10 +57,11 @@ const userResolvers = {
           const userData = await User.findOne({ _id: context.user._id })
             .select('-__v -password')
             .populate('tutorials');
+          
+          return userData;
         } catch (err) {
           throw new Error(err);
         }
-        return userData;
       }
 
       throw new AuthenticationError('Not logged in');
@@ -88,7 +89,7 @@ const userResolvers = {
         const user = await User.findOne({ email });
 
         if (!user) {
-          throw new AuthenticationError('No User with this email found!');
+          throw new AuthenticationError('No email found!');
         }
         const correctPw = await user.isCorrectPassword(password);
 

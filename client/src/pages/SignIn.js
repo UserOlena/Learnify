@@ -51,14 +51,17 @@ export function SignIn() {
   const inputDefaultValues = {
     value: '',
     isEmpty: false,
-    isValid: true,
-    isExist: true,
+    isVerifiedInput: true,
   };
 
   const [email, setEmail] = useState(inputDefaultValues);
   const [password, setPassword] = useState(inputDefaultValues);
+  const [verifyInput, setVerifyInput] = useState(inputDefaultValues);
 
   const [login, { error, data }] = useMutation(LOGIN_USER);
+
+  const wrongInputErrorMessage =
+    'Sorry, the combination of the email and password you provided does not match our records. Please double-check your credentials and try again.';
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -77,12 +80,39 @@ export function SignIn() {
       });
 
       Auth.login(data.login.token);
-      console.log('user logged in')
-      console.log(data)
+      console.log('user logged in');
+      console.log(data);
     } catch (err) {
-      console.error(err);
+      console.log(err.graphQLErrors[0].message);
+      switch (err.graphQLErrors[0].message) {
+        case 'No email found!':
+        case 'Incorrect Password!':
+          console.log('switch works');
+          changeIsVerifiedInputToFalse(setVerifyInput);
+          break;
+        default:
+          console.log(
+            "Apologies, but it seems like something went wrong on our end. We'll work to fix the issue as soon as possible. Please try again later. Thank you for your understanding."
+          );
+      }
     }
   }
+
+  // call the function when isVerifiedInput state key needs to be changed to FALSE for any state
+  function changeIsVerifiedInputToFalse(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isVerifiedInput: false,
+    }));
+  }
+
+  // call the function when isVerifiedInput state key needs to be changed to FALSE for any state
+  function changeIsVerifiedInputToTrue(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isVerifiedInput: true,
+    }));
+  }  
 
   // set a new value to the state.value associated to the text field that invokes this function
   function handleOnChange(inputValue, setState) {
@@ -107,13 +137,18 @@ export function SignIn() {
 
   // update the state to clear the error when the user focuses on that field
   function handleOnFocus(state, setState) {
-    // change state to remove the error message on Focus if previously input was empty
+    // change state to remove the error message on Focus if previously provided input was empty
     if (state.isEmpty) {
       setState((otherValues) => ({
         ...otherValues,
         isEmpty: false,
       }));
       return;
+    }
+
+    // change state to remove the error message on Focus if previously provided input was wrong
+    if (!verifyInput.isVerifiedInput) {
+      changeIsVerifiedInputToTrue(setVerifyInput);
     }
   }
 
@@ -189,7 +224,7 @@ export function SignIn() {
                   handleOnChange(e.target.value.trim(), setEmail)
                 }
                 onBlur={(e) => handleOnBlur(e.target.value, setEmail)}
-                error={email.isEmpty}
+                error={email.isEmpty || !verifyInput.isVerifiedInput}
                 helperText={email.isEmpty && 'Email field is required'}
                 onFocus={() => handleOnFocus(email, setEmail)}
               />
@@ -206,8 +241,11 @@ export function SignIn() {
                   handleOnChange(e.target.value.trim(), setPassword)
                 }
                 onBlur={(e) => handleOnBlur(e.target.value, setPassword)}
-                error={password.isEmpty}
-                helperText={password.isEmpty && 'Password field is required'}
+                error={password.isEmpty || !verifyInput.isVerifiedInput}
+                helperText={
+                  (password.isEmpty && 'Password field is required') ||
+                  (!verifyInput.isVerifiedInput && wrongInputErrorMessage)
+                }
                 onFocus={() => handleOnFocus(password, setPassword)}
               />
               <FormControlLabel

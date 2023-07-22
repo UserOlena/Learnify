@@ -1,9 +1,13 @@
+// React / router imports
 import { React, useState } from 'react';
-import {
-  Box,
-  Button,
-  TextField,
-  Typography
+import { Link } from 'react-router-dom';
+
+// Material UI imports
+import { 
+  Box, 
+  Button, 
+  TextField, 
+  Typography 
 } from '@mui/material';
 import {
   Chip,
@@ -15,9 +19,16 @@ import {
   Select,
   useTheme,
 } from '@material-ui/core';
-import { useQuery } from '@apollo/client';
-import { isEmptyInput } from '../utils/validation';
+
+// Imports for interacting with the db
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
+import { GET_USER } from '../utils/queries/userQueries';
+import { ADD_TUTORIAL } from '../utils/mutations/tutorialMutations';
+
+// Imports for other utilities
+import { isEmptyInput } from '../utils/validation';
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -41,6 +52,8 @@ const MenuProps = {
     },
   },
 };
+
+// Bold the selected categories in the select list
 function getStyles(category, selectedCategories, theme) {
   return {
     fontWeight:
@@ -52,6 +65,8 @@ function getStyles(category, selectedCategories, theme) {
 export function AddTutorial() {
   const classes = useStyles();
   const theme = useTheme();
+
+  // Set default state values
   const inputDefaultValues = {
     value: '',
     isEmpty: false,
@@ -60,22 +75,57 @@ export function AddTutorial() {
   const [title, setTitle] = useState(inputDefaultValues);
   const [overview, setOverview] = useState(inputDefaultValues);
   const [thumbnail, setThumbnail] = useState(inputDefaultValues);
-  const [selectedCategories, setSelectedCategories] = useState({...inputDefaultValues, value: []});
-  const { loading, data } = useQuery(GET_CATEGORIES);
-  const categories = data?.categories || [];
-  if (loading) {
-    return <p>Loading...</p>;
+  const [selectedCategories, setSelectedCategories] = useState({
+    ...inputDefaultValues,
+    value: [],
+  });
+  const [loggedOut, setLoggedOut] = useState(false);
+
+  // Get category data to populate select list
+  const { data: categoryData } = useQuery(GET_CATEGORIES);
+  const categories = categoryData?.categories || [];
+
+  // Set up mutation to add the tutorial to the db
+  const [addTutorial, { error }] = useMutation(ADD_TUTORIAL);
+
+  // Get the logged in user's information
+  const { data: userData } = useQuery(GET_USER);
+
+  let user;
+  if (userData) {
+    user = userData.me;
   }
-  function handleSubmit(e) {
+
+  // When form is submitted, add the tutorial to the db
+  async function handleSubmit(e) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log({
-      title: data.get('title'),
-      overview: data.get('overview'),
-      thumbnail: data.get('thumbnail'),
-      categories: data.get('categories'),
+
+    // If user is not logged in, set state to show error and exit submit function
+    if (!user) {
+      setLoggedOut(true);
+      return;
+    }
+
+    // Get only the IDs of the selected categories
+    const categoryIds = selectedCategories.value.map((category) => {
+      return category._id;
     });
+
+    const variables = {
+      title: title.value,
+      overview: overview.value,
+      thumbnail: thumbnail.value,
+      categories: categoryIds,
+      teacher: user._id,
+    };
+
+    try {
+      await addTutorial({ variables });
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   // set a new value to the state.value associated to the field that invokes this function
   function handleOnChange(inputValue, setState) {
     console.log('inputValue', inputValue);
@@ -125,11 +175,17 @@ export function AddTutorial() {
           name='title'
           label='Title'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setTitle)}
-          onBlur={(e) => handleOnBlur(e.target.value, setTitle)}
+          onChange={(e) => 
+            handleOnChange(e.target.value.trim(), setTitle)
+          }
+          onBlur={(e) => 
+            handleOnBlur(e.target.value, setTitle)
+          }
           error={title.isEmpty}
           helperText={title.isEmpty && 'Please enter a title for your tutorial'}
-          onFocus={() => handleOnFocus(title, setTitle)}
+          onFocus={() => 
+            handleOnFocus(title, setTitle)
+          }
         />
         <TextField
           required
@@ -138,13 +194,19 @@ export function AddTutorial() {
           name='overview'
           label='Overview (1-2 sentences)'
           margin='normal'
-          onChange={(e) => handleOnChange(e.target.value.trim(), setOverview)}
-          onBlur={(e) => handleOnBlur(e.target.value, setOverview)}
+          onChange={(e) => 
+            handleOnChange(e.target.value.trim(), setOverview)
+          }
+          onBlur={(e) => 
+            handleOnBlur(e.target.value, setOverview)
+          }
           error={overview.isEmpty}
           helperText={
             overview.isEmpty && 'Please enter an overview of your tutorial'
           }
-          onFocus={() => handleOnFocus(overview, setOverview)}
+          onFocus={() => 
+            handleOnFocus(overview, setOverview)
+          }
         />
         <TextField
           required
@@ -153,14 +215,20 @@ export function AddTutorial() {
           name='thumbnail'
           label='Thumbnail Image URL'
           margin='normal'
-          onChange={(e) => {handleOnChange(e.target.value.trim(), setThumbnail)}}
-          onBlur={(e) => handleOnBlur(e.target.value, setThumbnail)}
+          onChange={(e) => {
+            handleOnChange(e.target.value.trim(), setThumbnail);
+          }}
+          onBlur={(e) => 
+            handleOnBlur(e.target.value, setThumbnail)
+          }
           error={thumbnail.isEmpty}
           helperText={
             thumbnail.isEmpty &&
             'Please enter the URL of a thumbnail for your tutorial'
           }
-          onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
+          onFocus={() => 
+            handleOnFocus(thumbnail, setThumbnail)
+          }
         />
         <FormControl
           required
@@ -176,17 +244,24 @@ export function AddTutorial() {
             name='categories'
             multiple
             value={selectedCategories.value}
-            {...console.log('selectedCategories', selectedCategories)}
-            onChange={(e) => handleOnChange(e.target.value, setSelectedCategories)}
-            onBlur={(e) => handleOnBlur(e.target.value, setSelectedCategories)}
-            onFocus={() => handleOnFocus(selectedCategories, setSelectedCategories)}
+            onChange={(e) =>
+              handleOnChange(e.target.value, setSelectedCategories)
+            }
+            onBlur={(e) => 
+              handleOnBlur(e.target.value, setSelectedCategories)
+            }
+            onFocus={() =>
+              handleOnFocus(selectedCategories, setSelectedCategories)
+            }
             input={<Input id='categories-input' />}
             renderValue={(selected) => (
-              console.log('selected', selected),
               <div className={classes.chips}>
                 {selected.map((value) => (
-                  console.log('value', value),
-                  <Chip key={value} label={value} className={classes.chip} />
+                  <Chip
+                    key={value._id}
+                    label={value.category}
+                    className={classes.chip}
+                  />
                 ))}
               </div>
             )}
@@ -195,18 +270,26 @@ export function AddTutorial() {
             {categories.map((category) => (
               <MenuItem
                 key={category.category}
-                value={category._id}
-                style={getStyles(category.category, selectedCategories.value, theme)}
-                categoryId={category._id}
+                value={category}
+                style={getStyles(
+                  category.category,
+                  selectedCategories.value,
+                  theme
+                )}
               >
                 {category.category}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-        <Button
-          type='submit'
-          variant='contained'
+        {loggedOut && (
+          <Typography color='error' component='p'>
+            You must be signed in to submit a tutorial. <Link to='/signin'>Sign In</Link>
+          </Typography>
+        )}
+        <Button 
+          type='submit' 
+          variant='contained' 
           sx={{ mt: 3, mb: 2 }}
         >
           Save Your Tutorial

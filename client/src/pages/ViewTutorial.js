@@ -10,6 +10,7 @@ import {
   Chip,
   Collapse,
   Container,
+  Divider,
   Grid,
   IconButton,
   makeStyles,
@@ -26,16 +27,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: '3%',
   },
-  title: {
-    margin: '3%',
-  },
-  card: {
-    backgroundColor: '#dce6f5',
-  },
   chip: {
-    margin: 2,
+    marginLeft: 8,
+    marginRight: 8,
     ...theme.typography.button,
     backgroundColor: '#98b7f5',
+    fontWeight: 'bold',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -78,6 +75,7 @@ export function ViewTutorial() {
   //destructure fields from tutorial object
   const { teacher } = tutorial;
   const username = teacher?.[0]?.username;
+  const overview = tutorial.overview;
   const { categories } = tutorial;
   const duration = tutorial.totalDuration;
   const { lessons } = tutorial;
@@ -145,32 +143,84 @@ export function ViewTutorial() {
 
   return (
     <div className='root'>
-      <Container className='title'>
+      <Container>
         <Typography
           variant='h4'
           style={{
             color: '#283845',
             fontWeight: 'bold',
+            margin: '2%',
           }}
         >
           {tutorial?.title}
         </Typography>
-        <Box>
-          <Rating
-            name='read-only'
-            value={averageRating}
-            readOnly
+        <Grid
+          container
+          justifyContent='space-around'
+          className='title'
+        >
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant='h6'>Instructor: {username}</Typography>
+          </Grid>
+          <Divider
+            orientation='vertical'
+            flexItem
           />
-          <Typography variant='subtitle1'>{reviews.length} Ratings</Typography>
-        </Box>
-        <Box>
-          <Typography variant='h5'>{username}</Typography>
-          <Typography variant='h6'>
-            Time to complete: {duration} minutes
-          </Typography>
-        </Box>
-        <Box direction='row'>{categoryList(categories)}</Box>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant='h6'>
+              Time to complete: {duration} minutes
+            </Typography>
+          </Grid>
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
+          <Grid
+            item
+            xs={3}
+          >
+            <Rating
+              name='read-only'
+              value={averageRating}
+              readOnly
+            />
+            <Typography variant='subtitle1'>
+              {reviews.length} Ratings
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          justifyContent='center'
+          spacing={2}
+          style={{
+            color: '#283845',
+            margin: '2%',
+          }}
+        >
+          <Grid
+            item
+            xs={10}
+            direction='row'
+          >
+            <Typography variant='body1'>{overview}</Typography>
+          </Grid>
+          <Grid
+            item
+            xs={10}
+            direction='row'
+          >
+            {categoryList(categories)}
+          </Grid>
+        </Grid>
       </Container>
+      <Divider variant='middle' />
       <Grid
         container
         className={classes.info}
@@ -242,7 +292,7 @@ export function ViewTutorial() {
             </Typography>
 
             <Card
-              style={{ backgroundColor: '#6393f2', margin: 3, padding: 10 }}
+              style={{ backgroundColor: '#6393f2', margin: 3, padding: 3 }}
             >
               {reviewList(reviews)}
             </Card>
