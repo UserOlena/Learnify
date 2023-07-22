@@ -13,8 +13,8 @@ export const GET_TUTORIALS = gql`
 
 //get single tutorial
 export const GET_TUTORIAL = gql`
-  query GetTutorial($id: ID!) {
-    tutorial(_id: $id) {
+  query GetTutorial($tutorialId: ID!) {
+    tutorial(_id: $tutorialId) {
       _id
       title
       overview

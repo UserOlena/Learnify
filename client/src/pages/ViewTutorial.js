@@ -60,9 +60,9 @@ export function ViewTutorial() {
   };
 
   //get ID from URL and get associated {tutorial} from db
-  const { ID } = useParams();
+  const { tutorialId } = useParams();
   const { loading, err, data } = useQuery(GET_TUTORIAL, {
-    variables: { id: ID },
+    variables: { tutorialId: tutorialId },
   });
   console.log(loading, err, data);
   if (loading) {
