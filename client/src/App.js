@@ -24,6 +24,7 @@ import {
   Payment,
   SignIn,
   SignUp,
+  UserProfile,
   ViewTutorial,
 } from './pages';
 import { Footer, Navbar } from './components';
@@ -95,6 +96,10 @@ function App() {
             <Route
               path='/careers'
               element={<Careers />}
+            ></Route>
+            <Route
+              path='/profile'
+              element={<UserProfile />}
             ></Route>
           </Routes>
         </Router>

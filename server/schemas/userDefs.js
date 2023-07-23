@@ -30,6 +30,8 @@ const userTypeDefs = gql`
     addTutorialtoUser(tutorialId: ID!): Tutorial
 
     removeTutorialfromUser(tutorialId: ID!): Tutorial
+
+    updateUserProfile(_id: ID!, username: String, email: String): User
   }
 `;
 
@@ -144,6 +146,30 @@ const userResolvers = {
           );
         } catch (err) {
           throw new Error(err);
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+    updateUserProfile: async (parent, { _id, username, email }, context) => {
+      if (context.user) {
+        try {
+          // Create an updates object only containing the updated fields
+          const updates = {};
+          if (username) {
+            updates.username = username;
+          }
+          if (email) {
+            updates.email = email;
+          }
+
+          return await User.findByIdAndUpdate(
+            _id,
+            { $set: updates },
+            { new: true }
+          );
+        } catch (err) {
+          throw new Error(`Failed to update user: ${error.message}`);
         }
       }
       throw new AuthenticationError('You need to be logged in!');
