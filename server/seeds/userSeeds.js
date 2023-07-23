@@ -1,52 +1,52 @@
 const userSeeds = [
   {
-    username: 'Brian Kernighan',
-    email: 'bkernighan@techfriends.dev',
+    username: 'mannyiscool',
+    email: 'mannyiscool@techfriends.dev',
     password: 'password01'
   },
   {
-    username: 'Max Kanat-Alexander',
-    email: 'mkanatalexander@techfriends.dev',
+    username: 'jonsnow',
+    email: 'jsnow@techfriends.dev',
     password: 'password02'
   },
   {
-    username: 'Why The Lucky Stiff',
-    email: 'wtls@techfriends.dev',
+    username: 'walterwhite',
+    email: 'wwhite@techfriends.dev',
     password: 'password03'
   },
   {
-    username: 'Kent Beck',
-    email: 'kbeck@techfriends.dev',
+    username: 'lizlemon',
+    email: 'llemon@techfriends.dev',
     password: 'password04'
   },
   {
-    username: 'Edward V. Berard',
-    email: 'evberard@techfriends.dev',
+    username: 'ricksanchez',
+    email: 'rsanchez@techfriends.dev',
     password: 'password05'
   },
   {
-    username: 'Alan Kay',
-    email: 'akay@techfriends.dev',
+    username: 'michaelscott',
+    email: 'mscott@techfriends.dev',
     password: 'password06'
   },
   {
-    username: 'C.A.R. Hoare',
-    email: 'choare@techfriends.dev',
+    username: 'saulgoodman',
+    email: 'sgoodman@techfriends.dev',
     password: 'password07'
   },
   {
-    username: 'David Thomas',
-    email: 'dthomas@techfriends.dev',
+    username: 'clairefisher',
+    email: 'cfisher@techfriends.dev',
     password: 'password08'
   },
   {
-    username: 'Donald Knuth',
-    email: 'dknuth@techfriends.dev',
+    username: 'jerrygergich',
+    email: 'jgergich@techfriends.dev',
     password: 'password09'
   },
   {
-    username: 'Lernantino',
-    email: 'lernantino@techfriends.dev',
+    username: 'charlesboyle',
+    email: 'cboyle@techfriends.dev',
     password: 'password10'
   }
 ];

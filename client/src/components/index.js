@@ -1,17 +1,11 @@
-import Carousel from './Carousel';
 import Categories from './Categories';
-import CheckoutForm from './CheckoutForm';
-import Footer from './Footer';
-import Navbar from './Navbar';
-import Recommended from './Recommended';
-import ViewLesson from './ViewLesson';
+export * from './Carousel';
+export * from './DashboardCarousel';
+export * from './CheckoutForm';
+export * from './Footer';
+export * from './Navbar';
+export * from './Recommended';
+export * from './RatingHalfReadOnly';
+export * from './ViewLesson';
 
-export {
-  Carousel,
-  Categories,
-  CheckoutForm,
-  Footer,
-  Navbar,
-  Recommended,
-  ViewLesson,
-};
+export { Categories };
