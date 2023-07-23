@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 //import Learnify components
-import { ViewLesson } from '../components';
+import { RateTutorial, ViewLesson } from '../components';
 
 //Material-UI imports
 import clsx from 'clsx';
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -21,12 +22,20 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import { ExpandMore, SkipPrevious, SkipNext } from '@material-ui/icons';
+import {
+  Bookmark,
+  BookmarkBorder,
+  ExpandMore,
+  SkipPrevious,
+  SkipNext,
+  StarBorder,
+} from '@material-ui/icons';
 import { Rating } from '@material-ui/lab';
 
 //database-related imports
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
+import { ADD_REVIEW } from '../utils/mutations/reviewMutations';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,6 +74,7 @@ export function ViewTutorial() {
   //declare State variables
   const [expanded, setExpanded] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
+  const [isAdded, setIsAdded] = useState(false);
 
   //function to handle click on expand icon and update State
   const handleExpandClick = () => {
@@ -79,6 +89,15 @@ export function ViewTutorial() {
       return;
     }
   };
+//function to bookmark a tutorial
+  const bookmarkTutorial = () => {
+    if (!isAdded) {
+    setIsAdded(isAdded);
+    //TODO: ADD MUTATION TO ADD BOOKMARK
+  } else {
+    return;
+  }
+};
 
   // get tutorial data and destructure fields to render
   const { loading, err, data } = useQuery(GET_TUTORIAL, {
@@ -122,13 +141,18 @@ export function ViewTutorial() {
     return (
       <>
         {lessons.map((lesson) => (
-          <Link
-            to={`/tutorial/${tutorialId}/lesson/${lesson._id}`}
+          <Card
             key={lesson._id}
-            onClick={toggleVisibility}
+            style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
-            <p>{lesson.name}</p>
-          </Link>
+            <Link
+              to={`/tutorial/${tutorialId}/lesson/${lesson._id}`}
+              key={lesson._id}
+              onClick={toggleVisibility}
+            >
+              <p>{lesson.name}</p>
+            </Link>
+          </Card>
         ))}
       </>
     );
@@ -276,7 +300,7 @@ export function ViewTutorial() {
                   variant='h5'
                   component='h2'
                 >
-                  Reviews 
+                  Reviews
                   <IconButton
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expanded,
@@ -293,36 +317,78 @@ export function ViewTutorial() {
                   timeout='auto'
                   unmountOnExit
                 >
-                  <CardContent>{reviewList(reviews)}</CardContent>
+                  <CardContent>
+                    <Button
+                      variant='contained'
+                      className={classes.button}
+                    >
+                      Leave a review!
+                    </Button>
+                    {reviewList(reviews)}
+                  </CardContent>
                 </Collapse>
               </CardContent>
             </Card>
           </Grid>
-          <Grid
+          <Grid //contains bookmark button and lesson list card
             item
             xs={10}
             md={5}
           >
-            <Card
-              style={{
-                backgroundColor: '#92b4d4',
-                paddingTop: '3%',
-              }}
+            <Grid //changes direction for bookmark button and lesson list card
+              container
+              xs={12}
+              direction='column'
+              spacing={3}
+              alignItems='center'
+              justifyContent='space-around'
             >
-              {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
-              <Typography
-                variant='h5'
-                component='h2'
+              <Grid
+                item
+                xs={12}
+                alignItems='flex-end'
+                minWidth='100%'
               >
-               This tutorial has {totalLessons} lessons:
-              </Typography>
+                <Button
+                  variant='contained'
+                  className={classes.button}
+                  startIcon={<BookmarkBorder fontSize='large' />}
+                >
+                  Add to "my tutorials"
+                </Button>
+                <RateTutorial/>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                alignItems='flex-end'
+              >
+                <Card
+                  style={{
+                    backgroundColor: '#92b4d4',
+                    paddingTop: '3%',
+                  }}
+                >
+                  {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
+                  <Typography
+                    variant='h5'
+                    component='h2'
+                  >
+                    This tutorial has {totalLessons} lessons:
+                  </Typography>
 
-              <Card
-                style={{ backgroundColor: '#92b4d4', margin: 3, padding: 3 }}
-              >
-                {lessonList(lessons)}
-              </Card>
-            </Card>
+                  <Card
+                    style={{
+                      backgroundColor: '#92b4d4',
+                      margin: 3,
+                      padding: 3,
+                    }}
+                  >
+                    {lessonList(lessons)}
+                  </Card>
+                </Card>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Container>

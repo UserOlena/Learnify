@@ -45,7 +45,6 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const [tutorialId, setTutorialId] = useState('');
   return (
     <div
       className='App'
