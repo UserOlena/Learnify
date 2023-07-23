@@ -247,15 +247,12 @@ export function AddLessons() {
           id='media'
           name='media'
           value={media.value}
-          label='Image URL'
+          label='Image URL (must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif")'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value, setMedia)}
           onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setMedia)}
           error={!media.isValid}
-          helperText={
-            !media.isValid &&
-            'Please enter a valid URL. It must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif".'
-          }
+          helperText={!media.isValid && 'Please enter a valid URL'}
           onFocus={() => handleOnFocus(media, setMedia)}
         />
         <TextField
