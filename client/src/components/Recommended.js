@@ -52,11 +52,11 @@ function Recommended() {
   const theme = useTheme();
   const isFullScreen = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is full screen (md breakpoint)
 
+  //STATE management
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { loading, err, data } = useQuery(GET_TUTORIALS);
 
-  const { loading, data } = useQuery(GET_TUTORIALS);
-
-  console.log(data);
+  console.log(loading, err, data);
 
   if (loading) {
     return <p>Loading...</p>;

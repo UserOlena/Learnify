@@ -46,18 +46,27 @@ db.once('open', async () => {
     // For each tutorial, randomly set 2 category IDs, 4 lesson IDs, 2 review IDs, & a teacher ID
     tutorialSeeds.map((tutorial) => {
       tutorial.categories = [];
-      for (let i = 0; i < 2; i++) {
-        tutorial.categories.push(getRandomId(categoryIds));
+      while (tutorial.categories.length < 2) {
+        const id = getRandomId(categoryIds);
+        if (tutorial.categories.indexOf(id) === -1) {
+          tutorial.categories.push(id);
+        }
       }
 
       tutorial.lessons = [];
-      for (let i = 0; i < 4; i++) {
-        tutorial.lessons.push(getRandomId(lessonIds));
+      while (tutorial.lessons.length < 4) {
+        const id = getRandomId(lessonIds);
+        if (tutorial.lessons.indexOf(id) === -1) {
+          tutorial.lessons.push(id);
+        }
       }
 
       tutorial.reviews = [];
-      for (let i = 0; i < 2; i++) {
-        tutorial.reviews.push(getRandomId(reviewIds));
+      while (tutorial.reviews.length < 2) {
+        const id = getRandomId(reviewIds);
+        if (tutorial.reviews.indexOf(id) === -1) {
+          tutorial.reviews.push(id);
+        }
       }
 
       tutorial.teacher = getRandomId(userIds);
@@ -72,8 +81,11 @@ db.once('open', async () => {
 
     for (const user of users) {
       const userTutorials = [];
-      for (let i = 0; i < 2; i++) {
-        userTutorials.push(getRandomId(tutorialIds));
+      while (userTutorials.length < 2) {
+        const id = getRandomId(tutorialIds);
+        if (userTutorials.indexOf(id) === -1) {
+          userTutorials.push(id);
+        }
       }
 
       await User.updateOne(

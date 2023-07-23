@@ -1,9 +1,6 @@
+import { useState } from 'react';
 // React Router imports
-import { 
-  BrowserRouter as Router, 
-  Routes, 
-  Route 
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Apollo server imports
 import {
@@ -48,8 +45,9 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [tutorialId, setTutorialId] = useState('');
   return (
-    <div 
+    <div
       className='App'
       style={{
         height: '100%',
@@ -63,6 +61,7 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Navbar />
+
           <Routes>
             <Route
               path='/'
@@ -77,7 +76,7 @@ function App() {
               element={<SignIn />}
             ></Route>
             <Route
-              path='/tutorial/:ID'
+              path='/tutorial/:tutorialId'
               element={<ViewTutorial />}
             ></Route>
             <Route
@@ -95,6 +94,10 @@ function App() {
             <Route
               path='/careers'
               element={<Careers />}
+            ></Route>
+            <Route
+              path='/tutorial/:tutorialId/lesson/:lessonId'
+              element={<ViewTutorial />}
             ></Route>
           </Routes>
         </Router>
