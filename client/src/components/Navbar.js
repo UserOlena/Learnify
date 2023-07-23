@@ -8,7 +8,6 @@ import {
   InputBase,
   Button,
   IconButton,
-  Hidden,
   makeStyles,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -43,9 +42,6 @@ const useStyles = makeStyles((theme) => {
       marginLeft: theme.spacing(2),
       width: '1300px',
       border: '2px solid black',
-      [theme.breakpoints.down('sm')]: {
-        width: '300px',
-      },
       '&:hover': {
         backgroundColor: '#f5f5f5',
       },
@@ -74,24 +70,6 @@ const useStyles = makeStyles((theme) => {
         color: '#888888',
       },
     },
-    signUpButton: {
-      marginRight: theme.spacing(2),
-      height: 40,
-      fontSize: 16,
-      textTransform: 'none',
-      color: 'black', // Set the text color to black
-      [theme.breakpoints.down('sm')]: {
-        display: 'none',
-      },
-    },
-    modeSwitch: {
-      marginLeft: 'auto',
-    },
-    categoriesMenu: {
-      [theme.breakpoints.down('sm')]: {
-        display: 'none',
-      },
-    },
     logo: {
       width: '100px',
       height: '80px',
@@ -101,9 +79,6 @@ const useStyles = makeStyles((theme) => {
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
     },
   };
 });
@@ -167,66 +142,16 @@ function Navbar() {
             }}
           />
         </div>
-        {/* Show buttons in navbar on full-size screens */}
-        <Hidden smDown>
-          <div className={classes.navButtons}>
-            <NavLink to='/signup'>
-              <Button
-                variant='contained'
-                color='inherit'
-                className={classes.signUpButton}
-              >
-                Sign Up
-              </Button>
-            </NavLink>
-            <NavLink to='/signin'>
-              <Button
-                variant='contained'
-                color='inherit'
-                className={classes.signUpButton}
-              >
-                Sign In
-              </Button>
-            </NavLink>
-            <Button
-              variant='contained'
-              color='inherit'
-              className={classes.categoriesMenu}
-              onClick={handleCategoriesMenuOpen}
-            >
-              Categories
-            </Button>
-          </div>
-        </Hidden>
-        {/* Show buttons in dropdown menu on small screens */}
-        <Hidden mdUp>
-          <div className={classes.mobileButtons}>
-            <Button
-              variant='contained'
-              color='inherit'
-              className={classes.signUpButton}
-              onClick={handleMenuOpen}
-            >
-              Sign Up
-            </Button>
-            <Button
-              variant='contained'
-              color='inherit'
-              className={classes.signUpButton}
-              onClick={handleMenuOpen}
-            >
-              Sign In
-            </Button>
-            <Button
-              variant='contained'
-              color='inherit'
-              className={classes.categoriesMenu}
-              onClick={handleCategoriesMenuOpen}
-            >
-              Categories
-            </Button>
-          </div>
-        </Hidden>
+        <div className={classes.navButtons}>
+          <Button
+            variant='contained'
+            color='inherit'
+            className={classes.categoriesMenu}
+            onClick={handleCategoriesMenuOpen}
+          >
+            Categories
+          </Button>
+        </div>
         <Menu
           anchorEl={anchorEl}
           keepMounted
