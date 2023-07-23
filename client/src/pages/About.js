@@ -2,7 +2,6 @@ import React from 'react';
 import {
   makeStyles,
   createMuiTheme,
-  ThemeProvider,
   useMediaQuery,
 } from '@material-ui/core';
 import { Container, Typography } from '@material-ui/core';
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     userSelect: 'none',
   },
   content: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#FAF0E6',
     padding: theme.spacing(4),
     borderRadius: theme.spacing(3),
     color: 'black',
@@ -59,7 +58,6 @@ export function About() {
 
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('xl'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   let maxWidth = 'sm';
   if (isLargeScreen) {
@@ -69,7 +67,6 @@ export function About() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
       <Container className={classes.root} maxWidth={maxWidth}>
         <div className={classes.content}>
           <Typography variant='h4' gutterBottom>
@@ -89,7 +86,6 @@ export function About() {
           </Typography>
         </div>
       </Container>
-    </ThemeProvider>
   );
 }
 
