@@ -140,7 +140,7 @@ export function DashboardCarousel(props) {
       showDots={true}
       responsive={responsive}
       infinite={true}
-      autoPlay={true}
+    //   autoPlay={true}
       autoPlaySpeed={4000}
       shouldResetAutoplay={true}
       keyBoardControl={true}
@@ -152,7 +152,7 @@ export function DashboardCarousel(props) {
       itemClass={`${classes.carouselItem}`}
       sliderClass={`${classes.reactMultiCarouselTrack}`}
     >
-      {props.items.map(({ id, overview, thumbnail, title }, index) => {
+      {props.items.map(({ id, overview, thumbnail, title, averageRating, }, index) => {
         return (
           <Card
             key={index}
@@ -169,11 +169,14 @@ export function DashboardCarousel(props) {
 
               <CardContent className={`${classes.cardContent}`}>
                 <p className={`${classes.p}`}>{title}</p>
-                <HalfRating></HalfRating>
               </CardContent>
             </div>
+                <div>
+                    <HalfRating 
+                    rating={averageRating}
+                    />
             <CardActions
-              className={` ${classes.cardContent} ${classes.actionBox}`}
+              className={`${classes.cardContent} ${classes.actionBox}`}
             >
               <Button
                 size='small'
@@ -188,6 +191,7 @@ export function DashboardCarousel(props) {
                 <FavoriteBorderIcon fontSize='large' />
               </IconButton>
             </CardActions>
+            </div>
           </Card>
         );
       })}
