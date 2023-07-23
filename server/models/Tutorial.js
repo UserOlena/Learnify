@@ -61,10 +61,6 @@ tutorialSchema.virtual('totalDuration').get(function () {
   const totalDuration = this.lessons.reduce((sum, lesson) => {
     return sum + lesson.duration;
   }, 0);
-tutorialSchema.virtual('totalDuration').get(function () {
-  const totalDuration = this.lessons.reduce((sum, lesson) => {
-    return sum + lesson.duration;
-  }, 0);
 
   return totalDuration;
 });

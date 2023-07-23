@@ -238,7 +238,7 @@ export function AddTutorial() {
           fullWidth
           id='thumbnail'
           name='thumbnail'
-          label='Thumbnail Image URL (must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif")'
+          label='Thumbnail Image URL'
           margin='normal'
           onChange={(e) => {
             handleOnChange(e.target.value.trim(), setThumbnail);
@@ -248,9 +248,12 @@ export function AddTutorial() {
           }
           error={thumbnail.isEmpty || !thumbnail.isValid}
           helperText={
-            (thumbnail.isEmpty &&
-              'Please enter the URL of a thumbnail for your tutorial') ||
-            (!thumbnail.isValid && 'Please enter a valid URL')
+            (thumbnail.isEmpty
+              ? 'Please enter the URL of a thumbnail for your tutorial. '
+              : !thumbnail.isValid
+              ? 'Invalid URL: '
+              : '') +
+            'URL must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif"'
           }
           onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
         />
