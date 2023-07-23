@@ -1,8 +1,6 @@
 import { React, useState } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { isEmptyInput } from '../utils/validation';
-import { Link } from 'react-router-dom';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar,
   Button,
@@ -15,6 +13,11 @@ import {
   Box,
   Grid,
 } from '@mui/material';
+import { isEmptyInput } from '../utils/validation';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations/userMutations';
+import Auth from '../utils/auth';
 
 function Copyright(props) {
   return (
@@ -48,21 +51,68 @@ export function SignIn() {
   const inputDefaultValues = {
     value: '',
     isEmpty: false,
-    isValid: true,
-    isExist: true,
+    isVerifiedInput: true,
   };
 
   const [email, setEmail] = useState(inputDefaultValues);
   const [password, setPassword] = useState(inputDefaultValues);
+  const [verifyInput, setVerifyInput] = useState(inputDefaultValues);
 
-  function handleSubmit(e) {
+  const [login, { error, data }] = useMutation(LOGIN_USER);
+
+  const wrongInputErrorMessage =
+    'Sorry, the combination of the email and password you provided does not match our records. Please double-check your credentials and try again.';
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    try {
+      const { data } = await login({
+        variables: {
+          email: email.value,
+          password: password.value,
+        },
+      });
+
+      Auth.login(data.login.token);
+      console.log('user logged in');
+      console.log(data);
+    } catch (err) {
+      console.log(err.graphQLErrors[0].message);
+      switch (err.graphQLErrors[0].message) {
+        case 'No email found!':
+        case 'Incorrect Password!':
+          console.log('switch works');
+          changeIsVerifiedInputToFalse(setVerifyInput);
+          break;
+        default:
+          console.log(
+            "Apologies, but it seems like something went wrong on our end. We'll work to fix the issue as soon as possible. Please try again later. Thank you for your understanding."
+          );
+      }
+    }
   }
+
+  // call the function when isVerifiedInput state key needs to be changed to FALSE for any state
+  function changeIsVerifiedInputToFalse(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isVerifiedInput: false,
+    }));
+  }
+
+  // call the function when isVerifiedInput state key needs to be changed to FALSE for any state
+  function changeIsVerifiedInputToTrue(setState) {
+    setState((otherValues) => ({
+      ...otherValues,
+      isVerifiedInput: true,
+    }));
+  }  
 
   // set a new value to the state.value associated to the text field that invokes this function
   function handleOnChange(inputValue, setState) {
@@ -87,7 +137,7 @@ export function SignIn() {
 
   // update the state to clear the error when the user focuses on that field
   function handleOnFocus(state, setState) {
-    // change state to remove the error message on Focus if previously input was empty
+    // change state to remove the error message on Focus if previously provided input was empty
     if (state.isEmpty) {
       setState((otherValues) => ({
         ...otherValues,
@@ -95,13 +145,22 @@ export function SignIn() {
       }));
       return;
     }
+
+    // change state to remove the error message on Focus if previously provided input was wrong
+    if (!verifyInput.isVerifiedInput) {
+      changeIsVerifiedInputToTrue(setVerifyInput);
+    }
   }
 
-  console.log('password ' + password.value);
+  // console.log('password ' + password.value);
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component='main' sx={{ height: '100vh' }}>
+      <Grid
+        container
+        component='main'
+        sx={{ height: '100vh' }}
+      >
         <CssBaseline />
         <Grid
           item
@@ -120,7 +179,15 @@ export function SignIn() {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
               my: 8,
@@ -133,7 +200,10 @@ export function SignIn() {
             <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component='h1' variant='h5'>
+            <Typography
+              component='h1'
+              variant='h5'
+            >
               Sign in
             </Typography>
             <Box
@@ -153,10 +223,8 @@ export function SignIn() {
                 onChange={(e) =>
                   handleOnChange(e.target.value.trim(), setEmail)
                 }
-                onBlur={(e) =>
-                  handleOnBlur(e.target.value, setEmail)
-                }
-                error={email.isEmpty}
+                onBlur={(e) => handleOnBlur(e.target.value, setEmail)}
+                error={email.isEmpty || !verifyInput.isVerifiedInput}
                 helperText={email.isEmpty && 'Email field is required'}
                 onFocus={() => handleOnFocus(email, setEmail)}
               />
@@ -172,15 +240,21 @@ export function SignIn() {
                 onChange={(e) =>
                   handleOnChange(e.target.value.trim(), setPassword)
                 }
-                onBlur={(e) =>
-                  handleOnBlur(e.target.value, setPassword)
+                onBlur={(e) => handleOnBlur(e.target.value, setPassword)}
+                error={password.isEmpty || !verifyInput.isVerifiedInput}
+                helperText={
+                  (password.isEmpty && 'Password field is required') ||
+                  (!verifyInput.isVerifiedInput && wrongInputErrorMessage)
                 }
-                error={password.isEmpty}
-                helperText={password.isEmpty && 'Password field is required'}
                 onFocus={() => handleOnFocus(password, setPassword)}
               />
               <FormControlLabel
-                control={<Checkbox value='remember' color='primary' />}
+                control={
+                  <Checkbox
+                    value='remember'
+                    color='primary'
+                  />
+                }
                 label='Remember me'
               />
               <Button
@@ -192,13 +266,22 @@ export function SignIn() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link to='#' className='externalLink'>
+                <Grid
+                  item
+                  xs
+                >
+                  <Link
+                    to='#'
+                    className='externalLink'
+                  >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to='/signup' className='externalLink'>
+                  <Link
+                    to='/signup'
+                    className='externalLink'
+                  >
                     Don't have an account? Sign Up
                   </Link>
                 </Grid>
