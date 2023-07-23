@@ -8,7 +8,6 @@ import TutorialContext from './TutorialContextProvider';
 import ViewLesson from './ViewLesson';
 
 export {
-  AddLesson,
   Carousel,
   Categories,
   CheckoutForm,
