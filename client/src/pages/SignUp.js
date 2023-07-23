@@ -89,6 +89,10 @@ export function SignUp() {
       });
       console.log(data.addUser.user);
       Auth.login(data.addUser.token);
+      
+      if(Auth.loggedIn()){
+        window.location.assign('/dashboard');
+      }
     } catch (err) {
       console.log(err.graphQLErrors[0].message);
       switch (err.graphQLErrors[0].message) {
