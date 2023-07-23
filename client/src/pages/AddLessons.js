@@ -48,7 +48,7 @@ export function AddLessons() {
   const [media, setMedia] = useState(inputDefaultValues);
   const [duration, setDuration] = useState(inputDefaultValues);
 
-  // Set up mutation to add the tutorial to the db
+  // Set up mutation to add the lesson to the db
   const [addLesson, { error: lessonError }] = useMutation(ADD_LESSON);
 
   // Get tutorial ID from URL wildcard
@@ -56,7 +56,7 @@ export function AddLessons() {
 
   // Set up query to get the tutorial from the db
   const { loading, error, data } = useQuery(GET_TUTORIAL, {
-    variables: { id: tutorialId },
+    variables: { tutorialId },
   });
 
   if (loading) {
