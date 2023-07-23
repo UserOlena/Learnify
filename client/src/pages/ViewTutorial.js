@@ -197,7 +197,7 @@ export function ViewTutorial() {
             xs={3}
           >
             <Typography variant='h6'>
-              Time to complete: {duration} minute(s)
+              Time to complete: {duration} minutes
             </Typography>
           </Grid>
           <Divider

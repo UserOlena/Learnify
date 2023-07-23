@@ -78,7 +78,7 @@ export function ViewLesson() {
                   color='textSecondary'
                   component='p'
                 >
-                  Time: {duration} minutes
+                  Time: {duration} minute(s)
                 </Typography>
                 <Typography
                   variant='body2'
