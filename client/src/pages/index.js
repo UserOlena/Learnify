@@ -1,3 +1,4 @@
+export * from './About';
 export * from './AddLessons';
 export * from './AddTutorial';
 export * from './Careers';
