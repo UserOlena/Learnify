@@ -14,35 +14,34 @@ import {
 import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
-  pushLeft: {
-    marginRight: '4rem',
-    [theme.breakpoints.down('sm')]: {
-      marginRight: 0,
-    },
-  },
+  // pushLeft: {
+  //   marginRight: '4rem',
+  //   [theme.breakpoints.down('sm')]: {
+  //     marginRight: 0,
+  //   },
+  // },
 
-  pushRight: {
-    marginLeft: '4rem',
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 0,
-    },
-  },
+  // pushRight: {
+  //   marginLeft: '4rem',
+  //   [theme.breakpoints.down('sm')]: {
+  //     marginLeft: 0,
+  //   },
+  // },
 
-  overlap: {
-    marginLeft: '16%',
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 0,
-    },
-  },
+  // overlap: {
+  //   marginLeft: '16%',
+  //   [theme.breakpoints.down('sm')]: {
+  //     marginLeft: 0,
+  //   },
+  // },
 
-  projTitle: {
-    textShadow: '1px 1px 2px #88039c',
-    [theme.breakpoints.down('sm')]: {
-      textShadow: '1px 1px 1px black',
-      fontSize: 'calc(15px + (80 - 15) * ((100vw - 600px) / (1200 - 600)))',
-    },
-  },
-  //   kghk
+  // projTitle: {
+  //   textShadow: '1px 1px 2px #88039c',
+  //   [theme.breakpoints.down('sm')]: {
+  //     textShadow: '1px 1px 1px black',
+  //     fontSize: 'calc(15px + (80 - 15) * ((100vw - 600px) / (1200 - 600)))',
+  //   },
+  // },
 
   carouselContainer: {
     display: 'flex',
