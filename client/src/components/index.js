@@ -1,4 +1,3 @@
-import AddLesson from './AddLesson';
 import Carousel from './Carousel';
 import Categories from './Categories';
 import CheckoutForm from './CheckoutForm';
