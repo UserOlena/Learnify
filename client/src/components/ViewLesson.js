@@ -3,10 +3,8 @@ import { useParams } from 'react-router-dom';
 
 //Material-UI imports
 import {
-  Button,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   Container,
@@ -46,7 +44,6 @@ export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
 
   //destructure fields from lesson object
   const { name, body, media, duration } = lesson;
-
 
   return (
     <Container style={stylesFromAddLesson}>

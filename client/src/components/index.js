@@ -4,7 +4,6 @@ import CheckoutForm from './CheckoutForm';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Recommended from './Recommended';
-import TutorialContext from './TutorialContextProvider';
 import ViewLesson from './ViewLesson';
 
 export {
@@ -14,6 +13,5 @@ export {
   Footer,
   Navbar,
   Recommended,
-  TutorialContext,
   ViewLesson,
 };
