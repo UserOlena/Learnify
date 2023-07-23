@@ -74,7 +74,7 @@ function App() {
               element={<SignUp />}
             ></Route>
             <Route
-              path='/olena'
+              path='/dashboard'
               element={<Dashboard />}
             ></Route>
             <Route
