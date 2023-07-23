@@ -1,21 +1,27 @@
 import { React, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+//import Learnify components
+import { ViewLesson } from '../components';
+
 //Material-UI imports
 import clsx from 'clsx';
 import {
-  Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
   Chip,
   Collapse,
   Container,
+  Divider,
   Grid,
   IconButton,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import { ExpandMore, SkipPrevious, SkipNext } from '@material-ui/icons';
 import { Rating } from '@material-ui/lab';
 
 //database-related imports
@@ -26,16 +32,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: '3%',
   },
-  title: {
-    margin: '3%',
-  },
-  card: {
-    backgroundColor: '#dce6f5',
+  button: {
+    background: '#f7d148',
+    '&:hover': { background: '#f2bf07' },
   },
   chip: {
-    margin: 2,
+    marginLeft: 8,
+    marginRight: 8,
     ...theme.typography.button,
-    backgroundColor: '#98b7f5',
+    backgroundColor: '#92b4d4',
+    fontWeight: 'bold',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -52,16 +58,31 @@ const useStyles = makeStyles((theme) => ({
 export function ViewTutorial() {
   const classes = useStyles();
 
+  //get tutorialId from URL
+  const { tutorialId } = useParams();
+  console.log(tutorialId);
+
+  //declare State variables
   const [expanded, setExpanded] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
+
   //function to handle click on expand icon and update State
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  //get ID from URL and get associated {tutorial} from db
-  const { ID } = useParams();
+  //function to toggle visibility of lesson card container
+  const toggleVisibility = () => {
+    if (isHidden) {
+      setIsHidden(!isHidden);
+    } else {
+      return;
+    }
+  };
+
+  // get tutorial data and destructure fields to render
   const { loading, err, data } = useQuery(GET_TUTORIAL, {
-    variables: { id: ID },
+    variables: { tutorialId: tutorialId },
   });
   console.log(loading, err, data);
   if (loading) {
@@ -75,13 +96,11 @@ export function ViewTutorial() {
   if (!tutorial) {
     return <p>Tutorial not found</p>;
   }
-  //destructure fields from tutorial object
-  const { teacher } = tutorial;
+  // destructure fields from tutorial object
+  const { teacher, categories, lessons, overview, reviews } = tutorial;
   const username = teacher?.[0]?.username;
-  const { categories } = tutorial;
   const duration = tutorial.totalDuration;
-  const { lessons } = tutorial;
-  const { reviews } = tutorial;
+  const numberofLessons = tutorial.lessons.length;
 
   //map categories array for use on/around 180
   function categoryList(categories) {
@@ -89,7 +108,7 @@ export function ViewTutorial() {
       <>
         {categories.map((category) => (
           <Chip
-            key={category.id}
+            key={category._id}
             label={category.category}
             className={classes.chip}
           />
@@ -98,14 +117,15 @@ export function ViewTutorial() {
     );
   }
 
-  //map lessons array for use on/around line 196
+  //map lessons array for use in list on/around line 196
   function lessonList(lessons) {
     return (
       <>
         {lessons.map((lesson) => (
           <Link
-            to={`/lesson/${lesson.id}`}
+            to={`/tutorial/${tutorialId}/lesson/${lesson._id}`}
             key={lesson._id}
+            onClick={toggleVisibility}
           >
             <p>{lesson.name}</p>
           </Link>
@@ -120,8 +140,8 @@ export function ViewTutorial() {
       <>
         {reviews.map((review) => (
           <Card
-            key={review.id}
-            style={{ backgroundColor: '#dce6f5', margin: 2 }}
+            key={review._id}
+            style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
             <Rating
               name='read-only'
@@ -145,110 +165,210 @@ export function ViewTutorial() {
 
   return (
     <div className='root'>
-      <Container className='title'>
+      <Container>
         <Typography
           variant='h4'
           style={{
             color: '#283845',
             fontWeight: 'bold',
+            margin: '2%',
           }}
         >
           {tutorial?.title}
         </Typography>
-        <Box>
-          <Rating
-            name='read-only'
-            value={averageRating}
-            readOnly
-          />
-          <Typography variant='subtitle1'>{reviews.length} Ratings</Typography>
-        </Box>
-        <Box>
-          <Typography variant='h5'>{username}</Typography>
-          <Typography variant='h6'>
-            Time to complete: {duration} minutes
-          </Typography>
-        </Box>
-        <Box direction='row'>{categoryList(categories)}</Box>
-      </Container>
-      <Grid
-        container
-        className={classes.info}
-        direction='row'
-        justifyContent='space-evenly'
-        alignItems='center'
-      >
         <Grid
-          item
-          xs={10}
-          md={5}
+          container
+          justifyContent='space-around'
+          className='title'
         >
-          <Card
-            style={{
-              backgroundColor: '#dce6f5',
-              margin: '5%',
-              border: '1rem solid #6393f2',
-            }}
+          <Grid
+            item
+            xs={3}
           >
-            <CardMedia
-              component='img'
-              image={tutorial.thumbnail}
-              title='Media image provided by user'
+            <Typography variant='h6'>Instructor: {username}</Typography>
+          </Grid>
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant='h6'>
+              Time to complete: {duration} minutes
+            </Typography>
+          </Grid>
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
+          <Grid
+            item
+            xs={3}
+          >
+            <Rating
+              name='read-only'
+              value={averageRating}
+              readOnly
             />
-            <CardContent>
+            <Typography variant='subtitle1'>
+              {reviews.length} Ratings
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          justifyContent='center'
+          spacing={2}
+          style={{
+            color: '#283845',
+            margin: '2%',
+          }}
+        >
+          {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
+          <Grid
+            item
+            xs={10}
+          >
+            <Typography variant='body1'>{overview}</Typography>
+          </Grid>
+          <Grid
+            item
+            xs={10}
+          >
+            {categoryList(categories)}
+          </Grid>
+        </Grid>
+      </Container>
+      <Divider variant='middle' />
+      <Container>
+        <Grid
+          container
+          direction='row'
+          justifyContent='space-evenly'
+          alignItems='center'
+          spacing={2}
+          style={{
+            color: '#283845',
+            margin: '2%',
+          }}
+        >
+          <Grid
+            item
+            xs={10}
+            md={5}
+          >
+            <Card
+              style={{
+                backgroundColor: '#dae9f7',
+                border: '1rem solid #92b4d4',
+              }}
+            >
+              <CardMedia
+                component='img'
+                image={tutorial.thumbnail}
+                title='Media image provided by user'
+              />
+              <CardContent>
+                <Typography
+                  variant='h5'
+                  component='h2'
+                >
+                  This tutorial has {numberofLessons} lessons:
+                  <IconButton
+                    className={clsx(classes.expand, {
+                      [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label='show more'
+                  >
+                    <ExpandMore />
+                  </IconButton>
+                </Typography>
+                <Collapse
+                  in={expanded}
+                  timeout='auto'
+                  unmountOnExit
+                >
+                  <CardContent>{lessonList(lessons)}</CardContent>
+                </Collapse>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid
+            item
+            xs={10}
+            md={5}
+          >
+            <Card
+              style={{
+                backgroundColor: '#92b4d4',
+                paddingTop: '3%',
+              }}
+            >
               <Typography
                 variant='h5'
                 component='h2'
               >
-                Lessons
-                <IconButton
-                  className={clsx(classes.expand, {
-                    [classes.expandOpen]: expanded,
-                  })}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label='show more'
-                >
-                  <ExpandMore />
-                </IconButton>
+                Reviews
               </Typography>
-              <Collapse
-                in={expanded}
-                timeout='auto'
-                unmountOnExit
+
+              <Card
+                style={{ backgroundColor: '#92b4d4', margin: 3, padding: 3 }}
               >
-                <CardContent>{lessonList(lessons)}</CardContent>
-              </Collapse>
-            </CardContent>
-          </Card>
+                {reviewList(reviews)}
+              </Card>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid
-          item
-          xs={10}
-          md={5}
-        >
-          <Card
+      </Container>
+      {!isHidden ? (
+        <Container toggleVisibility={toggleVisibility}>
+          <Grid
+            container
+            justifyContent='space-around'
+            spacing={2}
             style={{
-              backgroundColor: '#6393f2',
-              margin: '5%',
-              paddingTop: '3%',
+              color: '#283845',
+              margin: '2%',
             }}
           >
-            <Typography
-              variant='h5'
-              component='h2'
+            {/* <Grid
+              item
+              xs={5}
             >
-              Reviews
-            </Typography>
-
-            <Card
-              style={{ backgroundColor: '#6393f2', margin: 3, padding: 10 }}
+              <Button
+                variant='contained'
+                className={classes.button}
+                startIcon={<SkipPrevious fontSize='large' />}
+              >
+                Previous Lesson
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={5}
             >
-              {reviewList(reviews)}
-            </Card>
-          </Card>
-        </Grid>
-      </Grid>
+              <Button
+                variant='contained'
+                className={classes.button}
+                endIcon={<SkipNext fontSize='large' />}
+              >
+                Next Lesson
+              </Button>
+            </Grid>
+           */}
+            <Grid
+              item
+              xs={10}
+            >
+              <ViewLesson />
+            </Grid>
+          </Grid>
+        </Container>
+      ) : null}
     </div>
   );
 }
