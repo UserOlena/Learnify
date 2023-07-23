@@ -76,11 +76,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   img: {
-    height: '10rem',
+    height: '9em',
     border: 'solid 1px #d1d7dc',
-    // boxShadow: '10px 8px 5px rgba(0,0,0,0.9),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12) !important',
-    boxShadow:
-      'inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3) !important',
   },
 
   descriptionBox: {
@@ -103,14 +100,13 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
   },
 
-  rightArrow: {
-    position: 'absolute !important',
-    top: '-50px ',
+  favoriteIcon: {
+    marginLeft: '1rem',
   },
 
-  'react-multi-carousel-list': {
-    padding: '5rem 0 0 0',
-  },
+  learnMoreBtn: {
+    marginRight: '1rem',
+  }
 }));
 
 export function DashboardCarousel(props) {
@@ -180,9 +176,16 @@ export function DashboardCarousel(props) {
                 className={` ${classes.cardContent} ${classes.actionBox}`}
               >
                 <IconButton aria-label='add to favorites'>
-                  <FavoriteIcon />
+                  <FavoriteIcon 
+                    className={`${classes.favoriteIcon}`}
+                  />
                 </IconButton>
-                <Button size='small'>Learn More</Button>
+                <Button 
+                    size='small'
+                    className={`${classes.learnMoreBtn}`}
+                >
+                    Learn More
+                    </Button>
               </CardActions>
             </Card>
           );
