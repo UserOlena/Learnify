@@ -18,6 +18,7 @@ const tutorialTypeDefs = gql`
     lessons: [Lesson]
     reviews: [Review]
     totalDuration: Int
+    averageRating: Float
   }
 
   type Query {

@@ -1,7 +1,7 @@
 import React from 'react';
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
 
-function Footer() {
+export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
