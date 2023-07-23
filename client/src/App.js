@@ -1,9 +1,6 @@
+import { useState } from 'react';
 // React Router imports
-import { 
-  BrowserRouter as Router, 
-  Routes, 
-  Route 
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Apollo server imports
 import {
@@ -26,7 +23,7 @@ import {
   SignUp,
   ViewTutorial,
 } from './pages';
-import { Footer, Navbar } from './components';
+import { Footer, Navbar, TutorialContext, ViewLesson } from './components';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -48,8 +45,9 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [tutorialId, setTutorialId] = useState('');
   return (
-    <div 
+    <div
       className='App'
       style={{
         height: '100%',
@@ -63,40 +61,46 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Navbar />
-          <Routes>
-            <Route
-              path='/'
-              element={<Home />}
-            ></Route>
-            <Route
-              path='/signup'
-              element={<SignUp />}
-            ></Route>
-            <Route
-              path='/signin'
-              element={<SignIn />}
-            ></Route>
-            <Route
-              path='/tutorial/:ID'
-              element={<ViewTutorial />}
-            ></Route>
-            <Route
-              path='/tutorials/new'
-              element={<AddTutorial />}
-            ></Route>
-            <Route
-              path='/:tutorialId/lessons/add'
-              element={<AddLessons />}
-            ></Route>
-            <Route
-              path='/payment'
-              element={<Payment />}
-            ></Route>
-            <Route
-              path='/careers'
-              element={<Careers />}
-            ></Route>
-          </Routes>
+          <TutorialContext.Provider value={{ tutorialId, setTutorialId }}>
+            <Routes>
+              <Route
+                path='/'
+                element={<Home />}
+              ></Route>
+              <Route
+                path='/signup'
+                element={<SignUp />}
+              ></Route>
+              <Route
+                path='/signin'
+                element={<SignIn />}
+              ></Route>
+              <Route
+                path='/tutorial/:tutorialId'
+                element={<ViewTutorial />}
+              ></Route>
+              <Route
+                path='/tutorials/new'
+                element={<AddTutorial />}
+              ></Route>
+              <Route
+                path='/:tutorialId/lessons/add'
+                element={<AddLessons />}
+              ></Route>
+              <Route
+                path='/payment'
+                element={<Payment />}
+              ></Route>
+              <Route
+                path='/careers'
+                element={<Careers />}
+              ></Route>
+              <Route
+                path='/tutorial/:tutorialId/lesson/:lessonId'
+                element={<ViewTutorial />}
+              ></Route>
+            </Routes>
+          </TutorialContext.Provider>
         </Router>
         <Footer />
       </ApolloProvider>

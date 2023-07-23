@@ -13,8 +13,8 @@ export const GET_TUTORIALS = gql`
 
 //get single tutorial
 export const GET_TUTORIAL = gql`
-  query GetTutorial($id: ID!) {
-    tutorial(_id: $id) {
+  query GetTutorial($tutorialId: ID!) {
+    tutorial(_id: $tutorialId) {
       _id
       title
       overview
@@ -29,6 +29,9 @@ export const GET_TUTORIAL = gql`
       lessons {
         _id
         name
+        body
+        media
+        duration
       }
       reviews {
         _id
@@ -36,6 +39,18 @@ export const GET_TUTORIAL = gql`
         comment
       }
       totalDuration
+    }
+  }
+`;
+
+//Tutorials by category
+export const QUERY_TUTORIALS_BY_CATEGORY = gql`
+  query GetTutorialsByCategory($categoryId: ID!) {
+    tutorialsByCategory(categoryId: $categoryId) {
+      _id
+      title
+      overview
+      thumbnail
     }
   }
 `;

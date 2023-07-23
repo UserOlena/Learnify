@@ -130,7 +130,8 @@ export function AddTutorial() {
     };
 
     try {
-      await addTutorial({ variables });
+      const { data } = await addTutorial({ variables });
+      window.location.assign(`/${data.addTutorial._id}/lessons/add`);
     } catch (error) {
       console.log(error);
     }
