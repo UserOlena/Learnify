@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 
 
-function RateTutorial() {
+export function RateTutorial() {
   const [value, setValue] = useState(0);
   const [hover, setHover] = useState(0);
 
