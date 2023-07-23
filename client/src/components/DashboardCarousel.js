@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {
   Card,
   CardActions,
@@ -11,6 +11,7 @@ import {
   Button,
   IconButton,
 } from '@mui/material';
+import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
   pushLeft: {
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
   carouselItem: {
     width: '16rem !important',
-    margin: '0 1em 1em 0',
+    margin: '0 1em 1.5em 0',
     display: 'block',
     height: 'inherit',
   },
@@ -72,7 +73,8 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     backgroundColor: 'var(--main-bg-color)',
-    padding: '1em 0 1em 0 !important',
+    // padding: '1em 0 1em 0 !important',
+    padding: '0 !important',
   },
 
   img: {
@@ -88,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   p: {
-    margin: 0,
+    margin: '1rem 0 0 0',
     fontWeight: 'bold',
     textShadow: '1px 1px 1px #cfccca',
   },
@@ -101,14 +103,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   favoriteIcon: {
-    marginRight: '1rem',
+    marginRight: '1rem !important',
   },
 
   learnMoreBtn: {
     color: 'rgba(0, 0, 0, 0.8) !important',
   },
 }));
-import HalfRating from '../components';
+
 export function DashboardCarousel(props) {
   const classes = useStyles();
   const responsive = {
@@ -169,6 +171,7 @@ export function DashboardCarousel(props) {
 
               <CardContent className={`${classes.cardContent}`}>
                 <p className={`${classes.p}`}>{title}</p>
+                <HalfRating></HalfRating>
               </CardContent>
             </div>
             <CardActions
@@ -180,8 +183,8 @@ export function DashboardCarousel(props) {
               >
                 Learn More
               </Button>
-              <IconButton aria-label='add to favorites'>
-                <FavoriteIcon className={`${classes.favoriteIcon}`} />
+              <IconButton aria-label='add to favorites' className={`${classes.favoriteIcon}`}>
+                <FavoriteBorderIcon fontSize='large' />
               </IconButton>
             </CardActions>
           </Card>

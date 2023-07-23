@@ -6,4 +6,4 @@ export * from './Footer';
 export * from './Navbar';
 export * from './Recommended';
 export * from './DashboardCarousel';
-export * from './DashboardCard';
+export * from './RatingHalfReadOnly';
