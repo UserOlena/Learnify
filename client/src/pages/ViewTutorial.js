@@ -1,9 +1,9 @@
-import { React, useContext, useState } from 'react';
+import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 //import Learnify components
 import { ViewLesson } from '../components';
-import { TutorialContext } from '../components';
 
 //Material-UI imports
 import clsx from 'clsx';
@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme) => ({
 export function ViewTutorial() {
   const classes = useStyles();
 
-  //declare tutorialId from TutorialContext
-  const { tutorialId } = useContext(TutorialContext);
+  //get tutorialId from URL
+  const { tutorialId } = useParams();
   console.log(tutorialId);
 
   //declare State variables
@@ -101,7 +101,6 @@ export function ViewTutorial() {
   const username = teacher?.[0]?.username;
   const duration = tutorial.totalDuration;
   const numberofLessons = tutorial.lessons.length;
-  
 
   //map categories array for use on/around 180
   function categoryList(categories) {
