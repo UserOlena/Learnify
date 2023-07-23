@@ -3,12 +3,7 @@ import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Material UI imports
-import { 
-  Box, 
-  Button, 
-  TextField, 
-  Typography, 
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import {
   Chip,
   FormControl,
@@ -188,12 +183,7 @@ export function AddTutorial() {
 
   return (
     <div>
-      <Typography 
-        component='h1' 
-        variant='h5' 
-        gutterBottom
-        sx={{ mt: 4 }}
-      >
+      <Typography component='h1' variant='h5' gutterBottom sx={{ mt: 4 }}>
         Add a Tutorial
       </Typography>
       <Box
@@ -220,17 +210,11 @@ export function AddTutorial() {
           name='title'
           label='Title'
           margin='normal'
-          onChange={(e) => 
-            handleOnChange(e.target.value.trim(), setTitle)
-          }
-          onBlur={(e) => 
-            handleOnBlur(e.target.value, e.target.id, setTitle)
-          }
+          onChange={(e) => handleOnChange(e.target.value.trim(), setTitle)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setTitle)}
           error={title.isEmpty}
           helperText={title.isEmpty && 'Please enter a title for your tutorial'}
-          onFocus={() => 
-            handleOnFocus(title, setTitle)
-          }
+          onFocus={() => handleOnFocus(title, setTitle)}
         />
         <TextField
           required
@@ -241,12 +225,8 @@ export function AddTutorial() {
           margin='normal'
           multiline
           minRows={2}
-          onChange={(e) => 
-            handleOnChange(e.target.value.trim(), setOverview)
-          }
-          onBlur={(e) => 
-            handleOnBlur(e.target.value, e.target.id, setOverview)
-          }
+          onChange={(e) => handleOnChange(e.target.value.trim(), setOverview)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setOverview)}
           error={overview.isEmpty}
           helperText={
             overview.isEmpty && 'Please enter an overview of your tutorial'
@@ -263,22 +243,17 @@ export function AddTutorial() {
           onChange={(e) => {
             handleOnChange(e.target.value.trim(), setThumbnail);
           }}
-          onBlur={(e) => 
+          onBlur={(e) =>
             handleOnBlur(e.target.value, e.target.id, setThumbnail)
           }
-          error={
-            thumbnail.isEmpty || 
-            !thumbnail.isValid
-          }
+          error={thumbnail.isEmpty || !thumbnail.isValid}
           helperText={
-            thumbnail.isEmpty &&
-            'Please enter the URL of a thumbnail for your tutorial' ||
-            !thumbnail.isValid && 
-            'Please enter a valid URL. It must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif".'
+            (thumbnail.isEmpty &&
+              'Please enter the URL of a thumbnail for your tutorial') ||
+            (!thumbnail.isValid &&
+              'Please enter a valid URL. It must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif".')
           }
-          onFocus={() => 
-            handleOnFocus(thumbnail, setThumbnail)
-          }
+          onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
         />
         <FormControl
           required
@@ -297,7 +272,7 @@ export function AddTutorial() {
             onChange={(e) =>
               handleOnChange(e.target.value, setSelectedCategories)
             }
-            onBlur={(e) => 
+            onBlur={(e) =>
               handleOnBlur(e.target.value, e.target.id, setSelectedCategories)
             }
             onFocus={() =>
@@ -334,15 +309,11 @@ export function AddTutorial() {
         </FormControl>
         {loggedOut && (
           <Typography color='error' component='p'>
-            You must be signed in to submit a tutorial. 
+            You must be signed in to submit a tutorial.
             <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
-        <Button 
-          type='submit' 
-          variant='contained' 
-          sx={{ mt: 3, mb: 5 }}
-        >
+        <Button type='submit' variant='contained' sx={{ mt: 3, mb: 5 }}>
           Save Your Tutorial
         </Button>
       </Box>
