@@ -3,17 +3,8 @@ import { React, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Material UI imports
-import { 
-  Box,
-  Button, 
-  TextField, 
-  Typography,
-} from '@mui/material';
-import { 
-  Chip, 
-  Divider, 
-  makeStyles 
-} from '@material-ui/core';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { Chip, Divider, makeStyles } from '@material-ui/core';
 
 // Imports for interacting with the db
 import { useMutation, useQuery } from '@apollo/client';
@@ -61,20 +52,20 @@ export function AddLessons() {
   const [addLesson, { error: lessonError }] = useMutation(ADD_LESSON, {
     update(cache, { data: { addLesson } }) {
       try {
-        const { tutorial } = cache.readQuery({ 
-          query: GET_TUTORIAL, 
-          variables: { tutorialId } 
+        const { tutorial } = cache.readQuery({
+          query: GET_TUTORIAL,
+          variables: { tutorialId },
         });
         const { lessons } = tutorial;
 
         cache.writeQuery({
           query: GET_TUTORIAL,
           variables: { tutorialId },
-          data: { 
+          data: {
             tutorial: {
               ...tutorial,
-              lessons: [...lessons, addLesson]
-            } 
+              lessons: [...lessons, addLesson],
+            },
           },
         });
       } catch (error) {
@@ -118,7 +109,7 @@ export function AddLessons() {
     return (
       <>
         {lessons.map((lesson) => (
-          <ViewLesson 
+          <ViewLesson
             key={lesson._id}
             lessonFromAddLessons={lesson}
             stylesFromAddLesson={stylesFromAddLesson}
@@ -206,12 +197,7 @@ export function AddLessons() {
         Tutorial: {tutorial.title}
       </Typography>
       <Box direction='row'>{categoryList(categories)}</Box>
-      <Box 
-        component='form' 
-        noValidate 
-        onSubmit={handleSubmit} 
-        sx={{ mt: 1 }}
-      >
+      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <TextField
           required
           fullWidth
@@ -223,9 +209,7 @@ export function AddLessons() {
           onChange={(e) => handleOnChange(e.target.value, setName)}
           onBlur={(e) => handleOnBlur(e.target.value, setName)}
           error={name.isEmpty}
-          helperText={
-            name.isEmpty && 'Please enter the name of this lesson'
-          }
+          helperText={name.isEmpty && 'Please enter the name of this lesson'}
           onFocus={() => handleOnFocus(name, setName)}
         />
         <TextField
@@ -239,9 +223,7 @@ export function AddLessons() {
           onChange={(e) => handleOnChange(e.target.value, setBody)}
           onBlur={(e) => handleOnBlur(e.target.value, setBody)}
           error={body.isEmpty}
-          helperText={
-            body.isEmpty && 'Please enter the body of this lesson'
-          }
+          helperText={body.isEmpty && 'Please enter the body of this lesson'}
           onFocus={() => handleOnFocus(body, setBody)}
         />
         <TextField
@@ -265,33 +247,30 @@ export function AddLessons() {
           onBlur={(e) => handleOnBlur(e.target.value, setDuration)}
           error={duration.isEmpty}
           helperText={
-            duration.isEmpty && 'Please enter the time to complete the process(es) in this lesson'
+            duration.isEmpty &&
+            'Please enter the time to complete the process(es) in this lesson'
           }
           onFocus={() => handleOnFocus(duration, setDuration)}
         />
-        <Button 
-          type='submit' 
-          variant='contained' 
-          sx={{ mt: 3, mb: 2 }}
-        >
+        <Button type='submit' variant='contained' sx={{ mt: 3, mb: 2 }}>
           Save Lesson
         </Button>
       </Box>
       <Divider variant='middle' />
-      <Typography 
-        component='h2' 
+      <Typography
+        component='h2'
         variant='h5'
         style={{
-          margin: '2rem 0'
+          margin: '2rem 0',
         }}
       >
         Lessons in This Tutorial
       </Typography>
-      {
-        lessons && lessons.length > 0 ?
-        lessonList(lessons) :
+      {lessons && lessons.length > 0 ? (
+        lessonList(lessons)
+      ) : (
         <p>No lessons yet! Add one above.</p>
-      }
+      )}
     </div>
   );
 }
