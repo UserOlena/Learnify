@@ -48,15 +48,39 @@ export function AddLessons() {
   const [media, setMedia] = useState(inputDefaultValues);
   const [duration, setDuration] = useState(inputDefaultValues);
 
-  // Set up mutation to add the tutorial to the db
-  const [addLesson, { error: lessonError }] = useMutation(ADD_LESSON);
+  // Set up mutation to add the lesson to the db
+  // Use the cache to add each new lesson to the bottom of the page upon saving
+  const [addLesson, { error: lessonError }] = useMutation(ADD_LESSON, {
+    update(cache, { data: { addLesson } }) {
+      try {
+        const { tutorial } = cache.readQuery({ 
+          query: GET_TUTORIAL, 
+          variables: { tutorialId } 
+        });
+        const { lessons } = tutorial;
+
+        cache.writeQuery({
+          query: GET_TUTORIAL,
+          variables: { tutorialId },
+          data: { 
+            tutorial: {
+              ...tutorial,
+              lessons: [...lessons, addLesson]
+            } 
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
 
   // Get tutorial ID from URL wildcard
   const { tutorialId } = useParams();
 
   // Set up query to get the tutorial from the db
   const { loading, error, data } = useQuery(GET_TUTORIAL, {
-    variables: { id: tutorialId },
+    variables: { tutorialId },
   });
 
   if (loading) {
