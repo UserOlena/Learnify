@@ -67,6 +67,7 @@ export function validateInput(inputValue, state) {
     case 'confirmPassword':
       return validatePassword(inputValue);
     case 'thumbnail':
+    case 'media':
       return validateImageUrl(inputValue);
   }
 }
