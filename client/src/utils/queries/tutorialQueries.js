@@ -7,6 +7,14 @@ export const GET_TUTORIALS = gql`
       title
       overview
       thumbnail
+      teacher {
+        username
+      }
+      reviews {
+        rating
+      }
+      totalDuration
+      averageRating
     }
   }
 `;
@@ -36,6 +44,7 @@ export const GET_TUTORIAL = gql`
         comment
       }
       totalDuration
+      averageRating
     }
   }
 `;
