@@ -100,7 +100,7 @@ export function ViewTutorial() {
   const { teacher, categories, lessons, overview, reviews } = tutorial;
   const username = teacher?.[0]?.username;
   const duration = tutorial.totalDuration;
-  const numberofLessons = tutorial.lessons.length;
+  const totalLessons = tutorial.lessons.length;
 
   //map categories array for use on/around 180
   function categoryList(categories) {
@@ -154,7 +154,9 @@ export function ViewTutorial() {
       </>
     );
   }
-
+  //get number of reviews
+  let totalReviews = reviews.length;
+  console.log(reviews.length);
   //calculate average rating
   let totalRating = 0;
   for (const review of reviews) {
@@ -226,7 +228,6 @@ export function ViewTutorial() {
             margin: '2%',
           }}
         >
-          {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
           <Grid
             item
             xs={10}
@@ -275,7 +276,7 @@ export function ViewTutorial() {
                   variant='h5'
                   component='h2'
                 >
-                  This tutorial has {numberofLessons} lessons:
+                  Reviews 
                   <IconButton
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expanded,
@@ -292,7 +293,7 @@ export function ViewTutorial() {
                   timeout='auto'
                   unmountOnExit
                 >
-                  <CardContent>{lessonList(lessons)}</CardContent>
+                  <CardContent>{reviewList(reviews)}</CardContent>
                 </Collapse>
               </CardContent>
             </Card>
@@ -308,17 +309,18 @@ export function ViewTutorial() {
                 paddingTop: '3%',
               }}
             >
+              {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
               <Typography
                 variant='h5'
                 component='h2'
               >
-                Reviews
+               This tutorial has {totalLessons} lessons:
               </Typography>
 
               <Card
                 style={{ backgroundColor: '#92b4d4', margin: 3, padding: 3 }}
               >
-                {reviewList(reviews)}
+                {lessonList(lessons)}
               </Card>
             </Card>
           </Grid>
