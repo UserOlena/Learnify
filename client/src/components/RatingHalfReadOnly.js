@@ -10,7 +10,7 @@ export function HalfRating(props) {
         defaultValue={props.rating}
         precision={0.5}
         readOnly
-        style={{padding: '0.7rem 0 0 0'}}
+        style={{padding: '0.8rem 0 0 0'}}
       />
     </Stack>
   );
