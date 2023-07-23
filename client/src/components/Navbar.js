@@ -6,9 +6,11 @@ import {
   MenuItem,
   Menu,
   InputBase,
-  Button,
   IconButton,
   makeStyles,
+  Grid,
+  ListItemIcon,
+  ListItemText,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -17,76 +19,77 @@ import { useQuery } from '@apollo/client';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root: {
-      userSelect: 'none',
-    },
-    appBar: {
-      backgroundColor: '#FAF0E6',
-      color: 'black',
-      opacity: '0.8',
-      height: '60px',
-    },
-    logo: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-    search: {
-      position: 'relative',
-      borderRadius: '50px',
-      backgroundColor: '#fff',
-      marginRight: theme.spacing(2),
-      marginLeft: theme.spacing(2),
-      width: '1300px',
-      border: '2px solid black',
-      '&:hover': {
-        backgroundColor: '#f5f5f5',
-      },
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: '100%',
-      position: 'absolute',
-      pointerEvents: 'none',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    backgroundColor: '#FAF0E6',
+    color: 'black',
+    opacity: '0.7',
+    height: '60px',
+    userSelect: 'none',
+  },
+  logo: {
+    width: '100px',
+    height: '80px',
+    zoom: '1.2',
+  },
+  search: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 auto',
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#888888',
+  },
+  inputRoot: {
+    width: '100%',
+  },
+  inputInput: {
+    padding: theme.spacing(1),
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    color: '#333333',
+    fontSize: '16px',
+    '&::placeholder': {
       color: '#888888',
     },
-    inputRoot: {
-      width: '100%',
+  },
+  navButtons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  categoriesMenu: {
+    marginLeft: theme.spacing(2),
+  },
+  menuButton: {
+    marginLeft: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: theme.spacing(1),
     },
-    inputInput: {
-      padding: theme.spacing(1),
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      color: '#333333',
-      fontSize: '16px',
-      '&::placeholder': {
-        color: '#888888',
-      },
+  },
+  searchOpen: {
+    display: 'flex',
+    alignItems: 'center',
+    maxWidth: '1300px',
+    margin: '0 auto',
+    backgroundColor: 'inherit', // Set the background color to inherit the app bar color
+    '&:hover': {
+      backgroundColor: '#f5f5f5',
     },
-    logo: {
-      width: '100px',
-      height: '80px',
-      marginRight: theme.spacing(2),
-      marginTop: theme.spacing(1),
-      zoom: '1.2',
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-  };
-});
+  },
+}));
 
 function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoriesMenuAnchorEl, setCategoriesMenuAnchorEl] = useState(null);
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const { loading, data } = useQuery(GET_CATEGORIES);
   const categories = data?.categories || [];
@@ -104,76 +107,76 @@ function Navbar() {
     setAnchorEl(event.currentTarget);
   }
 
-  function handleCategoriesMenuOpen(event) {
-    setCategoriesMenuAnchorEl(event.currentTarget);
-  }
-
   function handleCloseMenus() {
     setAnchorEl(null);
     setCategoriesMenuAnchorEl(null);
   }
 
+  function handleSearchClick() {
+    // Only show the search bar when it's not already open
+    if (!showSearchBar) {
+      setShowSearchBar(true);
+    }
+  }
+
+  function handleMenuItemKeyDown(event) {
+    // Prevent event propagation to parent elements when interacting with the search bar
+    event.stopPropagation();
+
+    if (event.key === 'Enter' && !showSearchBar) {
+      handleCloseMenus();
+    }
+  }
+
+  function handleSearchKeyDown(event) {
+    // Prevent event propagation to parent elements when interacting with the search bar
+    event.stopPropagation();
+  }
+
+  function handleSearchClose() {
+    setShowSearchBar(false);
+  }
+
   return (
     <AppBar position='static' className={classes.appBar}>
       <Toolbar>
-        <IconButton
-          edge='start'
-          className={classes.menuButton}
-          color='inherit'
-          aria-label='menu'
-          onClick={handleMenuOpen}
-        >
-          <MenuIcon />
-        </IconButton>
-        <NavLink to='/'>
-          <Typography variant='h6' className={classes.title}>
-            <img src={LearnifyLogo} alt='Learnify' className={classes.logo} />
-          </Typography>
-        </NavLink>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder='Search…'
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-          />
-        </div>
-        <div className={classes.navButtons}>
-          <Button
-            variant='contained'
-            color='inherit'
-            className={classes.categoriesMenu}
-            onClick={handleCategoriesMenuOpen}
-          >
-            Categories
-          </Button>
-        </div>
-        <Menu
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleCloseMenus}
-        >
-          <NavLink to='/signup' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
-          </NavLink>
-          <NavLink to='/signin' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
-          </NavLink>
-        </Menu>
-        <Menu
-          anchorEl={categoriesMenuAnchorEl}
-          keepMounted
-          open={Boolean(categoriesMenuAnchorEl)}
-          onClose={handleCloseMenus}
-        >
-          {categories.map((category) => (
+        <Grid container alignItems='center' justify='space-between'>
+          <Grid item>
+            <NavLink to='/' style={linkStyle}>
+              <Typography variant='h6'>
+                <img
+                  src={LearnifyLogo}
+                  alt='Learnify'
+                  className={classes.logo}
+                />
+              </Typography>
+            </NavLink>
+          </Grid>
+          <Grid item>
+            <IconButton
+              edge='start'
+              className={classes.menuButton}
+              color='inherit'
+              aria-label='menu'
+              onClick={handleMenuOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Toolbar>
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleCloseMenus}
+      >
+        {categories
+          .slice()
+          .sort((a, b) => a.category.localeCompare(b.category))
+          .map((category) => (
             <NavLink
-              to={'category/' + category.category}
+              to={'/category/' + category.category}
               style={linkStyle}
               key={category.category}
             >
@@ -182,8 +185,41 @@ function Navbar() {
               </MenuItem>
             </NavLink>
           ))}
-        </Menu>
-      </Toolbar>
+        <NavLink to='/signup' style={linkStyle}>
+          <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
+        </NavLink>
+        <NavLink to='/signin' style={linkStyle}>
+          <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
+        </NavLink>
+        <MenuItem
+          onClick={handleSearchClick}
+          onKeyDown={handleMenuItemKeyDown}
+          tabIndex={showSearchBar ? -1 : 0}
+        >
+          <ListItemIcon>
+            <SearchIcon style={{ color: 'black' }} />
+          </ListItemIcon>
+          <ListItemText primary='Search' />
+        </MenuItem>
+        {showSearchBar && (
+          <MenuItem onClick={handleSearchClick}>
+            <div className={classes.searchOpen}>
+              <div className={classes.searchIcon}>
+                <SearchIcon style={{ color: '#888888' }} />
+              </div>
+              <InputBase
+                placeholder='Search...'
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                onBlur={handleSearchClose}
+                onKeyDown={handleSearchKeyDown}
+              />
+            </div>
+          </MenuItem>
+        )}
+      </Menu>
     </AppBar>
   );
 }
