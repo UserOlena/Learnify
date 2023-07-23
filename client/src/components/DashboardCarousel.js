@@ -162,10 +162,6 @@ export function DashboardCarousel(props) {
             <Card
               key={index}
               value={id}
-              sx={{
-                maxWidth: 285,
-              }}
-              style={{}}
               className={`${classes.card} `}
             >
               <div>
