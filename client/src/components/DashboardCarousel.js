@@ -139,16 +139,14 @@ export function DashboardCarousel(props) {
       draggable={false}
       showDots={true}
       responsive={responsive}
-      ssr={true} // means to render carousel on server-side.
       infinite={true}
-      //   autoPlay={true}
-      autoPlaySpeed={10000}
+      autoPlay={true}
+      autoPlaySpeed={4000}
       shouldResetAutoplay={true}
       keyBoardControl={true}
-      customTransition='all .5'
-      transitionDuration={500}
+      transitionDuration={1000}
+      additionalTransfrom={10}
       removeArrowOnDeviceType={['tablet', 'mobile']}
-      // deviceType={this.props.deviceType}
       dotListClass='custom-dot-list-style'
       containerClass={`'carousel-container'`}
       itemClass={`${classes.carouselItem}`}
@@ -183,7 +181,10 @@ export function DashboardCarousel(props) {
               >
                 Learn More
               </Button>
-              <IconButton aria-label='add to favorites' className={`${classes.favoriteIcon}`}>
+              <IconButton
+                aria-label='add to favorites'
+                className={`${classes.favoriteIcon}`}
+              >
                 <FavoriteBorderIcon fontSize='large' />
               </IconButton>
             </CardActions>
