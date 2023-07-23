@@ -57,7 +57,7 @@ tutorialSchema.virtual('totalDuration').get(function () {
   return totalDuration;
 });
 
-// Calculate the total duration of the tutorial by adding the durations of the individual lessons
+// Compute the overall average rating of the tutorial by summing up all the ratings and dividing the total by the number of reviews
 tutorialSchema.virtual('averageRating').get(function () {
   const reviewsLength = this.reviews.length;
   const totalRating = this.reviews.reduce((sum, review) => {
