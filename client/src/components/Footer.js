@@ -1,21 +1,21 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
 
 function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer
-      style={{ backgroundColor: 'black', color: 'white', padding: '20px' }}
+      style={{ backgroundColor: 'black', color: 'white', padding: '10px' }}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        {/* Add your company logo here */}
         <img
-          src='/path/to/company-logo.png'
+          src={LearnifyLogo}
           alt='Company Logo'
-          style={{ width: '50px', marginRight: '10px' }}
+          style={{ width: '80px', marginRight: '10px' }}
         />
-        <p>&copy; {currentYear} Your Company Name. All rights reserved.</p>
+        <p>&copy; {currentYear} Learnify. All rights reserved.</p>
       </div>
       <div style={{ marginTop: '10px' }}>
         <NavLink to= '/about'style={{ color: 'white', marginRight: '10px' }} >  
