@@ -17,6 +17,7 @@ import {
   AddLessons,
   AddTutorial,
   Careers,
+  Dashboard,
   Home,
   Payment,
   SignIn,
@@ -69,6 +70,10 @@ function App() {
             <Route
               path='/signup'
               element={<SignUp />}
+            ></Route>
+            <Route
+              path='/dashboard'
+              element={<Dashboard />}
             ></Route>
             <Route
               path='/signin'
