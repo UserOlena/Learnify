@@ -61,8 +61,25 @@ tutorialSchema.virtual('totalDuration').get(function () {
   const totalDuration = this.lessons.reduce((sum, lesson) => {
     return sum + lesson.duration;
   }, 0);
+tutorialSchema.virtual('totalDuration').get(function () {
+  const totalDuration = this.lessons.reduce((sum, lesson) => {
+    return sum + lesson.duration;
+  }, 0);
 
   return totalDuration;
+});
+
+// Compute the overall average rating of the tutorial by summing up all the ratings and dividing the total by the number of reviews
+tutorialSchema.virtual('averageRating').get(function () {
+  const reviewsLength = this.reviews.length;
+  const totalRating = this.reviews.reduce((sum, review) => {
+    return sum + review.rating;
+  }, 0);
+
+  // Calculate the average rating
+  const averageRating = reviewsLength > 0 ? totalRating / reviewsLength : 0;
+
+  return averageRating;
 });
 
 module.exports = model('Tutorial', tutorialSchema);

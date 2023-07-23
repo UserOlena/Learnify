@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Carousel() {
+export function Carousel() {
   const classes = useStyles();
   const theme = useTheme();
 
