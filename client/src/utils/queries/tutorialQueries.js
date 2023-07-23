@@ -10,9 +10,6 @@ export const GET_TUTORIALS = gql`
       teacher {
         username
       }
-      reviews {
-        rating
-      }
       totalDuration
       averageRating
     }
