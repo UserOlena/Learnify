@@ -45,8 +45,12 @@ export const GET_TUTORIAL = gql`
 
 //Tutorials by category
 export const QUERY_TUTORIALS_BY_CATEGORY = gql`
-  query GetTutorialsByCategory($categoryId: ID!) {
-    tutorialsByCategory(categoryId: $categoryId) {
+  query GetTutorialsByCategory(
+    $categoryId: ID!
+    ) {
+    tutorialsByCategory(
+      categoryId: $categoryId
+      ) {
       _id
       title
       overview

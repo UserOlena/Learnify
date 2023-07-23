@@ -74,7 +74,7 @@ function SubCategory({ subCategory }) {
                   borderColor={
                     theme.palette.mode === 'dark' ? 'white' : 'black'
                   }
-                  backgroundColor={
+                  background={
                     theme.palette.mode === 'dark' ? 'gray' : 'white'
                   }
                   p={2}
@@ -109,8 +109,10 @@ function Categories({ categories }) {
   console.log('cat', categories);
 
   const setCategory = (category) => {
+    if (category !== selectedCategory) {
     setSelectedCategory(category);
     setCategorySelected(true);
+    }
   };
 
   return (

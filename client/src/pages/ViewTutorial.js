@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom';
 //import Learnify components
 import { RateTutorial, ViewLesson } from '../components';
 
+
 //Material-UI imports
 import clsx from 'clsx';
 import {
-  Box,
+
   Button,
   Card,
   CardContent,

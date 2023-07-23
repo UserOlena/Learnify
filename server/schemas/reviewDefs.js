@@ -5,6 +5,7 @@ const { Review, Tutorial } = require('../models');
 const reviewTypeDefs = gql`
   type Review {
     _id: ID!
+    username: [User]
     rating: Int
     comment: String
   }
@@ -15,7 +16,7 @@ const reviewTypeDefs = gql`
   }
 
   type Mutation {
-    addReview(tutorialId: String!, rating: Int, comment: String): Review
+    addReview(tutorialId: String!, username: String!, rating: Int, comment: String): Review
     updateReview(_id: ID!, rating: Int, comment: String): Review
     deleteReview(_id: ID!): Review
   }
@@ -44,9 +45,9 @@ const reviewResolvers = {
 
   Mutation: {
     // Add a review and attach it to its tutorial
-    addReview: async function (parent, { tutorialId, rating, comment }) {
+    addReview: async function (parent, { tutorialId, username, rating, comment }) {
       try {
-        const reviewResult = await Review.create({ rating, comment });
+        const reviewResult = await Review.create({ username, rating, comment });
 
         await Tutorial.findByIdAndUpdate(
           tutorialId,
