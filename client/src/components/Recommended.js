@@ -1,4 +1,4 @@
-import { React, useContext, useState } from 'react';
+import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
@@ -6,7 +6,6 @@ import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { TutorialContext } from '../components';
 
 const useStyles = makeStyles((theme) => ({
   recommendations: {
@@ -52,15 +51,6 @@ function Recommended() {
   const classes = useStyles();
   const theme = useTheme();
   const isFullScreen = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is full screen (md breakpoint)
-
-  //CONTEXT management
-  const { tutorialId, setTutorialId } = useContext(TutorialContext);
-  //set tutorialId context based on which tutorial is clicked by the user
-  const handleTutorialContext = (tutorialId) => {
-    //  set state to clicked tutorialId
-    setTutorialId(tutorialId);
-    console.log(tutorialId);
-  };
 
   //STATE management
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -108,7 +98,6 @@ function Recommended() {
               <Link
                 to={`/tutorial/${tutorial._id}`}
                 key={tutorial._id}
-                onClick={() => handleTutorialContext(tutorial._id)}
               >
                 <Typography className={classes.cardTitle}>
                   {tutorial.title}

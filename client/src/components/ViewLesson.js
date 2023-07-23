@@ -3,10 +3,8 @@ import { useParams } from 'react-router-dom';
 
 //Material-UI imports
 import {
-  Button,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   Container,
@@ -18,15 +16,18 @@ import {
 import { useQuery } from '@apollo/client';
 import { GET_LESSON } from '../utils/queries/lessonQueries';
 
-
-
-export function ViewLesson() {
-
-
+export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
   //get index and ID from URL and get associated lesson data from db
   const { index, lessonId } = useParams();
+
+  // If lesson was passed from AddLessons use that id to get lesson
+  // otherwise use lessonId from useParams()
   const { loading, err, data } = useQuery(GET_LESSON, {
-    variables: { lessonId: lessonId },
+    variables: { 
+      lessonId: lessonFromAddLessons ? 
+        lessonFromAddLessons._id : 
+        lessonId 
+    },
   });
   console.log(loading, err, data);
   if (loading) {
@@ -44,9 +45,8 @@ export function ViewLesson() {
   //destructure fields from lesson object
   const { name, body, media, duration } = lesson;
 
-
   return (
-    <Container>
+    <Container style={stylesFromAddLesson}>
       <Grid
         container
         justifyContent='center'

@@ -24,7 +24,7 @@ import {
   ViewTutorial,
   About 
 } from './pages';
-import { Footer, Navbar, TutorialContext, ViewLesson } from './components';
+import { Footer, Navbar } from './components';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
