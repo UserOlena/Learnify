@@ -3,13 +3,8 @@ import { React, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Material UI imports
-import { 
-  Box,
-  Button, 
-  TextField, 
-  Typography,
-} from '@mui/material';
-import { Chip, makeStyles } from '@material-ui/core';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { Chip, Divider, makeStyles } from '@material-ui/core';
 
 // Imports for interacting with the db
 import { useMutation, useQuery } from '@apollo/client';
@@ -18,6 +13,9 @@ import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
 // Imports for other utilities
 import { isEmptyInput } from '../utils/validation';
+
+// Component imports
+import { ViewLesson } from '../components/ViewLesson';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function AddLessons() {
   const classes = useStyles();
+  const stylesFromAddLesson = { marginBottom: '1rem' };
 
   // Set default state values
   const inputDefaultValues = {
@@ -49,7 +48,31 @@ export function AddLessons() {
   const [duration, setDuration] = useState(inputDefaultValues);
 
   // Set up mutation to add the lesson to the db
-  const [addLesson, { error: lessonError }] = useMutation(ADD_LESSON);
+  // Use the cache to add each new lesson to the bottom of the page upon saving
+  const [addLesson, { error: lessonError }] = useMutation(ADD_LESSON, {
+    update(cache, { data: { addLesson } }) {
+      try {
+        const { tutorial } = cache.readQuery({
+          query: GET_TUTORIAL,
+          variables: { tutorialId },
+        });
+        const { lessons } = tutorial;
+
+        cache.writeQuery({
+          query: GET_TUTORIAL,
+          variables: { tutorialId },
+          data: {
+            tutorial: {
+              ...tutorial,
+              lessons: [...lessons, addLesson],
+            },
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
 
   // Get tutorial ID from URL wildcard
   const { tutorialId } = useParams();
@@ -86,12 +109,11 @@ export function AddLessons() {
     return (
       <>
         {lessons.map((lesson) => (
-          <div>
-            <p>Name: {lesson.name}</p>
-            <p>Body: {lesson.body}</p>
-            <p>Media: {lesson.media}</p>
-            <p>Duration: {lesson.duration}</p>
-          </div>
+          <ViewLesson
+            key={lesson._id}
+            lessonFromAddLessons={lesson}
+            stylesFromAddLesson={stylesFromAddLesson}
+          />
         ))}
       </>
     );
@@ -175,12 +197,7 @@ export function AddLessons() {
         Tutorial: {tutorial.title}
       </Typography>
       <Box direction='row'>{categoryList(categories)}</Box>
-      <Box 
-        component='form' 
-        noValidate 
-        onSubmit={handleSubmit} 
-        sx={{ mt: 1 }}
-      >
+      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <TextField
           required
           fullWidth
@@ -192,9 +209,7 @@ export function AddLessons() {
           onChange={(e) => handleOnChange(e.target.value, setName)}
           onBlur={(e) => handleOnBlur(e.target.value, setName)}
           error={name.isEmpty}
-          helperText={
-            name.isEmpty && 'Please enter the name of this lesson'
-          }
+          helperText={name.isEmpty && 'Please enter the name of this lesson'}
           onFocus={() => handleOnFocus(name, setName)}
         />
         <TextField
@@ -208,9 +223,7 @@ export function AddLessons() {
           onChange={(e) => handleOnChange(e.target.value, setBody)}
           onBlur={(e) => handleOnBlur(e.target.value, setBody)}
           error={body.isEmpty}
-          helperText={
-            body.isEmpty && 'Please enter the body of this lesson'
-          }
+          helperText={body.isEmpty && 'Please enter the body of this lesson'}
           onFocus={() => handleOnFocus(body, setBody)}
         />
         <TextField
@@ -234,26 +247,30 @@ export function AddLessons() {
           onBlur={(e) => handleOnBlur(e.target.value, setDuration)}
           error={duration.isEmpty}
           helperText={
-            duration.isEmpty && 'Please enter the time to complete the process(es) in this lesson'
+            duration.isEmpty &&
+            'Please enter the time to complete the process(es) in this lesson'
           }
           onFocus={() => handleOnFocus(duration, setDuration)}
         />
-        <Button 
-          type='submit' 
-          variant='contained' 
-          sx={{ mt: 3, mb: 2 }}
-        >
+        <Button type='submit' variant='contained' sx={{ mt: 3, mb: 2 }}>
           Save Lesson
         </Button>
       </Box>
-      <Typography component='h2' variant='h6'>
+      <Divider variant='middle' />
+      <Typography
+        component='h2'
+        variant='h5'
+        style={{
+          margin: '2rem 0',
+        }}
+      >
         Lessons in This Tutorial
       </Typography>
-      {
-        lessons && lessons.length > 0 ? 
-          <Box>{lessonList(lessons)}</Box> :
-          <p>No lessons yet! Add one above.</p>
-      }
+      {lessons && lessons.length > 0 ? (
+        lessonList(lessons)
+      ) : (
+        <p>No lessons yet! Add one above.</p>
+      )}
     </div>
   );
 }
