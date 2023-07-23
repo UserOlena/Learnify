@@ -16,8 +16,10 @@ import {
 } from '@material-ui/core';
 
 // Imports for interacting with the db
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { ADD_REVIEW } from '../utils/mutations/reviewMutations';
+import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
+import { GET_USER } from '../utils/queries/userQueries';
 
 // Imports for other utilities
 import { isEmptyInput } from '../utils/validation';
@@ -46,7 +48,7 @@ export function ReviewForm() {
           query: GET_TUTORIAL,
           variables: { tutorialId },
         });
-        const { lessons } = tutorial;
+        const { reviews } = tutorial;
 
         cache.writeQuery({
           query: GET_TUTORIAL,
@@ -54,7 +56,7 @@ export function ReviewForm() {
           data: {
             tutorial: {
               ...tutorial,
-              lessons: [...lessons, addLesson],
+              reviews: [...reviews, addReview],
             },
           },
         });
@@ -135,4 +137,6 @@ export function ReviewForm() {
       value: '',
     }));
   }
+
+  
 }
