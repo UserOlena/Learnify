@@ -101,14 +101,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   favoriteIcon: {
-    marginLeft: '1rem',
+    marginRight: '1rem',
   },
 
   learnMoreBtn: {
-    marginRight: '1rem',
-  }
+    color: 'rgba(0, 0, 0, 0.8) !important',
+  },
 }));
-
+import HalfRating from '../components';
 export function DashboardCarousel(props) {
   const classes = useStyles();
   const responsive = {
@@ -132,66 +132,62 @@ export function DashboardCarousel(props) {
   };
 
   return (
-    <div>
-      <Carousel
-        swipeable={false}
-        draggable={false}
-        showDots={true}
-        responsive={responsive}
-        ssr={true} // means to render carousel on server-side.
-        infinite={true}
-        //   autoPlay={true}
-        autoPlaySpeed={10000}
-        shouldResetAutoplay={true}
-        keyBoardControl={true}
-        customTransition='all .5'
-        transitionDuration={500}
-        removeArrowOnDeviceType={['tablet', 'mobile']}
-        // deviceType={this.props.deviceType}
-        dotListClass='custom-dot-list-style'
-        containerClass={`'carousel-container'`}
-        itemClass={`${classes.carouselItem}`}
-        sliderClass={`${classes.reactMultiCarouselTrack}`}
-      >
-        {props.items.map(({ id, overview, thumbnail, title }, index) => {
-          return (
-            <Card
-              key={index}
-              value={id}
-              className={`${classes.card} `}
-            >
-              <div>
-                <CardMedia
-                  component='img'
-                  alt='tutorial image'
-                  image={thumbnail}
-                  className={`${classes.img}`}
-                />
+    <Carousel
+      swipeable={false}
+      draggable={false}
+      showDots={true}
+      responsive={responsive}
+      ssr={true} // means to render carousel on server-side.
+      infinite={true}
+      //   autoPlay={true}
+      autoPlaySpeed={10000}
+      shouldResetAutoplay={true}
+      keyBoardControl={true}
+      customTransition='all .5'
+      transitionDuration={500}
+      removeArrowOnDeviceType={['tablet', 'mobile']}
+      // deviceType={this.props.deviceType}
+      dotListClass='custom-dot-list-style'
+      containerClass={`'carousel-container'`}
+      itemClass={`${classes.carouselItem}`}
+      sliderClass={`${classes.reactMultiCarouselTrack}`}
+    >
+      {props.items.map(({ id, overview, thumbnail, title }, index) => {
+        return (
+          <Card
+            key={index}
+            value={id}
+            className={`${classes.card} `}
+          >
+            <div>
+              <CardMedia
+                component='img'
+                alt='tutorial image'
+                image={thumbnail}
+                className={`${classes.img}`}
+              />
 
-                <CardContent className={`${classes.cardContent}`}>
-                  <p className={`${classes.p}`}>{title}</p>
-                </CardContent>
-              </div>
-              <CardActions
-                className={` ${classes.cardContent} ${classes.actionBox}`}
+              <CardContent className={`${classes.cardContent}`}>
+                <p className={`${classes.p}`}>{title}</p>
+              </CardContent>
+            </div>
+            <CardActions
+              className={` ${classes.cardContent} ${classes.actionBox}`}
+            >
+              <Button
+                size='small'
+                className={`${classes.learnMoreBtn}`}
               >
-                <IconButton aria-label='add to favorites'>
-                  <FavoriteIcon 
-                    className={`${classes.favoriteIcon}`}
-                  />
-                </IconButton>
-                <Button 
-                    size='small'
-                    className={`${classes.learnMoreBtn}`}
-                >
-                    Learn More
-                    </Button>
-              </CardActions>
-            </Card>
-          );
-        })}
-      </Carousel>
-    </div>
+                Learn More
+              </Button>
+              <IconButton aria-label='add to favorites'>
+                <FavoriteIcon className={`${classes.favoriteIcon}`} />
+              </IconButton>
+            </CardActions>
+          </Card>
+        );
+      })}
+    </Carousel>
   );
 }
 
