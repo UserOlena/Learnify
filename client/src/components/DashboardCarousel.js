@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgba(0, 0, 0, 1)',
     fontSize: '0.8em',
     margin: '0.7em 0 0 0',
-    textShadow: 'none'
+    textShadow: 'none',
   },
 }));
 
@@ -147,12 +147,12 @@ export function DashboardCarousel(props) {
       showDots={true}
       responsive={responsive}
       infinite={true}
-      //   autoPlay={true}
+      autoPlay={true}
       autoPlaySpeed={4000}
       shouldResetAutoplay={true}
       keyBoardControl={true}
       transitionDuration={1000}
-      additionalTransfrom={10}
+      additionalTransfrom={1}
       removeArrowOnDeviceType={['tablet', 'mobile']}
       dotListClass='custom-dot-list-style'
       containerClass={`'carousel-container'`}
