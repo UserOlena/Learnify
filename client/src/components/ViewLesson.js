@@ -3,10 +3,8 @@ import { useParams } from 'react-router-dom';
 
 //Material-UI imports
 import {
-  Button,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   Container,
@@ -18,11 +16,7 @@ import {
 import { useQuery } from '@apollo/client';
 import { GET_LESSON } from '../utils/queries/lessonQueries';
 
-
-
 export function ViewLesson() {
-
-
   //get index and ID from URL and get associated lesson data from db
   const { index, lessonId } = useParams();
   const { loading, err, data } = useQuery(GET_LESSON, {
@@ -43,7 +37,6 @@ export function ViewLesson() {
 
   //destructure fields from lesson object
   const { name, body, media, duration } = lesson;
-
 
   return (
     <Container>
