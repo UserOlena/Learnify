@@ -109,6 +109,13 @@ const useStyles = makeStyles((theme) => ({
   learnMoreBtn: {
     color: 'rgba(0, 0, 0, 0.8) !important',
   },
+
+  teacher: {
+    color: 'rgba(0, 0, 0, 1)',
+    fontSize: '0.8em',
+    margin: '0.7em 0 0 0',
+    textShadow: 'none'
+  },
 }));
 
 export function DashboardCarousel(props) {
@@ -140,7 +147,7 @@ export function DashboardCarousel(props) {
       showDots={true}
       responsive={responsive}
       infinite={true}
-    //   autoPlay={true}
+      //   autoPlay={true}
       autoPlaySpeed={4000}
       shouldResetAutoplay={true}
       keyBoardControl={true}
@@ -152,49 +159,50 @@ export function DashboardCarousel(props) {
       itemClass={`${classes.carouselItem}`}
       sliderClass={`${classes.reactMultiCarouselTrack}`}
     >
-      {props.items.map(({ id, overview, thumbnail, title, averageRating, }, index) => {
-        return (
-          <Card
-            key={index}
-            value={id}
-            className={`${classes.card} `}
-          >
-            <div>
-              <CardMedia
-                component='img'
-                alt='tutorial image'
-                image={thumbnail}
-                className={`${classes.img}`}
-              />
-
-              <CardContent className={`${classes.cardContent}`}>
-                <p className={`${classes.p}`}>{title}</p>
-              </CardContent>
-            </div>
-                <div>
-                    <HalfRating 
-                    rating={averageRating}
-                    />
-            <CardActions
-              className={`${classes.cardContent} ${classes.actionBox}`}
+      {props.items.map(
+        ({ id, overview, thumbnail, title, averageRating, teacher }, index) => {
+          return (
+            <Card
+              key={index}
+              value={id}
+              className={`${classes.card} `}
             >
-              <Button
-                size='small'
-                className={`${classes.learnMoreBtn}`}
-              >
-                Learn More
-              </Button>
-              <IconButton
-                aria-label='add to favorites'
-                className={`${classes.favoriteIcon}`}
-              >
-                <FavoriteBorderIcon fontSize='large' />
-              </IconButton>
-            </CardActions>
-            </div>
-          </Card>
-        );
-      })}
+              <div>
+                <CardMedia
+                  component='img'
+                  alt='tutorial image'
+                  image={thumbnail}
+                  className={`${classes.img}`}
+                />
+
+                <CardContent className={`${classes.cardContent}`}>
+                  <p className={`${classes.p}`}>{title}</p>
+                </CardContent>
+              </div>
+              <div>
+                <p className={`${classes.teacher}`}>{teacher[0].username}</p>
+                <HalfRating rating={averageRating} />
+                <CardActions
+                  className={`${classes.cardContent} ${classes.actionBox}`}
+                >
+                  <Button
+                    size='small'
+                    className={`${classes.learnMoreBtn}`}
+                  >
+                    Learn More
+                  </Button>
+                  <IconButton
+                    aria-label='add to favorites'
+                    className={`${classes.favoriteIcon}`}
+                  >
+                    <FavoriteBorderIcon fontSize='large' />
+                  </IconButton>
+                </CardActions>
+              </div>
+            </Card>
+          );
+        }
+      )}
     </Carousel>
   );
 }
