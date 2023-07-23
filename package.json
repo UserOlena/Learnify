@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "test gitnub configuration",
   "main": "server/server.js",
+  "engines": {
+    "node": "20.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "start": "node server/server.js --ignore client",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
