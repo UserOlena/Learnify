@@ -9,7 +9,11 @@ import {
   TextField, 
   Typography,
 } from '@mui/material';
-import { Chip, makeStyles } from '@material-ui/core';
+import { 
+  Chip, 
+  Divider, 
+  makeStyles 
+} from '@material-ui/core';
 
 // Imports for interacting with the db
 import { useMutation, useQuery } from '@apollo/client';
@@ -18,6 +22,9 @@ import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 
 // Imports for other utilities
 import { isEmptyInput } from '../utils/validation';
+
+// Component imports
+import { ViewLesson } from '../components/ViewLesson';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function AddLessons() {
   const classes = useStyles();
+  const stylesFromAddLesson = { marginBottom: '1rem' };
 
   // Set default state values
   const inputDefaultValues = {
@@ -110,12 +118,11 @@ export function AddLessons() {
     return (
       <>
         {lessons.map((lesson) => (
-          <div>
-            <p>Name: {lesson.name}</p>
-            <p>Body: {lesson.body}</p>
-            <p>Media: {lesson.media}</p>
-            <p>Duration: {lesson.duration}</p>
-          </div>
+          <ViewLesson 
+            key={lesson._id}
+            lessonFromAddLessons={lesson}
+            stylesFromAddLesson={stylesFromAddLesson}
+          />
         ))}
       </>
     );
@@ -270,13 +277,20 @@ export function AddLessons() {
           Save Lesson
         </Button>
       </Box>
-      <Typography component='h2' variant='h6'>
+      <Divider variant='middle' />
+      <Typography 
+        component='h2' 
+        variant='h5'
+        style={{
+          margin: '2rem 0'
+        }}
+      >
         Lessons in This Tutorial
       </Typography>
       {
-        lessons && lessons.length > 0 ? 
-          <Box>{lessonList(lessons)}</Box> :
-          <p>No lessons yet! Add one above.</p>
+        lessons && lessons.length > 0 ?
+        lessonList(lessons) :
+        <p>No lessons yet! Add one above.</p>
       }
     </div>
   );
