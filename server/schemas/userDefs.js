@@ -9,6 +9,7 @@ const userTypeDefs = gql`
     email: String
     password: String
     tutorials: [Tutorial]
+    reviews: [Review]
   }
 
   type Auth {

@@ -1,11 +1,16 @@
-const { gql } = require('apollo-server-express');
+const { gql, AuthenticationError } = require('apollo-server-express');
 
-const { Review, Tutorial } = require('../models');
+const { Review, Tutorial, User } = require('../models');
 
 const reviewTypeDefs = gql`
+  type Reviewer {
+    _id: ID!
+    username: String
+  }
+
   type Review {
     _id: ID!
-    username: [User]
+    reviewer: Reviewer
     rating: Int
     comment: String
   }
@@ -16,9 +21,22 @@ const reviewTypeDefs = gql`
   }
 
   type Mutation {
-    addReview(tutorialId: String!, username: String!, rating: Int, comment: String): Review
-    updateReview(_id: ID!, rating: Int, comment: String): Review
-    deleteReview(_id: ID!): Review
+    addReview(
+      tutorialId: ID!
+      reviewer: ID!
+      rating: Int
+      comment: String
+    ): Review
+
+    updateReview(
+      _id: ID! 
+      rating: Int 
+      comment: String
+      ): Review
+
+    deleteReview(
+      _id: ID!
+      ): Review
   }
 `;
 
@@ -27,7 +45,8 @@ const reviewResolvers = {
     // Get all reviews
     reviews: async function () {
       try {
-        return await Review.find({});
+        return await Review.find({})
+        .populate('reviewer');
       } catch (error) {
         throw new Error(`Failed to get all reviews: ${error.message}`);
       }
@@ -36,29 +55,42 @@ const reviewResolvers = {
     // Get a single review by ID
     review: async function (parent, { _id }) {
       try {
-        return await Review.findById(_id);
+        return await Review.findById(_id)
+        .populate('reviewer');
       } catch (error) {
         throw new Error(`Failed to get single review: ${error.message}`);
       }
     },
-  },
+  },  
 
   Mutation: {
-    // Add a review and attach it to its tutorial
-    addReview: async function (parent, { tutorialId, username, rating, comment }) {
-      try {
-        const reviewResult = await Review.create({ username, rating, comment });
+    // Add a review and attach it to the reviewer and tutorial
+    addReview: async function (
+      parent,
+      { tutorialId, reviewer, rating, comment }
+    ) {
+      // If user is logged in, add the review to the db
+      if (context.user) {
+        try {
+          const newReview = await Review.create({
+            reviewer,
+            rating,
+            comment,
+          });
+          await Tutorial.findByIdAndUpdate(
+            tutorialId,
+            { $push: { reviews: newReview._id } },
+            { new: true }
+          );
+  
+          return newReview;
 
-        await Tutorial.findByIdAndUpdate(
-          tutorialId,
-          { $push: { reviews: reviewResult._id } },
-          { new: true }
-        );
-
-        return reviewResult;
-      } catch (error) {
-        throw new Error(`Failed to add review: ${error.message}`);
+        } catch (error) {
+          throw new Error(`Failed to add review: ${error.message}`);
+        }
       }
+      // If user is not logged in, throw authentication error
+      throw new AuthenticationError('You must be logged in to add a review');
     },
 
     // Update a review's rating and/or comment
@@ -84,7 +116,7 @@ const reviewResolvers = {
     },
 
     // Delete a review
-    deleteReview: async function (parent, { _id, tutorialId }) {
+    deleteReview: async function (parent, { _id }) {
       try {
         return await Review.findByIdAndDelete(_id);
       } catch (error) {
