@@ -102,7 +102,6 @@ export function AddLessons() {
 
   const tutorial = data.tutorial;
   const { categories, lessons, teacher } = tutorial;
-  console.log('teacher', teacher);
 
   //map categories array for rendering
   function categoryList(categories) {
