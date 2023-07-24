@@ -32,7 +32,7 @@ const boxData = [
     id: 2,
     imageSrc:  Ryan,
     title: 'Ryan Acevedo Slaughter',
-    description: "Ryan is originally from Tampa, Florida but currently lives in San Francisco Californina. He has been a social studies teacher for three years and has a Master's Degree from Florida State University in Education. He is a big sports fan and gamer. Rays up!",
+    description: "Ryan is originally from Tampa, Florida but currently lives in San Francisco California. He has been a social studies teacher for three years and has a Master's Degree from Florida State University in Education. He is a big sports fan and gamer. Rays up!",
   },
   {
     id: 3,
