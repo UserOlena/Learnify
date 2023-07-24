@@ -50,8 +50,8 @@ export function CommentForm() {
   // Get tutorial ID from URL wildcard
   const { tutorialId } = useParams();
 
-  // Set up mutation to add the lesson to the db
-  // Use the cache to add each new lesson to the bottom of the page upon saving
+  // Set up mutation to add the review to the db
+  // Use the cache to add each new review to the bottom of the card upon saving
   const [addReview, { error: reviewError }] = useMutation(ADD_REVIEW, {
     update(cache, { data: { addReview } }) {
       try {
@@ -84,7 +84,7 @@ export function CommentForm() {
   if (userData) {
     user = userData.me;
   }
-  // When form is submitted, add the tutorial to the db
+  // When form is submitted, add the review to the db
   async function handleSubmit(e) {
     e.preventDefault();
     // If user is not logged in, set state to show error and exit submit function
@@ -106,13 +106,13 @@ export function CommentForm() {
     try {
       await addReview({ variables });
       console.log(variables);
-      // Reset all of the form fields after successful submission
+      // Reset comment form field after successful submission
       resetFormFields(setComment);
     } catch (error) {
       console.log(error);
     }
   }
-  // set a new value to the state.value associated to the text field that invokes this function
+  // set a new value to the state.value associated to the comment field
   function handleOnChange(inputValue, setState) {
     setState((otherValues) => ({
       ...otherValues,
@@ -133,7 +133,7 @@ export function CommentForm() {
     }
   }
 
-  // update the state to clear the error when the user focuses on that field
+  // update the state to clear the error when the user focuses on comment field
   function handleOnFocus(state, setState) {
     // change state to remove the error message on Focus if previously input was empty
     if (state.isEmpty) {
@@ -159,8 +159,6 @@ export function CommentForm() {
       elevation={0}
     >
       <form>
-        {/* <RateTutorial 
-      required/> */}
         <Box
           component='div'
           mt={3}

@@ -1,6 +1,6 @@
 const { gql, AuthenticationError } = require('apollo-server-express');
 
-const { Review, Tutorial, User } = require('../models');
+const { Review, Tutorial } = require('../models');
 
 const reviewTypeDefs = gql`
   type Reviewer {
