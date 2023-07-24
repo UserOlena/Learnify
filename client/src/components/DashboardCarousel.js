@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, useMediaQuery } from '@material-ui/core';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { DashboardCard } from '../components';
@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
 
 export function DashboardCarousel(props) {
   const classes = useStyles();
+
+  const matchesMax959 = useMediaQuery('(max-width:959px)');
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -74,7 +77,7 @@ export function DashboardCarousel(props) {
       <Carousel
         swipeable={false}
         draggable={false}
-        showDots={false}
+        showDots={matchesMax959 ? false : true}
         responsive={responsive}
         infinite={true}
         // autoPlay={true}
