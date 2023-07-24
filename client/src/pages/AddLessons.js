@@ -1,6 +1,6 @@
 // React / router imports
 import { React, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 // Material UI imports
 import { Box, Button, TextField, Typography } from '@mui/material';
@@ -10,6 +10,7 @@ import { Chip, Divider, makeStyles } from '@material-ui/core';
 import { useMutation, useQuery } from '@apollo/client';
 import { ADD_LESSON } from '../utils/mutations/lessonMutations';
 import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
+import { GET_USER } from '../utils/queries/userQueries';
 
 // Imports for other utilities
 import { isEmptyInput } from '../utils/validation';
@@ -50,6 +51,7 @@ export function AddLessons() {
   const [media, setMedia] = useState(inputDefaultValues);
   const [duration, setDuration] = useState(inputDefaultValues);
   const [success, setSuccess] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
 
   // Set up mutation to add the lesson to the db
   // Use the cache to add each new lesson to the bottom of the page upon saving
@@ -77,6 +79,14 @@ export function AddLessons() {
       }
     },
   });
+
+  // Get the logged in user's information
+  const { data: userData } = useQuery(GET_USER);
+
+  let user;
+  if (userData) {
+    user = userData.me;
+  }
 
   // Get tutorial ID from URL wildcard
   const { tutorialId } = useParams();
@@ -126,6 +136,12 @@ export function AddLessons() {
   // When form is submitted, add the lesson to the db
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // If user is not logged in, set state to show error and exit submit function
+    if (!user) {
+      setLoggedOut(true);
+      return;
+    }
 
     const variables = {
       tutorialId,
@@ -286,6 +302,12 @@ export function AddLessons() {
           }
           onFocus={() => handleOnFocus(duration, setDuration)}
         />
+        {loggedOut && (
+          <Typography color='error' component='p'>
+            You must be signed in to add a lesson to a tutorial.{' '}
+            <Link to='/signin'>Sign In</Link>
+          </Typography>
+        )}
         <Button type='submit' variant='contained' sx={{ mt: 3 }}>
           Save Lesson
         </Button>
