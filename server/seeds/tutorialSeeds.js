@@ -20,11 +20,6 @@ const tutorialSeeds = [
         thumbnail: 'https://pikwizard.com/pw/medium/7400e2e6aa1cbf2cd13a0c1e3d4c428d.avif',
     },
     {
-        title: 'Mastering Email Organization: Tips and Tricks for Inbox Zero',
-        overview: 'Learn effective strategies and techniques to efficiently manage your email inbox, decluttering it and achieving the coveted Inbox Zero state.',
-        thumbnail: 'https://pikwizard.com/pw/medium/81be0d9ff6e87d1d9d7d06633175b126.avif',
-    },
-    {
         title: 'The Art of Efficient Grocery Shopping: Saving Time and Money',
         overview: 'Become a savvy grocery shopper by learning how to plan your shopping trips, compare prices, make smart choices, and save both time and money at the grocery store.',
         thumbnail: 'https://pikwizard.com/pw/medium/95969000ba6c3332da1d710044fba432.avif',

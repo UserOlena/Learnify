@@ -34,6 +34,19 @@ function validatePassword(passwordInput) {
   }
 }
 
+// verify that URL input is valid for an image
+// png, jpg, and avif file types accepted
+function validateImageUrl(urlInput) {
+  const imageUrlRegex =
+    /^(https?:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.avif)(\?[^\s[",><]*)?$/;
+
+  if (imageUrlRegex.test(urlInput)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // checks if the text field is not black on blur
 export function isEmptyInput(inputValue) {
   if (inputValue.length === 0) {
@@ -41,7 +54,7 @@ export function isEmptyInput(inputValue) {
   }
 }
 
-// define the text field that needs validation and 
+// define the text field that needs validation and
 // validate whether the input conforms to the regex pattern
 export function validateInput(inputValue, state) {
   switch (state) {
@@ -53,5 +66,8 @@ export function validateInput(inputValue, state) {
       return validatePassword(inputValue);
     case 'confirmPassword':
       return validatePassword(inputValue);
+    case 'thumbnail':
+    case 'media':
+      return validateImageUrl(inputValue);
   }
 }

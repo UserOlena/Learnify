@@ -1,7 +1,8 @@
 import { useState } from 'react';
 // React Router imports
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+// Styling imports
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 // Apollo server imports
 import {
   ApolloClient,
@@ -14,6 +15,7 @@ import { setContext } from '@apollo/client/link/context';
 // Import pages/components and styles
 import './style/App.css';
 import {
+  About,
   AddLessons,
   AddTutorial,
   Careers,
@@ -23,6 +25,7 @@ import {
   SignIn,
   SignUp,
   ViewTutorial,
+  WhoWeAre,
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -45,9 +48,17 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// Custom Fonts for whole app
+const customTheme = createMuiTheme({
+  typography: {
+    fontFamily: 'Poppins, sans-serif',
+  },
+});
+
 function App() {
   const [tutorialId, setTutorialId] = useState('');
   return (
+    <ThemeProvider theme={customTheme}>
     <div
       className='App'
       style={{
@@ -104,11 +115,20 @@ function App() {
               path='/tutorial/:tutorialId/lesson/:lessonId'
               element={<ViewTutorial />}
             ></Route>
+            <Route
+              path='/about'
+              element={<About />}
+            ></Route>
+            <Route
+              path='/who-we-are'
+              element={<WhoWeAre />}
+            ></Route>
           </Routes>
         </Router>
         <Footer />
       </ApolloProvider>
     </div>
+    </ThemeProvider>
   );
 }
 

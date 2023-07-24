@@ -13,7 +13,7 @@ import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
 import { GET_USER } from '../utils/queries/userQueries';
 
 // Imports for other utilities
-import { isEmptyInput } from '../utils/validation';
+import { isEmptyInput, validateInput } from '../utils/validation';
 
 // Component imports
 import { ViewLesson } from '../components/ViewLesson';
@@ -179,7 +179,7 @@ export function AddLessons() {
 
   // verify that the input is non-blank
   // set the associated state to display the appropriate error message based on the validation result
-  function handleOnBlur(inputValue, setState) {
+  function handleOnBlur(inputValue, state, setState) {
     // ensure that the input is not empty
     if (isEmptyInput(inputValue)) {
       setState((otherValues) => ({
@@ -187,6 +187,14 @@ export function AddLessons() {
         isEmpty: true,
       }));
       return;
+    }
+
+    // validate whether the input conforms to the regex pattern
+    if (!validateInput(inputValue, state)) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: false,
+      }));
     }
   }
 
@@ -199,6 +207,14 @@ export function AddLessons() {
         isEmpty: false,
       }));
       return;
+    }
+
+    // change state to remove the error message on Focus if previously input didn't pass the validation
+    if (!state.isValid) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: true,
+      }));
     }
 
     // Remove successful save message
@@ -255,9 +271,9 @@ export function AddLessons() {
           label='Name'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value, setName)}
-          onBlur={(e) => handleOnBlur(e.target.value, setName)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setName)}
           error={name.isEmpty}
-          helperText={name.isEmpty && 'Please enter the name of this lesson'}
+          helperText={name.isEmpty && 'Please enter a name for this lesson'}
           onFocus={() => handleOnFocus(name, setName)}
         />
         <TextField
@@ -271,9 +287,9 @@ export function AddLessons() {
           multiline
           minRows={3}
           onChange={(e) => handleOnChange(e.target.value, setBody)}
-          onBlur={(e) => handleOnBlur(e.target.value, setBody)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setBody)}
           error={body.isEmpty}
-          helperText={body.isEmpty && 'Please enter the body of this lesson'}
+          helperText={body.isEmpty && 'Please enter a body for this lesson'}
           onFocus={() => handleOnFocus(body, setBody)}
         />
         <TextField
@@ -281,9 +297,16 @@ export function AddLessons() {
           id='media'
           name='media'
           value={media.value}
-          label='Media'
+          label='Image URL'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value, setMedia)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setMedia)}
+          error={!media.isValid}
+          helperText={
+            (!media.isValid ? 'Invalid URL: ' : '') +
+            'URL must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif"'
+          }
+          onFocus={() => handleOnFocus(media, setMedia)}
         />
         <TextField
           required
@@ -294,7 +317,7 @@ export function AddLessons() {
           label='Duration (minutes)'
           margin='normal'
           onChange={(e) => handleOnChange(e.target.value, setDuration)}
-          onBlur={(e) => handleOnBlur(e.target.value, setDuration)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setDuration)}
           error={duration.isEmpty}
           helperText={
             duration.isEmpty &&
