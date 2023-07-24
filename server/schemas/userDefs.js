@@ -40,11 +40,7 @@ const userResolvers = {
     user: async (parent, { _id }) => {
       try {
         return await User.findOne({ _id: _id })
-        .select('-__v -password')
-        .populate({
-          path: 'tutorials',
-          select: '-totalDuration -averageRating -lessons -reviews'
-        })
+        .populate('tutorials')
         .populate('favorites');
       } catch (err) {
         throw new Error(err);
@@ -54,11 +50,7 @@ const userResolvers = {
     users: async () => {
       try {
         return await User.find({})
-        .select('-__v -password')
-        .populate({
-          path: 'tutorials',
-          select: '-totalDuration -averageRating -lessons -reviews'
-        })
+        .populate('tutorials')
         .populate('favorites');
       } catch (err) {
         throw new Error(err);
@@ -70,10 +62,8 @@ const userResolvers = {
         try {
           const userData = await User.findOne({ _id: context.user._id })
             .select('-__v -password')
-            .populate({
-              path: 'tutorials',
-              select: '-totalDuration -averageRating -lessons -reviews'
-            })
+            .populate('tutorials');
+          
           return userData;
         } catch (err) {
           throw new Error(err);
