@@ -49,16 +49,13 @@ function SubCategory({ subCategory }) {
               <Card
                 border={3}
                 borderRadius={8}
-                borderColor={theme.palette.mode === 'dark' ? 'white' : 'black'}
-                backgroundColor={theme.palette.mode === 'dark' ? 'gray' : 'gray'}
+                borderColor= 'black'
+                backgroundColor= 'gray'
                 p={2}
               >
                 <CardContent>
                   <Typography variant='h6' gutterBottom>
                     {selectedSubCategory.category}
-                  </Typography>
-                  <Typography variant='body1'>
-                    Description for {selectedSubCategory.category} category goes here...
                   </Typography>
                 </CardContent>
               </Card>
@@ -71,12 +68,8 @@ function SubCategory({ subCategory }) {
                 <Card
                   border={3}
                   borderRadius={8}
-                  borderColor={
-                    theme.palette.mode === 'dark' ? 'white' : 'black'
-                  }
-                  backgroundColor={
-                    theme.palette.mode === 'dark' ? 'gray' : 'white'
-                  }
+                  borderColor= 'black'
+                  backgroundColor= 'white'
                   p={2}
                 >
                   <CardContent>
