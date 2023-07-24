@@ -24,8 +24,8 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_FAVORITE = gql`
-  mutation AddFavoritetoUser($id: ID!, $tutorialId: ID!) {
+export const ADD_FAVORITE_TO_USER = gql`
+  mutation addFavoritetoUser($id: ID!, $tutorialId: ID!) {
     addFavoritetoUser(_id: $id, tutorialId: $tutorialId) {
       _id
     }
