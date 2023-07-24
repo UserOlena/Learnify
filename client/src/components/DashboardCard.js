@@ -83,9 +83,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-  function assignFavorite(id) {
-
-  }
+  // async function assignFavorite(id) {
+  //   try {
+  //     const { data } = await addTutorial({ variables });
+  //     window.location.assign(`/${data.addTutorial._id}/lessons/add`);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
 export function DashboardCard(props) {
   const classes = useStyles();
@@ -129,7 +134,7 @@ export function DashboardCard(props) {
               <FavoriteBorderIcon
                 fontSize='large'
                 color='error'
-                
+                value={props.id}
               />
             }
             { 
@@ -137,6 +142,7 @@ export function DashboardCard(props) {
               <FavoriteIcon
                 fontSize='large'
                 color='error'
+                value={props.id}
               />
             }
             </IconButton>
