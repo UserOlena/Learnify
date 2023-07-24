@@ -1,7 +1,8 @@
 import { useState } from 'react';
 // React Router imports
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+// Styling imports
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 // Apollo server imports
 import {
   ApolloClient,
@@ -47,9 +48,17 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// Custom Fonts for whole app
+const customTheme = createMuiTheme({
+  typography: {
+    fontFamily: 'Poppins, sans-serif',
+  },
+});
+
 function App() {
   const [tutorialId, setTutorialId] = useState('');
   return (
+    <ThemeProvider theme={customTheme}>
     <div
       className='App'
       style={{
@@ -119,6 +128,7 @@ function App() {
         <Footer />
       </ApolloProvider>
     </div>
+    </ThemeProvider>
   );
 }
 
