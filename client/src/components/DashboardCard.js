@@ -109,7 +109,7 @@ export function DashboardCard(props) {
 
     // If user is not logged in, set state to redirect to the Sign In page
     if (!user) {
-      window.location.assign(`/signup`);
+      window.location.assign(`/signin`);
       setLoggedOut(true);
       return;
     }
@@ -119,7 +119,7 @@ export function DashboardCard(props) {
   // Triggers Icons state to swithch between bordered to filled
   async function addFavoriteTutorialOnClick(tutorialId) {
     checkIfLoggedIn()
-    
+
     try {
       const result = await addFavoritetoUser({
         variables: {
