@@ -22,6 +22,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import {
+  AccountCircle,
   Bookmark,
   BookmarkBorder,
   ExpandMore,
@@ -201,16 +202,31 @@ export function ViewTutorial() {
         >
           {tutorial?.title}
         </Typography>
+
         <Grid
           container
           justifyContent='space-around'
           className='title'
+          display='flex'
+          alignItems='center'
         >
           <Grid
             item
+            container
             xs={3}
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
           >
-            <Typography variant='h6'>Instructor: {username}</Typography>
+            <AccountCircle fontSize='large' />
+            <Typography
+              variant='h6'
+              fontWeight='bold'
+              style={{ marginLeft: '5%' }}
+            >
+              {' '}
+              {username}
+            </Typography>
           </Grid>
           <Divider
             orientation='vertical'
@@ -241,6 +257,15 @@ export function ViewTutorial() {
               {reviews.length} Ratings
             </Typography>
           </Grid>
+          <Grid
+            item
+            container
+            xs={10}
+            justifyContent='center'
+            style={{ marginTop: '3%' }}
+          >
+            {categoryList(categories)}
+          </Grid>
         </Grid>
         <Grid
           container
@@ -248,20 +273,43 @@ export function ViewTutorial() {
           spacing={2}
           style={{
             color: '#283845',
-            margin: '2%',
+            marginTop: '2%',
           }}
         >
           <Grid
             item
-            xs={10}
+            xs={5}
+          >
+            <Card
+              style={{
+                backgroundColor: '#dae9f7',
+                border: '0.5rem solid #92b4d4',
+              }}
+            >
+              <CardMedia
+                component='img'
+                image={tutorial.thumbnail}
+                title='Media image provided by user'
+              />
+            </Card>
+          </Grid>
+          <Grid
+            item
+            container
+            direction='column'
+            xs={5}
           >
             <Typography variant='body1'>{overview}</Typography>
+
+            <CommentForm />
           </Grid>
+
           <Grid
             item
             xs={10}
           >
-            {categoryList(categories)}
+            <Card>{reviewList(reviews)}</Card>
+            {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
           </Grid>
         </Grid>
       </Container>
@@ -275,31 +323,25 @@ export function ViewTutorial() {
           spacing={2}
           style={{
             color: '#283845',
-            margin: '2%',
+            marginTop: '2%',
           }}
         >
           <Grid
             item
-            xs={10}
-            md={5}
+            xs={12}
           >
             <Card
               style={{
                 backgroundColor: '#dae9f7',
-                border: '1rem solid #92b4d4',
+                border: '0.5rem solid #92b4d4',
               }}
             >
-              <CardMedia
-                component='img'
-                image={tutorial.thumbnail}
-                title='Media image provided by user'
-              />
               <CardContent>
                 <Typography
                   variant='h5'
                   component='h2'
                 >
-                  Reviews
+                  This tutorial has {totalLessons} lessons:
                   <IconButton
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expanded,
@@ -316,79 +358,10 @@ export function ViewTutorial() {
                   timeout='auto'
                   unmountOnExit
                 >
-                  <CardContent>
-                    <Button
-                      variant='contained'
-                      className={classes.button}
-                    >
-                      Leave a Comment
-                    </Button>
-                    <CommentForm />
-                    {reviewList(reviews)}
-                  </CardContent>
+                  <CardContent>{lessonList(lessons)}</CardContent>
                 </Collapse>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid //contains bookmark button and lesson list card
-            item
-            xs={10}
-            md={5}
-          >
-            <Grid //changes direction for bookmark button and lesson list card
-              container
-              xs={12}
-              direction='column'
-              spacing={3}
-              alignItems='center'
-              justifyContent='space-around'
-            >
-              <Grid
-                item
-                xs={12}
-                alignItems='flex-end'
-                minWidth='100%'
-              >
-                <Button
-                  variant='contained'
-                  className={classes.button}
-                  startIcon={<BookmarkBorder fontSize='large' />}
-                >
-                  Add to "my tutorials"
-                </Button>
-                <RateTutorial />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                alignItems='flex-end'
-              >
-                <Card
-                  style={{
-                    backgroundColor: '#92b4d4',
-                    paddingTop: '3%',
-                  }}
-                >
-                  {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
-                  <Typography
-                    variant='h5'
-                    component='h2'
-                  >
-                    This tutorial has {totalLessons} lessons:
-                  </Typography>
-
-                  <Card
-                    style={{
-                      backgroundColor: '#92b4d4',
-                      margin: 3,
-                      padding: 3,
-                    }}
-                  >
-                    {lessonList(lessons)}
-                  </Card>
-                </Card>
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
       </Container>

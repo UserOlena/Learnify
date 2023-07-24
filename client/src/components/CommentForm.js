@@ -2,20 +2,21 @@ import { React, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 // Material UI imports
-import clsx from 'clsx';
 import {
+  Box,
   Button,
   Card,
   CardContent,
   Collapse,
   Divider,
   Grid,
-  IconButton,
   makeStyles,
   TextField,
   Typography,
 } from '@material-ui/core';
 import { SendRounded } from '@material-ui/icons';
+
+import { Rating } from '@material-ui/lab';
 
 // Imports for interacting with the db
 import { useMutation, useQuery } from '@apollo/client';
@@ -28,8 +29,7 @@ import { isEmptyInput } from '../utils/validation';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    background: '#dae9f7',
-    marginBottom: 10,
+    background: 'inherit',
   },
   button: {
     float: 'right',
@@ -44,10 +44,13 @@ export function CommentForm() {
     isEmpty: false,
     isValid: true,
   };
-  //Is there a way to get the username from the logged-in information? do we have a context for a logged-in user?
+
+  //State variables
   const [username, setUsername] = useState(inputDefaultValues);
   const [comment, setComment] = useState(inputDefaultValues);
   const [loggedOut, setLoggedOut] = useState(false);
+  const [value, setValue] = useState(0);
+  const [hover, setHover] = useState(0);
 
   // Get tutorial ID from URL wildcard
   const { tutorialId } = useParams();
@@ -94,10 +97,15 @@ export function CommentForm() {
       setLoggedOut(true);
       return;
     }
+    if (value === 0) {
+      alert('Please provide both a rating and a comment')
+      return;
+    }
 
     const variables = {
       tutorialId,
       reviewer: user._id,
+      rating: value,
       comment: comment.value,
     };
     try {
@@ -156,11 +164,37 @@ export function CommentForm() {
       elevation={0}
     >
       <form>
+        {/* <RateTutorial 
+      required/> */}
+        <Box
+          component='div'
+          mt={3}
+          mb={1}
+          borderColor='transparent'
+          display='flex'
+          justifyContent='center'
+        >
+          <Typography style={{ marginRight: '3%' }}>
+            Rate this tutorial:
+          </Typography>
+          <Rating
+            name='simple-controlled'
+            required
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+            onChangeActive={(event, newHover) => {
+              setHover(newHover);
+            }}
+          />
+        </Box>
         <TextField
           required
           fullWidth
           multiline
           minRows={4}
+          style={{ marginTop: 0 }}
           variant='outlined'
           id='comment'
           name='comment'
