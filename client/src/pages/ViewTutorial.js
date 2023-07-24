@@ -167,12 +167,25 @@ export function ViewTutorial() {
             key={review._id}
             style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
-            <Rating
-              name='read-only'
-              value={review.rating}
-              readOnly
-            />
-            <p>{review.comment}</p>
+            <Grid container> 
+              <Grid
+                item
+                xs={4}
+              >
+                <Rating
+                  name='read-only'
+                  value={review.rating}
+                  readOnly
+                />
+                <p>{review.reviewer}</p>
+              </Grid>
+              <Grid
+                item
+                xs={8}
+              >
+                <p>{review.comment}</p>
+              </Grid>
+            </Grid>
           </Card>
         ))}
       </>
@@ -307,8 +320,9 @@ export function ViewTutorial() {
           <Grid
             item
             xs={10}
+           
           >
-            <Card>{reviewList(reviews)}</Card>
+            <Card  style={{backgroundColor: '#92b4d4', padding: 5}}>{reviewList(reviews)}</Card>
             {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
           </Grid>
         </Grid>
