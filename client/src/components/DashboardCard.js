@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
   Card,
   CardActions,
@@ -82,8 +83,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+  function assignFavorite(id) {
+
+  }
+
 export function DashboardCard(props) {
   const classes = useStyles();
+
+  const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(true);
+  const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
 
   return (
     <Card
@@ -111,12 +119,27 @@ export function DashboardCard(props) {
           >
             Learn More
           </Button>
-          <IconButton
+            
+            <IconButton
             aria-label='add to favorites'
             className={`${classes.favoriteIcon}`}
-          >
-            <FavoriteBorderIcon fontSize='large' />
-          </IconButton>
+            >
+            { 
+            favoriteBorderIcon &&
+              <FavoriteBorderIcon
+                fontSize='large'
+                color='error'
+                
+              />
+            }
+            { 
+            favoriteFilledIcon &&
+              <FavoriteIcon
+                fontSize='large'
+                color='error'
+              />
+            }
+            </IconButton>
         </CardActions>
       </div>
     </Card>
