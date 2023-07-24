@@ -27,6 +27,7 @@ import {
   UserProfile,
   ViewTutorial,
   WhoWeAre,
+  ChangePassword,
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -127,6 +128,10 @@ function App() {
             <Route
               path='/userProfile'
               element={<UserProfile />}
+            ></Route>
+            <Route
+              path='/changePassword/:token'
+              element={<ChangePassword />}
             ></Route>
           </Routes>
         </Router>

@@ -1,6 +1,6 @@
 const { gql, AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
-const { signToken, signPasswordResetToken } = require('../utils/auth');
+const { signToken, signPasswordResetToken, checkResetToken } = require('../utils/auth');
 
 const userTypeDefs = gql`
   type User {
@@ -27,6 +27,7 @@ const userTypeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     removeUser: User
     forgotPassword(email: String!): Auth
+    resetPassword(password: String!, token: String!): Auth
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
 
@@ -125,6 +126,24 @@ const userResolvers = {
         }
         const token = signPasswordResetToken(user);
         return { token, user };
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
+    resetPassword: async (parent, { password, token }) => {
+      try {
+        const { data } = checkResetToken(token);
+        console.log(data);
+        const user = await User.findOne({ _id: data._id });
+        if (!user) {
+          throw new AuthenticationError('No user found!');
+        }
+        //change password before bcrypt changes it, should be hashed on save
+        user.password = password;
+        await user.save();
+        const newToken = signToken(user);
+        return { token: newToken, user };
       } catch (err) {
         throw new Error(err);
       }
