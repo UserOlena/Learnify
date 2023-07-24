@@ -41,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
     height: 'inherit',
     [theme.breakpoints.down('sm')]: {
       margin: '0 2.5vw !important',
+      width: '90vw !important',
+      padding: '2em 0 0 0 !important',
     },
   },
 }));

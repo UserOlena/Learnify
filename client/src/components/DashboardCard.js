@@ -22,10 +22,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
-      padding: '2em 0 0 0 !important',
-      width: '90vw',
       margin: '1em 0',
-
     },
   },
 
@@ -35,9 +32,18 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 !important',
   },
 
+  imgContainer: {
+    [theme.breakpoints.down('sm')]: {
+      height: '30vh',
+    },
+  },
+
   img: {
     height: '9em',
     border: 'solid 1px #d1d7dc',
+    [theme.breakpoints.down('sm')]: {
+      height: '80%',
+    },
   },
 
   descriptionBox: {
@@ -84,7 +90,7 @@ export function DashboardCard(props) {
       value={props.id}
       className={`${classes.card} `}
     >
-      <div>
+      <div className={`${classes.imgContainer}`}>
         <CardMedia
           component='img'
           alt='tutorial image'
