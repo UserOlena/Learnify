@@ -14,6 +14,7 @@ import { setContext } from '@apollo/client/link/context';
 // Import pages/components and styles
 import './style/App.css';
 import {
+  About,
   AddLessons,
   AddTutorial,
   Careers,
@@ -103,6 +104,10 @@ function App() {
             <Route
               path='/tutorial/:tutorialId/lesson/:lessonId'
               element={<ViewTutorial />}
+            ></Route>
+            <Route
+              path='/about'
+              element={<About />}
             ></Route>
           </Routes>
         </Router>
