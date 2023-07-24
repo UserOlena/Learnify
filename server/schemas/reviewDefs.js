@@ -70,7 +70,7 @@ const reviewResolvers = {
       { tutorialId, reviewer, rating, comment }
     ) {
       // If user is logged in, add the review to the db
-      if (context.user) {
+      // if (context.user) {
         try {
           const newReview = await Review.create({
             reviewer,
@@ -88,7 +88,7 @@ const reviewResolvers = {
         } catch (error) {
           throw new Error(`Failed to add review: ${error.message}`);
         }
-      }
+      // }
       // If user is not logged in, throw authentication error
       throw new AuthenticationError('You must be logged in to add a review');
     },
