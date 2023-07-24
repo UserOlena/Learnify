@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function DashboardCard(props) {
   const classes = useStyles();
-  console.log(props)
+
   const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(true);
   const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
 
@@ -98,11 +98,11 @@ export function DashboardCard(props) {
   async function addFavoriteTutorial(id, tutorialId) {
     try {
       const { data } = await addFavoritetoUser({
-          variables: {
-            id: "64be2bc6c54ba8ac9405b6e1",
-            tutorialId: tutorialId,
-          }
-        });
+        variables: {
+          id: '64be2bc6c54ba8ac9405b6e1',
+          tutorialId: tutorialId,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -110,8 +110,8 @@ export function DashboardCard(props) {
 
   function handleFavoriteIconClick(tutorialId) {
     const result = addFavoriteTutorial('', tutorialId);
-    if (result){
-      fillFavoriteIcon()
+    if (result) {
+      fillFavoriteIcon();
     }
   }
 
@@ -146,27 +146,33 @@ export function DashboardCard(props) {
             Learn More
           </Button>
 
-          <IconButton
-            aria-label='add to favorites'
-            className={`${classes.favoriteIcon}`}
-          >
-            {favoriteBorderIcon && (
+          {favoriteBorderIcon && (
+            <IconButton
+              aria-label='add to favorites'
+              className={`${classes.favoriteIcon}`}
+              value={props.id}
+              onClick={(e) =>
+                handleFavoriteIconClick(e.currentTarget.value)
+              }
+            >
               <FavoriteBorderIcon
                 fontSize='large'
                 color='error'
-                value={props.id}
-                onClick={(e) => handleFavoriteIconClick(e.target.getAttribute('value'))}
               />
-            )}
-            {favoriteFilledIcon && (
+            </IconButton>
+          )}
+          {favoriteFilledIcon && (
+            <IconButton
+              aria-label='add to favorites'
+              className={`${classes.favoriteIcon}`}
+            >
               <FavoriteIcon
                 fontSize='large'
                 color='error'
                 value={props.id}
-                
               />
-            )}
-          </IconButton>
+            </IconButton>
+          )}
         </CardActions>
       </div>
     </Card>

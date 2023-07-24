@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function DashboardCarousel(props) {
   const classes = useStyles();
-console.log(props)
+
   const matchesMax959 = useMediaQuery('(max-width:959px)');
 
   const responsive = {
@@ -101,6 +101,7 @@ console.log(props)
           ) => {
             return (
               <DashboardCard
+                key={index}
                 index={index}
                 id={_id}
                 thumbnail={thumbnail}
