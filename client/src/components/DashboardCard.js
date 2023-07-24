@@ -14,6 +14,7 @@ import { HalfRating } from '../components';
 
 import { useQuery, useMutation } from '@apollo/client';
 import { ADD_FAVORITE_TO_USER } from '../utils/mutations/userMutations';
+import { GET_USER } from '../utils/queries/userQueries';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -89,15 +90,36 @@ const useStyles = makeStyles((theme) => ({
 export function DashboardCard(props) {
   const classes = useStyles();
 
+  const [loggedOut, setLoggedOut] = useState(false);
   const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(true);
   const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
 
   // Set up mutation to add the favorite tutorial to the user favorites array
   const [addFavoritetoUser, { error }] = useMutation(ADD_FAVORITE_TO_USER);
+  
+  // Get the logged in user's information
+  const { data: userData } = useQuery(GET_USER);
+
+   // Redirect to the Sign In page if user is not logged in
+  function checkIfLoggedIn() {
+    let user;
+    if (userData) {
+      user = userData.me;
+    }
+
+    // If user is not logged in, set state to redirect to the Sign In page
+    if (!user) {
+      window.location.assign(`/signup`);
+      setLoggedOut(true);
+      return;
+    }
+  }
 
   // Function sends clicked tutorial ID and User ID to save it in the favorites array
   // Triggers Icons state to swithch between bordered to filled
   async function addFavoriteTutorialOnClick(tutorialId) {
+    checkIfLoggedIn()
+    
     try {
       const result = await addFavoritetoUser({
         variables: {
