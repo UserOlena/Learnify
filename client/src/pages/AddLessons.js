@@ -1,6 +1,6 @@
 // React / router imports
 import { React, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 // Material UI imports
 import { Box, Button, TextField, Typography } from '@mui/material';
@@ -10,6 +10,7 @@ import { Chip, Divider, makeStyles } from '@material-ui/core';
 import { useMutation, useQuery } from '@apollo/client';
 import { ADD_LESSON } from '../utils/mutations/lessonMutations';
 import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
+import { GET_USER } from '../utils/queries/userQueries';
 
 // Imports for other utilities
 import { isEmptyInput, validateInput } from '../utils/validation';
@@ -25,15 +26,18 @@ const useStyles = makeStyles((theme) => ({
     margin: '3%',
   },
   chip: {
-    margin: 2,
+    marginLeft: 8,
+    marginRight: 8,
     ...theme.typography.button,
     backgroundColor: '#98b7f5',
+    fontWeight: 'bold',
   },
 }));
 
 export function AddLessons() {
   const classes = useStyles();
   const stylesFromAddLesson = { marginBottom: '1rem' };
+  const dividerStyles = { width: '90%', margin: '2rem auto' };
 
   // Set default state values
   const inputDefaultValues = {
@@ -46,6 +50,8 @@ export function AddLessons() {
   const [body, setBody] = useState(inputDefaultValues);
   const [media, setMedia] = useState(inputDefaultValues);
   const [duration, setDuration] = useState(inputDefaultValues);
+  const [success, setSuccess] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(true);
 
   // Set up mutation to add the lesson to the db
   // Use the cache to add each new lesson to the bottom of the page upon saving
@@ -74,6 +80,14 @@ export function AddLessons() {
     },
   });
 
+  // Get the logged in user's information
+  const { data: userData } = useQuery(GET_USER);
+
+  let user;
+  if (userData) {
+    user = userData.me;
+  }
+
   // Get tutorial ID from URL wildcard
   const { tutorialId } = useParams();
 
@@ -87,7 +101,7 @@ export function AddLessons() {
   }
 
   const tutorial = data.tutorial;
-  const { categories, lessons } = tutorial;
+  const { categories, lessons, teacher } = tutorial;
 
   //map categories array for rendering
   function categoryList(categories) {
@@ -123,6 +137,12 @@ export function AddLessons() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    // If user is not logged in or is not the teacher, set state to show error and exit submit function
+    if (!user || user._id !== teacher[0]._id) {
+      setCanSubmit(false);
+      return;
+    }
+
     const variables = {
       tutorialId,
       name: name.value,
@@ -136,6 +156,8 @@ export function AddLessons() {
 
     try {
       await addLesson({ variables });
+
+      setSuccess(true);
 
       // Reset all of the form fields after successful submission
       resetFormFields(setName);
@@ -194,6 +216,11 @@ export function AddLessons() {
         isValid: true,
       }));
     }
+
+    // Remove successful save message
+    if (success) {
+      setSuccess(false);
+    }
   }
 
   // Function to reset the form fields to their default values
@@ -206,14 +233,35 @@ export function AddLessons() {
 
   return (
     <div>
-      <Typography component='h1' variant='h5'>
+      <Typography component='h1' variant='h5' gutterBottom sx={{ mt: 4 }}>
         Add Lessons to Your Tutorial
       </Typography>
-      <Typography component='h2' variant='h6'>
-        Tutorial: {tutorial.title}
+      <Typography
+        component='p'
+        gutterBottom
+        sx={{ width: '80%', margin: '0 auto' }}
+      >
+        Fill out the fields below and click "Save Lesson" to add an individual
+        lesson to your tutorial. Repeat as many times as needed. Each lesson
+        will appear at the bottom of this page as you add it.
+      </Typography>
+      <Divider style={dividerStyles} />
+      <Typography component='h2' variant='h6' gutterBottom>
+        Tutorial Title: <b>{tutorial.title}</b>
       </Typography>
       <Box direction='row'>{categoryList(categories)}</Box>
-      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Box
+        component='form'
+        noValidate
+        onSubmit={handleSubmit}
+        sx={{
+          mt: 1,
+          ml: 'auto',
+          mr: 'auto',
+          width: '80%',
+          maxWidth: '800px',
+        }}
+      >
         <TextField
           required
           fullWidth
@@ -236,6 +284,8 @@ export function AddLessons() {
           value={body.value}
           label='Body'
           margin='normal'
+          multiline
+          minRows={3}
           onChange={(e) => handleOnChange(e.target.value, setBody)}
           onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setBody)}
           error={body.isEmpty}
@@ -275,11 +325,22 @@ export function AddLessons() {
           }
           onFocus={() => handleOnFocus(duration, setDuration)}
         />
-        <Button type='submit' variant='contained' sx={{ mt: 3, mb: 2 }}>
+        {!canSubmit && (
+          <Typography color='error' component='p'>
+            You must be signed in as the instructor of this tutorial in order to add a lesson to it.{' '}
+            <Link to='/signin'>Sign In</Link>
+          </Typography>
+        )}
+        <Button type='submit' variant='contained' sx={{ mt: 3 }}>
           Save Lesson
         </Button>
+        {success && (
+          <Typography component='p' color='secondary' sx={{ mt: 3 }}>
+            Your lesson has been saved! View it at the bottom of the list below.
+          </Typography>
+        )}
       </Box>
-      <Divider variant='middle' />
+      <Divider style={dividerStyles} />
       <Typography
         component='h2'
         variant='h5'
