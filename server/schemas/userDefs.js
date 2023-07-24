@@ -9,6 +9,7 @@ const userTypeDefs = gql`
     email: String
     password: String
     tutorials: [Tutorial]
+    favorites: [Tutorial]
   }
 
   type Auth {
@@ -28,8 +29,9 @@ const userTypeDefs = gql`
     removeUser: User
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
-
     removeTutorialfromUser(tutorialId: ID!): Tutorial
+
+    addFavoritetoUser(tutorialId: ID!): Tutorial
   }
 `;
 
@@ -37,7 +39,8 @@ const userResolvers = {
   Query: {
     user: async (parent, { _id }) => {
       try {
-        return User.findOne({ _id: _id });
+        return await User.findOne({ _id: _id })
+        .populate('tutorials');
       } catch (err) {
         throw new Error(err);
       }
@@ -45,7 +48,8 @@ const userResolvers = {
 
     users: async () => {
       try {
-        return User.find();
+        return await User.find({})
+        .populate('tutorials');
       } catch (err) {
         throw new Error(err);
       }
