@@ -9,6 +9,7 @@ const userTypeDefs = gql`
     email: String
     password: String
     tutorials: [Tutorial]
+    favorites: [Tutorials]
   }
 
   type Auth {
@@ -30,6 +31,8 @@ const userTypeDefs = gql`
     addTutorialtoUser(tutorialId: ID!): Tutorial
 
     removeTutorialfromUser(tutorialId: ID!): Tutorial
+
+    addFavoritetoUser(favoritesId: ID!): Tutorial
   }
 `;
 
@@ -141,6 +144,26 @@ const userResolvers = {
             { _id: context.user._id },
             { $pull: { tutorials: tutorialId } },
             { new: true }
+          );
+        } catch (err) {
+          throw new Error(err);
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+    addFavoritetoUser: async (parent, { _id, tutorialId }, context) => {
+      if (context.user) {
+        try {
+          return User.findOneAndUpdate(
+            { _id: _id },
+            {
+              $addToSet: { favorites: tutorialId },
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
           );
         } catch (err) {
           throw new Error(err);
