@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 //import Learnify components
-import { RateTutorial, ViewLesson } from '../components';
-
+import { CommentForm, RateTutorial, ViewLesson } from '../components';
 
 //Material-UI imports
 import clsx from 'clsx';
 import {
-
   Button,
   Card,
   CardContent,
@@ -90,15 +88,15 @@ export function ViewTutorial() {
       return;
     }
   };
-//function to bookmark a tutorial
+  //function to bookmark a tutorial
   const bookmarkTutorial = () => {
     if (!isAdded) {
-    setIsAdded(isAdded);
-    //TODO: ADD MUTATION TO ADD BOOKMARK
-  } else {
-    return;
-  }
-};
+      setIsAdded(isAdded);
+      //TODO: ADD MUTATION TO ADD BOOKMARK
+    } else {
+      return;
+    }
+  };
 
   // get tutorial data and destructure fields to render
   const { loading, err, data } = useQuery(GET_TUTORIAL, {
@@ -323,8 +321,9 @@ export function ViewTutorial() {
                       variant='contained'
                       className={classes.button}
                     >
-                      Leave a review!
+                      Leave a Comment
                     </Button>
+                    <CommentForm />
                     {reviewList(reviews)}
                   </CardContent>
                 </Collapse>
@@ -357,7 +356,7 @@ export function ViewTutorial() {
                 >
                   Add to "my tutorials"
                 </Button>
-                <RateTutorial/>
+                <RateTutorial />
               </Grid>
               <Grid
                 item

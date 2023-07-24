@@ -4,16 +4,18 @@ import { useParams } from 'react-router-dom';
 // Material UI imports
 import clsx from 'clsx';
 import {
-  Box,
   Button,
   Card,
   CardContent,
   Collapse,
   Divider,
+  Grid,
+  IconButton,
   makeStyles,
   TextField,
   Typography,
 } from '@material-ui/core';
+import { SendRounded } from '@material-ui/icons';
 
 // Imports for interacting with the db
 import { useMutation, useQuery } from '@apollo/client';
@@ -24,7 +26,18 @@ import { GET_USER } from '../utils/queries/userQueries';
 // Imports for other utilities
 import { isEmptyInput } from '../utils/validation';
 
-export function ReviewForm() {
+const useStyles = makeStyles((theme) => ({
+  card: {
+    background: '#dae9f7',
+    marginBottom: 10,
+  },
+  button: {
+    float: 'right',
+  },
+}));
+
+export function CommentForm() {
+  const classes = useStyles();
   // Set default state values
   const inputDefaultValues = {
     value: '',
@@ -83,16 +96,14 @@ export function ReviewForm() {
     }
 
     const variables = {
-      username: user._id,
+      tutorialId,
+      reviewer: user._id,
       comment: comment.value,
     };
     try {
       await addReview({ variables });
       // Reset all of the form fields after successful submission
-      resetFormFields(setName);
-      resetFormFields(setBody);
-      resetFormFields(setMedia);
-      resetFormFields(setDuration);
+      resetFormFields(setComment);
     } catch (error) {
       console.log(error);
     }
@@ -138,5 +149,46 @@ export function ReviewForm() {
     }));
   }
 
-  
+  return (
+    <Card
+      className={classes.card}
+      elevation={0}
+    >
+      <form>
+        <TextField
+          required
+          fullWidth
+          multiline
+          minRows={4}
+          variant='outlined'
+          id='comment'
+          name='comment'
+          value={comment.value}
+          label='Comment'
+          margin='normal'
+          onChange={(e) => handleOnChange(e.target.value, setComment)}
+          onBlur={(e) => handleOnBlur(e.target.value, setComment)}
+          error={comment.isEmpty}
+          helperText={comment.isEmpty && 'Please enter a comment'}
+          onFocus={() => handleOnFocus(comment, setComment)}
+        />
+
+        <Button
+          variant='contained'
+          aria-label='submit'
+          className={classes.button}
+          endIcon={<SendRounded />}
+          onClick={handleSubmit}
+          style={{
+            backgroundColor: '#92b4d4',
+          }}
+        >
+          {' '}
+          Submit
+        </Button>
+      </form>
+    </Card>
+  );
 }
+
+export default CommentForm;
