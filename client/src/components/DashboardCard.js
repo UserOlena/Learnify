@@ -95,28 +95,33 @@ export function DashboardCard(props) {
   // Set up mutation to add the favorite tutorial to the user favorites array
   const [addFavoritetoUser, { error }] = useMutation(ADD_FAVORITE_TO_USER);
 
-  async function addFavoriteTutorial(id, tutorialId) {
+  // Function sends clicked tutorial ID and User ID to save it in the favorites array
+  // Triggers Icons state to swithch between bordered to filled
+  async function addFavoriteTutorialOnClick(tutorialId) {
     try {
-      const { data } = await addFavoritetoUser({
+      const result = await addFavoritetoUser({
         variables: {
           id: '64be2bc6c54ba8ac9405b6e1',
           tutorialId: tutorialId,
         },
       });
+
+      console.log(result?.data?.addFavoritetoUser?._id);
+
+      if (result?.data?.addFavoritetoUser?._id) {
+        fillFavoriteIcon();
+      } else {
+        console.log('problem saving a favorite')
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-  function handleFavoriteIconClick(tutorialId) {
-    const result = addFavoriteTutorial('', tutorialId);
-    if (result) {
-      fillFavoriteIcon();
-    }
-  }
-
+  // Function changes favorite Icons state to replase bordered with filled one
   function fillFavoriteIcon() {
     setFavoriteFilledIcon(true);
+    setFavoriteBorderIcon(false)
   }
 
   return (
@@ -152,7 +157,7 @@ export function DashboardCard(props) {
               className={`${classes.favoriteIcon}`}
               value={props.id}
               onClick={(e) =>
-                handleFavoriteIconClick(e.currentTarget.value)
+                addFavoriteTutorialOnClick(e.currentTarget.value)
               }
             >
               <FavoriteBorderIcon
