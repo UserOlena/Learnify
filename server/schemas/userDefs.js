@@ -29,9 +29,10 @@ const userTypeDefs = gql`
     removeUser: User
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
+
     removeTutorialfromUser(tutorialId: ID!): Tutorial
 
-    addFavoritetoUser(tutorialId: ID!): Tutorial
+    addFavoritetoUser(favoritesId: ID!): Tutorial
   }
 `;
 
