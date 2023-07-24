@@ -108,26 +108,32 @@ export function DashboardCard(props) {
     }
 
     // If user is not logged in, set state to redirect to the Sign In page
+    // otherwise sends User's ID back to fave the favorite tutorial
     if (!user) {
       window.location.assign(`/signin`);
       setLoggedOut(true);
       return;
+    } else {
+      console.log('logged user')
+      console.log(user?._id)
+      return user?._id
     }
   }
 
   // Function sends clicked tutorial ID and User ID to save it in the favorites array
   // Triggers Icons state to swithch between bordered to filled
   async function addFavoriteTutorialOnClick(tutorialId) {
-    checkIfLoggedIn()
+    const userId = checkIfLoggedIn()
 
     try {
       const result = await addFavoritetoUser({
         variables: {
-          id: '64be2bc6c54ba8ac9405b6e1',
+          id: userId,
           tutorialId: tutorialId,
         },
       });
 
+      console.log('after favorite saved');
       console.log(result?.data?.addFavoritetoUser?._id);
 
       if (result?.data?.addFavoritetoUser?._id) {

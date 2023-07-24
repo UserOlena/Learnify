@@ -30,7 +30,7 @@ const userTypeDefs = gql`
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
     removeTutorialfromUser(tutorialId: ID!): Tutorial
-    
+
     addFavoritetoUser(_id: ID!, tutorialId: ID!): Tutorial
   }
 `;
@@ -40,7 +40,8 @@ const userResolvers = {
     user: async (parent, { _id }) => {
       try {
         return await User.findOne({ _id: _id })
-        .populate('tutorials');
+          .populate('tutorials')
+          .populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
@@ -48,8 +49,7 @@ const userResolvers = {
 
     users: async () => {
       try {
-        return await User.find({})
-        .populate('tutorials');
+        return await User.find({}).populate('tutorials').populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
@@ -59,9 +59,7 @@ const userResolvers = {
       if (context.user) {
         try {
           const userData = await User.findOne({ _id: context.user._id })
-            .select('-__v -password')
-            .populate('tutorials');
-          
+          .select('-__v -password');
           return userData;
         } catch (err) {
           throw new Error(err);
@@ -79,12 +77,14 @@ const userResolvers = {
         const token = signToken(user);
         return { token, user };
       } catch (err) {
-        let message = 'Server error'
+        let message = 'Server error';
 
         if (err.message.includes('duplicate')) {
-          message = 'Duplicate ' + (err.message.includes('email') ? 'email' : 'username');
+          message =
+            'Duplicate ' +
+            (err.message.includes('email') ? 'email' : 'username');
         }
-        throw new Error(message)
+        throw new Error(message);
       }
     },
 
