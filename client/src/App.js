@@ -23,6 +23,7 @@ import {
   SignIn,
   SignUp,
   ViewTutorial,
+  WhoWeAre,
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -103,6 +104,10 @@ function App() {
             <Route
               path='/tutorial/:tutorialId/lesson/:lessonId'
               element={<ViewTutorial />}
+            ></Route>
+              <Route
+              path='/who-we-are'
+              element={<WhoWeAre />}
             ></Route>
           </Routes>
         </Router>
