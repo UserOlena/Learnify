@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: 'calc(25% - 10px)',
+    backgroundColor: '#FAF0E6',
     marginBottom: theme.spacing(2),
     border: `2px solid ${theme.palette.type === 'black'}`,
     [theme.breakpoints.down('sm')]: {
@@ -45,6 +46,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     color: 'black',
   },
+
+  // Add the new class definition for the link
+  link: {
+    color: 'black', // Set the link color to black by default
+    textDecoration: 'none', // Remove the default underline
+
+    // Define styles for hover state
+    '&:hover': {
+      color: 'blue', // Set the link color to blue on hover
+      textDecoration: 'underline', // Add underline on hover
+    },
+  },
 }));
 
 export function Recommended() {
@@ -52,7 +65,7 @@ export function Recommended() {
   const theme = useTheme();
   const isFullScreen = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is full screen (md breakpoint)
 
-  //STATE management
+  // STATE management
   const [currentIndex, setCurrentIndex] = useState(0);
   const { loading, err, data } = useQuery(GET_TUTORIALS);
 
@@ -98,6 +111,7 @@ export function Recommended() {
               <Link
                 to={`/tutorial/${tutorial._id}`}
                 key={tutorial._id}
+                className={classes.link} // Add the new class here for the link
               >
                 <Typography className={classes.cardTitle}>
                   {tutorial.title}
