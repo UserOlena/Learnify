@@ -12,35 +12,6 @@ import {
 import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
-  // pushLeft: {
-  //   marginRight: '4rem',
-  //   [theme.breakpoints.down('sm')]: {
-  //     marginRight: 0,
-  //   },
-  // },
-
-  // pushRight: {
-  //   marginLeft: '4rem',
-  //   [theme.breakpoints.down('sm')]: {
-  //     marginLeft: 0,
-  //   },
-  // },
-
-  // overlap: {
-  //   marginLeft: '16%',
-  //   [theme.breakpoints.down('sm')]: {
-  //     marginLeft: 0,
-  //   },
-  // },
-
-  // projTitle: {
-  //   textShadow: '1px 1px 2px #88039c',
-  //   [theme.breakpoints.down('sm')]: {
-  //     textShadow: '1px 1px 1px black',
-  //     fontSize: 'calc(15px + (80 - 15) * ((100vw - 600px) / (1200 - 600)))',
-  //   },
-  // },
-
   card: {
     backgroundColor: 'var(--main-bg-color) !important',
     boxShadow: 'none !important',
@@ -50,12 +21,17 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      padding: '2em 0 0 0 !important',
+      width: '90vw',
+      margin: '1em 0',
+
+    },
   },
 
   cardContent: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     backgroundColor: 'var(--main-bg-color)',
-    // padding: '1em 0 1em 0 !important',
     padding: '0 !important',
   },
 
@@ -105,7 +81,6 @@ export function DashboardCard(props) {
 
   return (
     <Card
-      key={props.index}
       value={props.id}
       className={`${classes.card} `}
     >

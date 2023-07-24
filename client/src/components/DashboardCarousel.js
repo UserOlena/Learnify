@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex !important',
     justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {},
   },
 
   carouselContainer: {
@@ -15,11 +16,22 @@ const useStyles = makeStyles((theme) => ({
     width: '95vw',
     margin: '2.5vw !important',
     maxWidth: '120em',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center',
+      width: '95vw',
+      margin: '2.5vw !important',
+    },
   },
 
   reactMultiCarouselTrack: {
     padding: '4rem 0 0 0 !important',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column !important',
+      transform: 'none !important',
+      padding: '0 !important',
+      width: '95vw',
+    },
   },
 
   carouselItem: {
@@ -27,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 1em 1.5em 0',
     display: 'block',
     height: 'inherit',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 2.5vw !important',
+    },
   },
 }));
 
@@ -57,7 +72,7 @@ export function DashboardCarousel(props) {
       <Carousel
         swipeable={false}
         draggable={false}
-        showDots={true}
+        showDots={false}
         responsive={responsive}
         infinite={true}
         // autoPlay={true}
@@ -81,6 +96,7 @@ export function DashboardCarousel(props) {
           ) => {
             return (
               <DashboardCard
+                key={index}
                 index={index}
                 id={id}
                 thumbnail={thumbnail}
