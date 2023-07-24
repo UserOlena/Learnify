@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export function AddLessons() {
   const classes = useStyles();
   const stylesFromAddLesson = { marginBottom: '1rem' };
+  const dividerStyles = { width: '90%', margin: '2rem auto' };
 
   // Set default state values
   const inputDefaultValues = {
@@ -48,6 +49,7 @@ export function AddLessons() {
   const [body, setBody] = useState(inputDefaultValues);
   const [media, setMedia] = useState(inputDefaultValues);
   const [duration, setDuration] = useState(inputDefaultValues);
+  const [success, setSuccess] = useState(false);
 
   // Set up mutation to add the lesson to the db
   // Use the cache to add each new lesson to the bottom of the page upon saving
@@ -139,6 +141,8 @@ export function AddLessons() {
     try {
       await addLesson({ variables });
 
+      setSuccess(true);
+
       // Reset all of the form fields after successful submission
       resetFormFields(setName);
       resetFormFields(setBody);
@@ -180,6 +184,11 @@ export function AddLessons() {
       }));
       return;
     }
+
+    // Remove successful save message
+    if (success) {
+      setSuccess(false);
+    }
   }
 
   // Function to reset the form fields to their default values
@@ -195,8 +204,18 @@ export function AddLessons() {
       <Typography component='h1' variant='h5' gutterBottom sx={{ mt: 4 }}>
         Add Lessons to Your Tutorial
       </Typography>
+      <Typography
+        component='p'
+        gutterBottom
+        sx={{ width: '80%', margin: '0 auto' }}
+      >
+        Fill out the fields below and click "Save Lesson" to add an individual
+        lesson to your tutorial. Repeat as many times as needed. Each lesson
+        will appear at the bottom of this page as you add it.
+      </Typography>
+      <Divider style={dividerStyles} />
       <Typography component='h2' variant='h6' gutterBottom>
-        Tutorial: {tutorial.title}
+        Tutorial Title: <b>{tutorial.title}</b>
       </Typography>
       <Box direction='row'>{categoryList(categories)}</Box>
       <Box
@@ -270,8 +289,13 @@ export function AddLessons() {
         <Button type='submit' variant='contained' sx={{ mt: 3 }}>
           Save Lesson
         </Button>
+        {success && (
+          <Typography component='p' color='secondary' sx={{ mt: 3 }}>
+            Your lesson has been saved! View it at the bottom of the list below.
+          </Typography>
+        )}
       </Box>
-      <Divider style={{ width: '90%', margin: '2rem auto' }} />
+      <Divider style={dividerStyles} />
       <Typography
         component='h2'
         variant='h5'
