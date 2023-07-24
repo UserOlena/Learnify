@@ -5,9 +5,17 @@ import 'react-multi-carousel/lib/styles.css';
 import { DashboardCard } from '../components';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex !important',
+    justifyContent: 'center',
+  },
+
   carouselContainer: {
     display: 'flex',
-    margin: '2em !important',
+    width: '95vw',
+    margin: '2.5vw !important',
+    maxWidth: '120em',
+    alignSelf: 'center'
   },
 
   reactMultiCarouselTrack: {
@@ -45,40 +53,47 @@ export function DashboardCarousel(props) {
   };
 
   return (
-    <Carousel
-      swipeable={false}
-      draggable={false}
-      showDots={true}
-      responsive={responsive}
-      infinite={true}
-      // autoPlay={true}
-      autoPlaySpeed={4000}
-      shouldResetAutoplay={true}
-      keyBoardControl={true}
-      transitionDuration={1000}
-      additionalTransfrom={1}
-      removeArrowOnDeviceType={['tablet', 'mobile']}
-      dotListClass='custom-dot-list-style'
-      containerClass={`'carousel-container' ${classes.carouselContainer}`}
-      itemClass={`${classes.carouselItem}`}
-      sliderClass={`${classes.reactMultiCarouselTrack}`}
-    >
-      {props.items.map(
-        ({ id, overview, thumbnail, title, averageRating, teacher }, index) => {
-          return (
-            <DashboardCard
-              index={index}
-              id={id}
-              thumbnail={thumbnail}
-              title={title}
-              teacher={teacher}
-              averageRating={averageRating}
-              size={props.size}
-            />
-          );
-        }
-      )}
-    </Carousel>
+    <div className={`${classes.container}`}>
+      <Carousel
+        swipeable={false}
+        draggable={false}
+        showDots={true}
+        responsive={responsive}
+        infinite={true}
+        // autoPlay={true}
+        autoPlaySpeed={4000}
+        shouldResetAutoplay={true}
+        keyBoardControl={true}
+        transitionDuration={1000}
+        additionalTransfrom={1}
+        removeArrowOnDeviceType={['tablet', 'mobile']}
+        dotListClass='custom-dot-list-style'
+        containerClass={`'carousel-container' ${classes.carouselContainer}`}
+        itemClass={`${classes.carouselItem}`}
+        sliderClass={`${classes.reactMultiCarouselTrack}`}
+        slidesToSlide={3}
+        centerMode={true}
+      >
+        {props.items.map(
+          (
+            { id, overview, thumbnail, title, averageRating, teacher },
+            index
+          ) => {
+            return (
+              <DashboardCard
+                index={index}
+                id={id}
+                thumbnail={thumbnail}
+                title={title}
+                teacher={teacher}
+                averageRating={averageRating}
+                size={props.size}
+              />
+            );
+          }
+        )}
+      </Carousel>
+    </div>
   );
 }
 
