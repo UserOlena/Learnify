@@ -33,3 +33,15 @@ export const UPDATE_USER_PROFILE = gql`
     }
   }
 `;
+
+export const FORGOT_PASSWORD = gql`
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;

@@ -7,7 +7,7 @@ import {
   Box, 
   Button, 
   TextField, 
-  Typography 
+  Typography, 
 } from '@mui/material';
 import {
   Chip,
@@ -39,7 +39,11 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   chip: {
-    margin: 2,
+    marginLeft: 8,
+    marginRight: 8,
+    ...theme.typography.button,
+    backgroundColor: '#98b7f5',
+    fontWeight: 'bold',
   },
 }));
 
@@ -56,9 +60,12 @@ const MenuProps = {
 
 // Bold the selected categories in the select list
 function getStyles(category, selectedCategories, theme) {
+  const selectedCategoryNames = selectedCategories.map((selectedCategory) => {
+    return selectedCategory.category;
+  });
   return {
     fontWeight:
-      selectedCategories.indexOf(category) === -1
+      selectedCategoryNames.indexOf(category) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightBold,
   };
@@ -123,7 +130,8 @@ export function AddTutorial() {
     };
 
     try {
-      await addTutorial({ variables });
+      const { data } = await addTutorial({ variables });
+      window.location.assign(`/${data.addTutorial._id}/lessons/add`);
     } catch (error) {
       console.log(error);
     }
@@ -164,15 +172,31 @@ export function AddTutorial() {
 
   return (
     <div>
-      <Typography component='h1' variant='h5'>
+      <Typography 
+        component='h1' 
+        variant='h5' 
+        gutterBottom
+        sx={{ mt: 4 }}
+      >
         Add a Tutorial
       </Typography>
       <Box
         component='form'
         noValidate
         onSubmit={handleSubmit}
-        sx={{ mt: 1 }}
+        sx={{
+          mt: 1,
+          ml: 'auto',
+          mr: 'auto',
+          width: '80%',
+          maxWidth: '800px',
+        }}
       >
+        <Typography component='p'>
+          Fill in the fields below to start creating your tutorial. Upon
+          clicking the save button, you will be taken to a page where you can
+          add your lessons to the tutorial.
+        </Typography>
         <TextField
           required
           fullWidth
@@ -199,6 +223,8 @@ export function AddTutorial() {
           name='overview'
           label='Overview (1-2 sentences)'
           margin='normal'
+          multiline
+          minRows={2}
           onChange={(e) => 
             handleOnChange(e.target.value.trim(), setOverview)
           }
@@ -209,9 +235,7 @@ export function AddTutorial() {
           helperText={
             overview.isEmpty && 'Please enter an overview of your tutorial'
           }
-          onFocus={() => 
-            handleOnFocus(overview, setOverview)
-          }
+          onFocus={() => handleOnFocus(overview, setOverview)}
         />
         <TextField
           required
@@ -289,13 +313,14 @@ export function AddTutorial() {
         </FormControl>
         {loggedOut && (
           <Typography color='error' component='p'>
-            You must be signed in to submit a tutorial. <Link to='/signin'>Sign In</Link>
+            You must be signed in to submit a tutorial. 
+            <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
         <Button 
           type='submit' 
           variant='contained' 
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 5 }}
         >
           Save Your Tutorial
         </Button>

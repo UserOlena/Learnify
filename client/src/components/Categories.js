@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import {
   Button,
   Grid,
@@ -9,28 +9,102 @@ import {
   useTheme,
 } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
-import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
+import { QUERY_TUTORIALS_BY_CATEGORY } from '../utils/queries/tutorialQueries';
 
-function Categories() {
-  const [selectedCategory, setSelectedCategory] = useState('Category 1');
+
+function SubCategory({ subCategory }) {
+  const [selectedSubCategory, setSelectedSubCategory] = useState(subCategory);
   const theme = useTheme();
 
-  const { loading, error, data } = useQuery(GET_CATEGORIES);
+  console.log('sub', subCategory);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const { loading, error, data } = useQuery(QUERY_TUTORIALS_BY_CATEGORY, {
+    variables: { categoryId: selectedSubCategory._id },
+  });
 
-  const categories = data.categories.map((category) => category.category);
+  const tutorials = data?.tutorialsByCategory || [];
+  console.log('data', data);
 
-  const filteredOptions = selectedCategory
-    ? data.categories.filter(
-        (category) => category.category === selectedCategory
-      )
-    : data.categories;
+  //side effect to re-render
+  useEffect(() => {
+    setSelectedSubCategory(subCategory);
+  }, [subCategory]);
 
-  function selectCategory(category) {
-    setSelectedCategory(category);
+  const imgStyle = {
+    width: '90%',
+    height: 'auto',
+    overflow: 'hidden',
+    objectFit: 'cover',
   }
+  
+
+  if (loading) { 
+    return <p>Loading...</p>;
+  } else if (error) {
+    return <p>Error: {error.message}</p>;
+  } else {    
+    return (
+      <>
+        <Grid item xs={12}>
+              <Card
+                border={3}
+                borderRadius={8}
+                borderColor= 'black'
+                backgroundColor= 'gray'
+                p={2}
+              >
+                <CardContent>
+                  <Typography variant='h6' gutterBottom>
+                    {selectedSubCategory.category}
+                  </Typography>
+                </CardContent>
+              </Card>
+          </Grid>
+          <br></br>
+          <Grid item xs={12}>
+          <Grid container spacing={2}>
+            {tutorials.map((option) => (
+              <Grid item xs={12} sm={6} md={3} key={option._id}>
+                <Card
+                  border={3}
+                  borderRadius={8}
+                  borderColor= 'black'
+                  backgroundColor= 'white'
+                  p={2}
+                >
+                  <CardContent>
+                    <Typography variant='subtitle1'>
+                      {option.title}
+                    </Typography>
+                    <img src={option.thumbnail} alt={option.title} style={imgStyle} />
+                    <Typography variant='body2'>
+                      {option.overview}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </>
+    );
+  }
+}
+
+
+
+function Categories({ categories }) {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categorySelected, setCategorySelected] = useState(false);
+  const theme = useTheme();
+
+
+  console.log('cat', categories);
+
+  const setCategory = (category) => {
+    setSelectedCategory(category);
+    setCategorySelected(true);
+  };
 
   return (
     <Box
@@ -48,70 +122,19 @@ function Categories() {
           <div className='category-buttons'>
             {categories.map((category) => (
               <Button
-                key={category}
+                key={category.category}
                 variant='outlined'
                 size='small'
-                className={`category-button ${
-                  selectedCategory === category ? 'active' : ''
-                }`}
-                onClick={() => selectCategory(category)}
+                className={`category-button ${categorySelected ? 'active' : ''}`}
+                onClick={() => setCategory(category)}
               >
-                {category}
+                {category.category}
               </Button>
+              
             ))}
           </div>
+          { categorySelected && (<SubCategory subCategory={selectedCategory}/>)} 
         </Grid>
-        <Grid item xs={12}>
-          {selectedCategory && (
-            <Card
-              border={3}
-              borderRadius={8}
-              borderColor={theme.palette.mode === 'dark' ? 'white' : 'black'}
-              backgroundColor={theme.palette.mode === 'dark' ? 'gray' : 'gray'}
-              p={2}
-            >
-              <CardContent>
-                <Typography variant='h6' gutterBottom>
-                  {selectedCategory}
-                </Typography>
-                <Typography variant='body1'>
-                  Description for {selectedCategory} category goes here...
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
-        </Grid>
-        {selectedCategory && (
-          <Grid item xs={12}>
-            <Grid container spacing={2}>
-              {filteredOptions.map((option) => (
-                <Grid item xs={12} sm={6} md={3} key={option._id}>
-                  <Card
-                    border={3}
-                    borderRadius={8}
-                    borderColor={
-                      theme.palette.mode === 'dark' ? 'white' : 'black'
-                    }
-                    backgroundColor={
-                      theme.palette.mode === 'dark' ? 'gray' : 'white'
-                    }
-                    p={2}
-                  >
-                    <CardContent>
-                      <Typography variant='subtitle1'>
-                        {option.category}
-                      </Typography>
-                      <Typography variant='body2'>
-                        Additional information about {option.category} goes
-                        here...
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        )}
       </Grid>
     </Box>
   );

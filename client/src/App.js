@@ -1,10 +1,8 @@
+import { useState } from 'react';
 // React Router imports
-import { 
-  BrowserRouter as Router, 
-  Routes, 
-  Route 
-} from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// Styling imports
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 // Apollo server imports
 import {
   ApolloClient,
@@ -17,15 +15,18 @@ import { setContext } from '@apollo/client/link/context';
 // Import pages/components and styles
 import './style/App.css';
 import {
+  About,
   AddLessons,
   AddTutorial,
   Careers,
+  Dashboard,
   Home,
   Payment,
   SignIn,
   SignUp,
   UserProfile,
   ViewTutorial,
+  WhoWeAre,
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -48,9 +49,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// Custom Fonts for whole app
+const customTheme = createMuiTheme({
+  typography: {
+    fontFamily: 'Poppins, sans-serif',
+  },
+});
+
 function App() {
+  const [tutorialId, setTutorialId] = useState('');
   return (
-    <div 
+    <ThemeProvider theme={customTheme}>
+    <div
       className='App'
       style={{
         height: '100%',
@@ -64,6 +74,7 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Navbar />
+
           <Routes>
             <Route
               path='/'
@@ -74,11 +85,15 @@ function App() {
               element={<SignUp />}
             ></Route>
             <Route
+              path='/dashboard'
+              element={<Dashboard />}
+            ></Route>
+            <Route
               path='/signin'
               element={<SignIn />}
             ></Route>
             <Route
-              path='/tutorial/:ID'
+              path='/tutorial/:tutorialId'
               element={<ViewTutorial />}
             ></Route>
             <Route
@@ -98,14 +113,23 @@ function App() {
               element={<Careers />}
             ></Route>
             <Route
-              path='/profile'
-              element={<UserProfile />}
+              path='/tutorial/:tutorialId/lesson/:lessonId'
+              element={<ViewTutorial />}
+            ></Route>
+            <Route
+              path='/about'
+              element={<About />}
+            ></Route>
+            <Route
+              path='/who-we-are'
+              element={<WhoWeAre />}
             ></Route>
           </Routes>
         </Router>
         <Footer />
       </ApolloProvider>
     </div>
+    </ThemeProvider>
   );
 }
 

@@ -26,6 +26,7 @@ const userTypeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     removeUser: User
+    forgotPassword(email: String!): Auth
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
 
@@ -114,6 +115,19 @@ const userResolvers = {
         }
       }
       throw new AuthenticationError('You need to be logged in!');
+    },
+    
+    forgotPassword: async (parent, { email }) => {
+      try {
+        const user = User.findOne({ email });
+        if (!user) {
+          throw new AuthenticationError('No email found!');
+        }
+        const token = signPasswordResetToken(user);
+        return { token, user };
+      } catch (err) {
+        throw new Error(err);
+      }
     },
 
     addTutorialtoUser: async (parent, { _id, tutorialId }, context) => {

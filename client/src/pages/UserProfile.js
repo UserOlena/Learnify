@@ -1,5 +1,6 @@
 // React imports
 import { React, useEffect, useState } from 'react';
+import { ResetPassword } from '../components';
 
 // Material UI imports
 import {
@@ -22,12 +23,19 @@ import { UPDATE_USER_PROFILE } from '../utils/mutations/userMutations';
 
 // Other utility imports
 import { isEmptyInput, validateInput } from '../utils/validation';
+import auth from '../utils/auth';
 
 export function UserProfile() {
+  //check login status
+  if(!auth.loggedIn()) {
+    window.location.assign('/signin');
+  };
+
   let user;
 
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
+
 
   // Get the logged in user's information and set state with it
   const { loading, error: getUserError, data } = useQuery(GET_USER, {
@@ -47,31 +55,39 @@ export function UserProfile() {
   if (getUserError) {
     return <p>Error loading your profile</p>;
   }
-
-  // function handleOnChange(e) {
-  //   setUserName(e.target.value);
-  // }
+  if (updateError) {
+    return <p>Error updating your profile</p>;
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log('userName', userName);
-    console.log('email', email);
-
-    // If user is not logged in, set state to show error and exit submit function
-    if (!user) {
-      // setLoggedOut(true);
-      console.log('not logged in');
+    if(isEmptyInput(userName) || isEmptyInput(email)) {
+      console.log('empty input');
       return;
+    }
+
+    if(auth.loggedIn()) {
+      console.log('logged in');
     }
 
     const variables = {};
 
     if (userName !== user.username) {
-      variables.username = userName;
+      if(validateInput('userName', userName)) {
+        variables.username = userName;
+      } else {
+        console.log('invalid username');
+        return;
+      }
     }
     if (email !== user.email) {
-      variables.email = email;
+      if(validateInput('email', email)) {
+        variables.email = email;
+      } else {
+        console.log('invalid email');
+        return;
+      }
     }
 
     if (variables.username || variables.email) {
@@ -101,6 +117,7 @@ export function UserProfile() {
           </Typography>
           <Button
             variant='contained'
+            onClick={() => sendPasswordReset()}
           >
             Change My Password
           </Button>
@@ -115,6 +132,7 @@ export function UserProfile() {
             setUserName(e.target.value.trim())
           }
         />
+        <br />
         <TextField
           fullWidth
           id='email'
