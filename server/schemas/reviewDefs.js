@@ -79,7 +79,7 @@ const reviewResolvers = {
           });
           await Tutorial.findByIdAndUpdate(
             tutorialId,
-            { $push: { reviews: newReview._id } },
+            { $push: { reviews: newReview } },
             { new: true }
           );
   

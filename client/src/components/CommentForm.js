@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 // Material UI imports
 import clsx from 'clsx';
@@ -102,6 +102,7 @@ export function CommentForm() {
     };
     try {
       await addReview({ variables });
+      console.log(variables);
       // Reset all of the form fields after successful submission
       resetFormFields(setComment);
     } catch (error) {
@@ -172,7 +173,15 @@ export function CommentForm() {
           helperText={comment.isEmpty && 'Please enter a comment'}
           onFocus={() => handleOnFocus(comment, setComment)}
         />
-
+        {loggedOut && (
+          <Typography
+            color='error'
+            component='p'
+          >
+            You must be signed in to submit a comment.
+            <Link to='/signin'>Sign In</Link>
+          </Typography>
+        )}
         <Button
           variant='contained'
           aria-label='submit'
