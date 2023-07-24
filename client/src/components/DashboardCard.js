@@ -12,6 +12,9 @@ import {
 } from '@mui/material';
 import { HalfRating } from '../components';
 
+import { useQuery, useMutation } from '@apollo/client';
+import { ADD_FAVORITE_TO_USER } from '../utils/mutations/userMutations';
+
 const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: 'var(--main-bg-color) !important',
@@ -83,20 +86,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-  // async function assignFavorite(id) {
-  //   try {
-  //     const { data } = await addTutorial({ variables });
-  //     window.location.assign(`/${data.addTutorial._id}/lessons/add`);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
 export function DashboardCard(props) {
   const classes = useStyles();
-
+  console.log(props)
   const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(true);
   const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
+
+  // Set up mutation to add the favorite tutorial to the user favorites array
+  const [addFavoritetoUser, { error }] = useMutation(ADD_FAVORITE_TO_USER);
+
+  async function addFavoriteTutorial(id, tutorialId) {
+    try {
+      const { data } = await addFavoritetoUser({
+          variables: {
+            id: "64be2bc6c54ba8ac9405b6e1",
+            tutorialId: tutorialId,
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleFavoriteIconClick(tutorialId) {
+    const result = addFavoriteTutorial('', tutorialId);
+    if (result){
+      fillFavoriteIcon()
+    }
+  }
+
+  function fillFavoriteIcon() {
+    setFavoriteFilledIcon(true);
+  }
 
   return (
     <Card
@@ -124,28 +145,28 @@ export function DashboardCard(props) {
           >
             Learn More
           </Button>
-            
-            <IconButton
+
+          <IconButton
             aria-label='add to favorites'
             className={`${classes.favoriteIcon}`}
-            >
-            { 
-            favoriteBorderIcon &&
+          >
+            {favoriteBorderIcon && (
               <FavoriteBorderIcon
                 fontSize='large'
                 color='error'
                 value={props.id}
+                onClick={(e) => handleFavoriteIconClick(e.target.getAttribute('value'))}
               />
-            }
-            { 
-            favoriteFilledIcon &&
+            )}
+            {favoriteFilledIcon && (
               <FavoriteIcon
                 fontSize='large'
                 color='error'
                 value={props.id}
+                
               />
-            }
-            </IconButton>
+            )}
+          </IconButton>
         </CardActions>
       </div>
     </Card>

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function DashboardCarousel(props) {
   const classes = useStyles();
-
+console.log(props)
   const matchesMax959 = useMediaQuery('(max-width:959px)');
 
   const responsive = {
@@ -96,19 +96,17 @@ export function DashboardCarousel(props) {
       >
         {props.items.map(
           (
-            { id, overview, thumbnail, title, averageRating, teacher },
+            { _id, overview, thumbnail, title, averageRating, teacher },
             index
           ) => {
             return (
               <DashboardCard
-                key={index}
                 index={index}
-                id={id}
+                id={_id}
                 thumbnail={thumbnail}
                 title={title}
                 teacher={teacher}
                 averageRating={averageRating}
-                size={props.size}
               />
             );
           }
