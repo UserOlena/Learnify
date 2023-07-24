@@ -1,6 +1,6 @@
 const { gql, AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
-const { signToken } = require('../utils/auth');
+const { signToken, signPasswordResetToken } = require('../utils/auth');
 
 const userTypeDefs = gql`
   type User {
@@ -119,7 +119,7 @@ const userResolvers = {
     
     forgotPassword: async (parent, { email }) => {
       try {
-        const user = User.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user) {
           throw new AuthenticationError('No email found!');
         }

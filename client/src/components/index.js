@@ -7,5 +7,6 @@ export * from './Navbar';
 export * from './Recommended';
 export * from './RatingHalfReadOnly';
 export * from './ViewLesson';
+export * from './ResetPassword';
 
 export { Categories };

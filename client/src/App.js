@@ -124,6 +124,10 @@ function App() {
               path='/who-we-are'
               element={<WhoWeAre />}
             ></Route>
+            <Route
+              path='/userProfile'
+              element={<UserProfile />}
+            ></Route>
           </Routes>
         </Router>
         <Footer />

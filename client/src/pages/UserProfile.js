@@ -31,8 +31,6 @@ export function UserProfile() {
     window.location.assign('/signin');
   };
 
-  let user;
-
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
 
@@ -40,11 +38,14 @@ export function UserProfile() {
   // Get the logged in user's information and set state with it
   const { loading, error: getUserError, data } = useQuery(GET_USER, {
     onCompleted: data => {
-      user = data.me;
+      let user = data.me;
       setUserName(user.username);
       setEmail(user.email);
     }
   });
+  const user = data?.me || {};
+  console.log('user', user);
+
 
   // Set up mutation to update the profile in the db
   const [updateUserProfile, { error: updateError }] = useMutation(UPDATE_USER_PROFILE);
@@ -72,27 +73,30 @@ export function UserProfile() {
     }
 
     const variables = {};
+    variables.id = user._id;
 
     if (userName !== user.username) {
-      if(validateInput('userName', userName)) {
+      if(validateInput(userName, 'userName')) {
         variables.username = userName;
       } else {
         console.log('invalid username');
         return;
       }
     }
+
     if (email !== user.email) {
-      if(validateInput('email', email)) {
+      if(validateInput(email, 'email')) {
         variables.email = email;
       } else {
         console.log('invalid email');
         return;
       }
     }
+    console.log(variables);
 
     if (variables.username || variables.email) {
       try {
-        const updatedUser = await updateUserProfile({ variables });
+        const updatedUser = await updateUserProfile({variables});
         console.log('updatedUser', updatedUser);
       } catch (error) {
         console.log(`Error updating profile: ${error}`);
@@ -115,12 +119,7 @@ export function UserProfile() {
           <Typography component='h2' variant='h6'>
             Password
           </Typography>
-          <Button
-            variant='contained'
-            onClick={() => sendPasswordReset()}
-          >
-            Change My Password
-          </Button>
+          <ResetPassword textInput={'Reset Password'} email={email} />
         </Box>
         <TextField
           fullWidth
