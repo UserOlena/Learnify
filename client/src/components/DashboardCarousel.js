@@ -7,10 +7,12 @@ import { DashboardCard } from '../components';
 const useStyles = makeStyles((theme) => ({
   carouselContainer: {
     display: 'flex',
+    margin: '2em !important',
   },
 
   reactMultiCarouselTrack: {
     padding: '4rem 0 0 0 !important',
+    margin: '1em !important',
   },
 
   carouselItem: {
@@ -58,7 +60,7 @@ export function DashboardCarousel(props) {
       additionalTransfrom={1}
       removeArrowOnDeviceType={['tablet', 'mobile']}
       dotListClass='custom-dot-list-style'
-      containerClass={`'carousel-container'`}
+      containerClass={`'carousel-container' ${classes.carouselContainer}`}
       itemClass={`${classes.carouselItem}`}
       sliderClass={`${classes.reactMultiCarouselTrack}`}
     >
@@ -72,6 +74,7 @@ export function DashboardCarousel(props) {
               title={title}
               teacher={teacher}
               averageRating={averageRating}
+              size={props.size}
             />
           );
         }
