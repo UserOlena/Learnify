@@ -51,7 +51,7 @@ export function AddLessons() {
   const [media, setMedia] = useState(inputDefaultValues);
   const [duration, setDuration] = useState(inputDefaultValues);
   const [success, setSuccess] = useState(false);
-  const [loggedOut, setLoggedOut] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(true);
 
   // Set up mutation to add the lesson to the db
   // Use the cache to add each new lesson to the bottom of the page upon saving
@@ -101,7 +101,8 @@ export function AddLessons() {
   }
 
   const tutorial = data.tutorial;
-  const { categories, lessons } = tutorial;
+  const { categories, lessons, teacher } = tutorial;
+  console.log('teacher', teacher);
 
   //map categories array for rendering
   function categoryList(categories) {
@@ -137,9 +138,9 @@ export function AddLessons() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // If user is not logged in, set state to show error and exit submit function
-    if (!user) {
-      setLoggedOut(true);
+    // If user is not logged in or is not the teacher, set state to show error and exit submit function
+    if (!user || user._id !== teacher[0]._id) {
+      setCanSubmit(false);
       return;
     }
 
@@ -302,9 +303,9 @@ export function AddLessons() {
           }
           onFocus={() => handleOnFocus(duration, setDuration)}
         />
-        {loggedOut && (
+        {!canSubmit && (
           <Typography color='error' component='p'>
-            You must be signed in to add a lesson to a tutorial.{' '}
+            You must be signed in as the instructor of this tutorial in order to add a lesson to it.{' '}
             <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
