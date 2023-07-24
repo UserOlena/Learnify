@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 
   reactMultiCarouselTrack: {
     padding: '4rem 0 0 0 !important',
-    margin: '1em !important',
   },
 
   carouselItem: {
@@ -67,7 +66,7 @@ export function DashboardCarousel(props) {
       {props.items.map(
         ({ id, overview, thumbnail, title, averageRating, teacher }, index) => {
           return (
-            <DashboardCard 
+            <DashboardCard
               index={index}
               id={id}
               thumbnail={thumbnail}
