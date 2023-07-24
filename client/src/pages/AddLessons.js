@@ -25,9 +25,11 @@ const useStyles = makeStyles((theme) => ({
     margin: '3%',
   },
   chip: {
-    margin: 2,
+    marginLeft: 8,
+    marginRight: 8,
     ...theme.typography.button,
     backgroundColor: '#98b7f5',
+    fontWeight: 'bold',
   },
 }));
 
@@ -190,14 +192,25 @@ export function AddLessons() {
 
   return (
     <div>
-      <Typography component='h1' variant='h5'>
+      <Typography component='h1' variant='h5' gutterBottom sx={{ mt: 4 }}>
         Add Lessons to Your Tutorial
       </Typography>
-      <Typography component='h2' variant='h6'>
+      <Typography component='h2' variant='h6' gutterBottom>
         Tutorial: {tutorial.title}
       </Typography>
       <Box direction='row'>{categoryList(categories)}</Box>
-      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Box
+        component='form'
+        noValidate
+        onSubmit={handleSubmit}
+        sx={{
+          mt: 1,
+          ml: 'auto',
+          mr: 'auto',
+          width: '80%',
+          maxWidth: '800px',
+        }}
+      >
         <TextField
           required
           fullWidth
@@ -220,6 +233,8 @@ export function AddLessons() {
           value={body.value}
           label='Body'
           margin='normal'
+          multiline
+          minRows={3}
           onChange={(e) => handleOnChange(e.target.value, setBody)}
           onBlur={(e) => handleOnBlur(e.target.value, setBody)}
           error={body.isEmpty}
@@ -252,11 +267,11 @@ export function AddLessons() {
           }
           onFocus={() => handleOnFocus(duration, setDuration)}
         />
-        <Button type='submit' variant='contained' sx={{ mt: 3, mb: 2 }}>
+        <Button type='submit' variant='contained' sx={{ mt: 3 }}>
           Save Lesson
         </Button>
       </Box>
-      <Divider variant='middle' />
+      <Divider style={{ width: '90%', margin: '2rem auto' }} />
       <Typography
         component='h2'
         variant='h5'
