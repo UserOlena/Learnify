@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAF0E6',
     color: 'black',
     borderRadius: '5px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -23,38 +22,38 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     marginTop: theme.spacing(4),
     padding: theme.spacing(3),
-    backgroundColor: 'grey',
+    backgroundColor: '#D8BFD8',
     borderRadius: '5px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    position: 'relative', // Set position to relative for the animation
-    overflow: 'hidden', // Hide any overflow from the card container
+    position: 'relative', 
+    overflow: 'hidden', 
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: theme.spacing(2),
-    color: 'white',
+    color: 'black',
   },
   inputField: {
     marginBottom: theme.spacing(2),
     color: 'white',
     width: '100%',
     '& label': {
-      color: 'white',
+      color: 'black',
     },
     '& input': {
-      color: 'white', // Set the input text color to white
+      color: 'black', // Set the input text color to white
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'white',
+        borderColor: 'black',
       },
       '&:hover fieldset': {
-        borderColor: 'white',
+        borderColor: 'black',
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'white',
+        borderColor: 'black',
       },
     },
   },
