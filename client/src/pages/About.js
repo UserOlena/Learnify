@@ -74,9 +74,9 @@ export function About() {
         </Typography>
         <Typography variant='body1' gutterBottom>
           The best way to interact with our website is to{' '}
-          <Link to='/signup'>create a user account.</Link> This will allow you to
-          create your own tutorials and lessons. Already have an account? Then
-          <Link to='/signin'> sign in and start learning! </Link>
+          <Link to='/signup'>create a user account</Link>. This will allow you to
+          create your own tutorials and lessons. Already have an account? Then{' '}
+          <Link to='/signin'>sign in and start learning</Link>!
         </Typography>
       </div>
     </Container>
