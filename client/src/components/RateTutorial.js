@@ -26,7 +26,6 @@ export function RateTutorial() {
         onChangeActive={(event, newHover) => {
           setHover(newHover);
         }}
-        
       />
     </Box>
   );

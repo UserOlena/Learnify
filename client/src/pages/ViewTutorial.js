@@ -167,7 +167,7 @@ export function ViewTutorial() {
             key={review._id}
             style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
-            <Grid container> 
+            <Grid container>
               <Grid
                 item
                 xs={4}
@@ -320,9 +320,10 @@ export function ViewTutorial() {
           <Grid
             item
             xs={10}
-           
           >
-            <Card  style={{backgroundColor: '#92b4d4', padding: 5}}>{reviewList(reviews)}</Card>
+            <Card style={{ backgroundColor: '#92b4d4', padding: 5 }}>
+              {reviewList(reviews)}
+            </Card>
             {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
           </Grid>
         </Grid>

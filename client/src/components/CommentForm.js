@@ -6,10 +6,6 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
-  Collapse,
-  Divider,
-  Grid,
   makeStyles,
   TextField,
   Typography,
@@ -46,7 +42,6 @@ export function CommentForm() {
   };
 
   //State variables
-  const [username, setUsername] = useState(inputDefaultValues);
   const [comment, setComment] = useState(inputDefaultValues);
   const [loggedOut, setLoggedOut] = useState(false);
   const [value, setValue] = useState(0);
@@ -98,7 +93,7 @@ export function CommentForm() {
       return;
     }
     if (value === 0) {
-      alert('Please provide both a rating and a comment')
+      alert('Please provide both a rating and a comment');
       return;
     }
 

@@ -28,15 +28,9 @@ const reviewTypeDefs = gql`
       comment: String
     ): Review
 
-    updateReview(
-      _id: ID! 
-      rating: Int 
-      comment: String
-      ): Review
+    updateReview(_id: ID!, rating: Int, comment: String): Review
 
-    deleteReview(
-      _id: ID!
-      ): Review
+    deleteReview(_id: ID!): Review
   }
 `;
 
@@ -45,8 +39,7 @@ const reviewResolvers = {
     // Get all reviews
     reviews: async function () {
       try {
-        return await Review.find({})
-        .populate('reviewer');
+        return await Review.find({}).populate('reviewer');
       } catch (error) {
         throw new Error(`Failed to get all reviews: ${error.message}`);
       }
@@ -55,13 +48,12 @@ const reviewResolvers = {
     // Get a single review by ID
     review: async function (parent, { _id }) {
       try {
-        return await Review.findById(_id)
-        .populate('reviewer');
+        return await Review.findById(_id).populate('reviewer');
       } catch (error) {
         throw new Error(`Failed to get single review: ${error.message}`);
       }
     },
-  },  
+  },
 
   Mutation: {
     // Add a review and attach it to the reviewer and tutorial
@@ -71,23 +63,22 @@ const reviewResolvers = {
     ) {
       // If user is logged in, add the review to the db
       // if (context.user) {
-        try {
-          const newReview = await Review.create({
-            reviewer,
-            rating,
-            comment,
-          });
-          await Tutorial.findByIdAndUpdate(
-            tutorialId,
-            { $push: { reviews: newReview } },
-            { new: true }
-          );
-  
-          return newReview;
+      try {
+        const newReview = await Review.create({
+          reviewer,
+          rating,
+          comment,
+        });
+        await Tutorial.findByIdAndUpdate(
+          tutorialId,
+          { $push: { reviews: newReview } },
+          { new: true }
+        );
 
-        } catch (error) {
-          throw new Error(`Failed to add review: ${error.message}`);
-        }
+        return newReview;
+      } catch (error) {
+        throw new Error(`Failed to add review: ${error.message}`);
+      }
       // }
       // If user is not logged in, throw authentication error
       throw new AuthenticationError('You must be logged in to add a review');
