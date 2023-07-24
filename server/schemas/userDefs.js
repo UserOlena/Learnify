@@ -40,7 +40,8 @@ const userResolvers = {
     user: async (parent, { _id }) => {
       try {
         return await User.findOne({ _id: _id })
-        .populate('tutorials');
+        .populate('tutorials')
+        .populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
@@ -49,7 +50,8 @@ const userResolvers = {
     users: async () => {
       try {
         return await User.find({})
-        .populate('tutorials');
+        .populate('tutorials')
+        .populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
