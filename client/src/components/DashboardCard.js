@@ -13,7 +13,10 @@ import {
 import { HalfRating } from '../components';
 
 import { useQuery, useMutation } from '@apollo/client';
-import { ADD_FAVORITE_TO_USER, REMOVE_FAVORITE_FROM_USER } from '../utils/mutations/userMutations';
+import {
+  ADD_FAVORITE_TO_USER,
+  REMOVE_FAVORITE_FROM_USER,
+} from '../utils/mutations/userMutations';
 import { GET_USER } from '../utils/queries/userQueries';
 
 const useStyles = makeStyles((theme) => ({
@@ -95,13 +98,16 @@ export function DashboardCard(props) {
   const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
 
   // Set up mutation to add the favorite tutorial to the user favorites array
-  const [addFavoritetoUser, { error: addFavoriteError }] = useMutation(ADD_FAVORITE_TO_USER);
-  const [removeFavoritefromUser, { error: removeFavoriteError }] = useMutation(REMOVE_FAVORITE_FROM_USER);
+  const [addFavoritetoUser, { error: addFavoriteError }] =
+    useMutation(ADD_FAVORITE_TO_USER);
+  const [removeFavoritefromUser, { error: removeFavoriteError }] = useMutation(
+    REMOVE_FAVORITE_FROM_USER
+  );
 
   // Get the logged in user's information
   const { data: userData } = useQuery(GET_USER);
 
-   // Redirect to the Sign In page if user is not logged in
+  // Redirect to the Sign In page if user is not logged in
   function checkIfLoggedIn() {
     let user;
     if (userData) {
@@ -115,11 +121,13 @@ export function DashboardCard(props) {
       setLoggedOut(true);
       return;
     } else {
-      console.log('logged user')
-      console.log(user?._id)
-      return user?._id
+      console.log('logged user');
+      console.log(user?._id);
+      return user?._id;
     }
   }
+
+  const teacher = props.teacher ? props.teacher[0] : null;
 
   // Function sends clicked tutorial ID and User ID to save it in the favorites array
   // Triggers Icons state to swithch between bordered to filled
@@ -140,7 +148,7 @@ export function DashboardCard(props) {
       if (result?.data?.addFavoritetoUser?._id) {
         setFilledFavoriteIcon();
       } else {
-        console.log('problem saving a favorite')
+        console.log('problem saving a favorite');
       }
     } catch (error) {
       console.log(error);
@@ -165,7 +173,7 @@ export function DashboardCard(props) {
       if (result?.data?.removeFavoritefromUser?._id) {
         setBorderedFavoriteIcon();
       } else {
-        console.log('problem saving a favorite')
+        console.log('problem saving a favorite');
       }
     } catch (error) {
       console.log(error);
@@ -175,20 +183,17 @@ export function DashboardCard(props) {
   // Function cahnges favorite Icons state to replase filled with bordered one
   function setBorderedFavoriteIcon() {
     setFavoriteFilledIcon(false);
-    setFavoriteBorderIcon(true)
+    setFavoriteBorderIcon(true);
   }
 
   // Function changes favorite Icons state to replase bordered with filled one
   function setFilledFavoriteIcon() {
     setFavoriteFilledIcon(true);
-    setFavoriteBorderIcon(false)
+    setFavoriteBorderIcon(false);
   }
 
   return (
-    <Card
-      value={props.id}
-      className={`${classes.card} `}
-    >
+    <Card value={props.id} className={`${classes.card} `}>
       <div className={`${classes.imgContainer}`}>
         <CardMedia
           component='img'
@@ -201,13 +206,12 @@ export function DashboardCard(props) {
         </CardContent>
       </div>
       <div>
-        <p className={`${classes.teacher}`}>{props.teacher[0].username}</p>
+        {teacher && (
+          <p className={`${classes.teacher}`}>{props.teacher[0].username}</p>
+        )}
         <HalfRating rating={props.averageRating} />
         <CardActions className={`${classes.cardContent} ${classes.actionBox}`}>
-          <Button
-            size='small'
-            className={`${classes.learnMoreBtn}`}
-          >
+          <Button size='small' className={`${classes.learnMoreBtn}`}>
             Learn More
           </Button>
 
@@ -216,14 +220,9 @@ export function DashboardCard(props) {
               aria-label='add to favorites'
               className={`${classes.favoriteIcon}`}
               value={props.id}
-              onClick={(e) =>
-                addFavoriteTutorialOnClick(e.currentTarget.value)
-              }
+              onClick={(e) => addFavoriteTutorialOnClick(e.currentTarget.value)}
             >
-              <FavoriteBorderIcon
-                fontSize='large'
-                color='error'
-              />
+              <FavoriteBorderIcon fontSize='large' color='error' />
             </IconButton>
           )}
           {favoriteFilledIcon && (
@@ -235,10 +234,7 @@ export function DashboardCard(props) {
                 removeFavoriteTutorialOnClick(e.currentTarget.value)
               }
             >
-              <FavoriteIcon
-                fontSize='large'
-                color='error'
-              />
+              <FavoriteIcon fontSize='large' color='error' />
             </IconButton>
           )}
         </CardActions>
