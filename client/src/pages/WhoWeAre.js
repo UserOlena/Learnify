@@ -40,7 +40,7 @@ const boxData = [
     id: 3,
     imageSrc: Riley,
     title: "Riley O' Neil",
-    description: 'Description for Box 3',
+    description: "Riley O'Neil is an adept network administrator and programmer specialized in web development and Java. Their passion lies in crafting efficient and future-proofed systems to tackle complex problems. With a keen eye for detail and a penchant for innovation, Riley excels in creating seamless and scalable solutions for the tech world.",
   },
   {
     id: 4,
