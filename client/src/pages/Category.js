@@ -10,9 +10,6 @@ import Auth from '../utils/auth';
 
 export function Category() {
     const { categoryId } = useParams();
-    if (!Auth.loggedIn()) {
-        window.location.assign('/signin');
-    }
 
     const { loading: tutorialsLoading, data: tutorialsData } =
         useQuery(QUERY_TUTORIALS_BY_CATEGORY, {
