@@ -77,7 +77,7 @@ export function Navbar() {
   }
   function handleLogout() {
     Auth.logout();
-    Auth.LoggedIn(false);
+    Auth.loggedIn(false);
     handleCloseMenus();
   }
 
