@@ -37,6 +37,7 @@ export function ChangePassword() {
 			}
 			setSuccess('Password changed successfully');
             console.log(data);
+			window.location.assign('/signin');
 		} catch (err) {
 			console.error(err);
 		}
