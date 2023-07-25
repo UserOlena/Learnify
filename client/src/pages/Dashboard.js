@@ -2,10 +2,13 @@ import { React, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { DashboardCarousel } from '../components';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
+import { GET_USER } from '../utils/queries/userQueries';
 
 export function Dashboard() {
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
+
+  const { data: userData } = useQuery(GET_USER);
 
   if (tutorialsLoading) {
     return <p>Loading...</p>;
@@ -16,7 +19,10 @@ export function Dashboard() {
 
   return (
     <div>
-      <DashboardCarousel items={tutorials} />
+      <DashboardCarousel
+        items={tutorials}
+        user={userData.me}
+      />
     </div>
   );
 }
