@@ -14,9 +14,11 @@ const useStyles = makeStyles((theme) => ({
   carouselContainer: {
     display: 'flex',
     width: '95vw',
-    margin: '2.5vw !important',
+    margin: '0 2.5vw !important',
     maxWidth: '120em',
     alignSelf: 'center',
+    boxShadow: '0px -15px 10px -10px rgba(0, 0, 0, 0.2)',
+    boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
       width: '95vw',
@@ -72,6 +74,10 @@ export function DashboardCarousel(props) {
     },
   };
 
+  const saved = props.items.filter(item => props.user.favorites.some(
+    (favorite) => favorite._id === item._id
+  ));
+
   return (
     <div className={`${classes.container}`}>
       <Carousel
@@ -79,7 +85,7 @@ export function DashboardCarousel(props) {
         draggable={false}
         showDots={matchesMax959 ? false : true}
         responsive={responsive}
-        infinite={true}
+        infinite={false}
         // autoPlay={true}
         autoPlaySpeed={4000}
         shouldResetAutoplay={true}
@@ -93,30 +99,56 @@ export function DashboardCarousel(props) {
         sliderClass={`${classes.reactMultiCarouselTrack}`}
         slidesToSlide={3}
         centerMode={true}
+        // partialVisible={true}
       >
-        {props.items.map(
-          (
-            { _id, overview, thumbnail, title, averageRating, teacher },
-            index
-          ) => {
+        {props.chosenTab == 'browse' &&
+          props.items.map(
+            (
+              { _id, overview, thumbnail, title, averageRating, teacher },
+              index
+            ) => {
+              // Check if user's favorite array includes current tutorial ID
+              const isFavorite = props.user.favorites.some(
+                (favorite) => favorite._id === _id
+              );
 
-            // Check if user's favorite array includes current tutorial ID
-            const isFavorite = props.user.favorites.some(favorite => favorite._id === _id);
+              return (
+                <DashboardCard
+                  key={index}
+                  index={index}
+                  id={_id}
+                  thumbnail={thumbnail}
+                  title={title}
+                  teacher={teacher}
+                  averageRating={averageRating}
+                  favorite={isFavorite}
+                />
+              );
+            }
+          )}
+        {props.chosenTab == 'saved' &&
+          saved.map(
+            (
+              { _id, overview, thumbnail, title, averageRating, teacher },
+              index
+            ) => {
+              // Check if user's favorite array includes current tutorial ID
 
-            return (
-              <DashboardCard
-                key={index}
-                index={index}
-                id={_id}
-                thumbnail={thumbnail}
-                title={title}
-                teacher={teacher}
-                averageRating={averageRating}
-                favorite={isFavorite}
-              />
-            );
-          }
-        )}
+
+              return (
+                <DashboardCard
+                  key={index}
+                  index={index}
+                  id={_id}
+                  thumbnail={thumbnail}
+                  title={title}
+                  teacher={teacher}
+                  averageRating={averageRating}
+                  favorite={true}
+                />
+              );
+            }
+          )}
       </Carousel>
     </div>
   );
