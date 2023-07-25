@@ -37,9 +37,7 @@ export function Dashboard() {
 
   const classes = useStyles();
 
-  const [chosenTab, setChosenTab] = useState('browseBtn');
-
-  function changeChoosenTabState(tab) {}
+  const [chosenTab, setChosenTab] = useState('saved');
 
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
@@ -56,9 +54,11 @@ export function Dashboard() {
     <div>
       <div className={`${classes.buttonContainer}`}>
         <Button
+          value='browse'
           className={`${classes.button} ${
-            chosenTab === 'browseBtn' ? classes.active : ''
+            chosenTab === 'browse' ? classes.active : ''
           }`}
+          onClick={(e) => setChosenTab(e.currentTarget.value)}
         >
           Browse
         </Button>
