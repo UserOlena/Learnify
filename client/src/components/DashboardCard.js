@@ -213,7 +213,7 @@ export function DashboardCard(props) {
         </p>
         <HalfRating rating={props.averageRating} />
         <CardActions className={`${classes.cardContent} ${classes.actionBox}`}>
-          <Button size='small' className={`${classes.learnMoreBtn}`}>
+          <Button size='small' className={`${classes.learnMoreBtn}`} onClick={() => (window.location.href = `/tutorial/${props.id}`)}>
             Learn More
           </Button>
 
