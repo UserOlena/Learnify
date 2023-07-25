@@ -86,6 +86,14 @@ export const RESET_PASSWORD = gql`
   }
 `;
 
+export const REMOVE_USER = gql`
+  mutation RemoveUser {
+    removeUser {
+      _id
+    }
+  }
+`;
+
 export const REMOVE_FAVORITE_FROM_USER = gql`
   mutation removeFavoritefromUser($id: ID!, $tutorialId: ID!) {
     removeFavoritefromUser(_id: $id, tutorialId: $tutorialId) {

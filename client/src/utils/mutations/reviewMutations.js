@@ -23,3 +23,12 @@ export const ADD_REVIEW = gql`
     }
   }
 `;
+
+// delete review
+export const DELETE_REVIEW = gql`
+  mutation deleteReview($_id: ID!) {
+    deleteReview(_id: $_id) {
+      _id
+    }
+  }
+`;
