@@ -12,7 +12,7 @@ import { gql, useQuery } from '@apollo/client';
 import { QUERY_TUTORIALS_BY_CATEGORY } from '../utils/queries/tutorialQueries';
 
 
-function SubCategory({ subCategory }) {
+export function SubCategory({ subCategory }) {
   const [selectedSubCategory, setSelectedSubCategory] = useState(subCategory);
   const theme = useTheme();
 
@@ -93,7 +93,7 @@ function SubCategory({ subCategory }) {
 
 
 
-function Categories({ categories }) {
+export function Categories({ categories }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categorySelected, setCategorySelected] = useState(false);
   const theme = useTheme();
@@ -102,8 +102,10 @@ function Categories({ categories }) {
   console.log('cat', categories);
 
   const setCategory = (category) => {
+    if (category !== selectedCategory) {
     setSelectedCategory(category);
     setCategorySelected(true);
+    }
   };
 
   return (

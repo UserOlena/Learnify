@@ -1,12 +1,12 @@
-import Categories from './Categories';
+export * from './Categories';
 export * from './Carousel';
-export * from './DashboardCarousel';
 export * from './CheckoutForm';
+export * from './DashboardCarousel';
 export * from './Footer';
 export * from './Navbar';
-export * from './Recommended';
+export * from './RateTutorial';
 export * from './RatingHalfReadOnly';
+export * from './Recommended';
+export * from './CommentForm';
 export * from './ViewLesson';
 export * from './ResetPassword';
-
-export { Categories };

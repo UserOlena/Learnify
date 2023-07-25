@@ -35,13 +35,18 @@ db.once('open', async () => {
     const lessonResult = await Lesson.create(lessonSeeds);
     const lessonIds = lessonResult.map((lesson) => lesson._id);
 
-    // Add reviews to db and get the resulting IDs
-    const reviewResult = await Review.create(reviewSeeds);
-    const reviewIds = reviewResult.map((review) => review._id);
-
     // Add users to db and get the resulting IDs
     const userResult = await User.create(userSeeds);
     const userIds = userResult.map((user) => user._id);
+
+    // Add reviews to db and get the resulting IDs
+    reviewSeeds.map((review) => {
+      review.reviewer = getRandomId(userIds);
+    });
+    
+    const reviewResult = await Review.create(reviewSeeds);
+    const reviewIds = reviewResult.map((review) => review._id);
+
 
     // For each tutorial, randomly set 2 category IDs, 4 lesson IDs, 2 review IDs, & a teacher ID
     tutorialSeeds.map((tutorial) => {

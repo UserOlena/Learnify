@@ -24,6 +24,8 @@ export const ADD_USER = gql`
   }
 `;
 
+//add mutation to ADD_BOOKMARK using mutation addTutorialtoUser
+
 export const UPDATE_USER_PROFILE = gql`
   mutation UpdateUserProfile($id: ID!, $username: String, $email: String) {
     updateUserProfile(_id: $id, username: $username, email: $email) {
@@ -57,3 +59,6 @@ export const RESET_PASSWORD = gql`
     }
   }
 `;
+
+
+
