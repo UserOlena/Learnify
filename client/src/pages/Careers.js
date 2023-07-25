@@ -1,4 +1,4 @@
-import  { React, useState } from 'react';
+import { React, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, TextField, Button } from '@material-ui/core';
 import emailjs from 'emailjs-com';
@@ -90,12 +90,16 @@ export function Careers() {
   return (
     <div className={classes.root}>
       <div className={classes.contentContainer}>
-        <Typography variant="h4" gutterBottom>
-          Want to work for Learnify? 
-        </Typography>
-        <Typography variant="h4" gutterBottom>
-        Contact us!
-        </Typography>
+        {!isFormSubmitted && (
+          <>
+            <Typography variant="h4" gutterBottom>
+              Want to work for Learnify?
+            </Typography>
+            <Typography variant="h4" gutterBottom>
+              Contact us!
+            </Typography>
+          </>
+        )}
         <div className={classes.card}>
           <div className={classes.borderAnimation}></div>
           {!isFormSubmitted ? (
@@ -146,6 +150,6 @@ export function Careers() {
       </div>
     </div>
   );
-};
+}
 
 export default Careers;
