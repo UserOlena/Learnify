@@ -75,7 +75,7 @@ export function DashboardCarousel(props) {
   return (
     <div className={`${classes.container}`}>
       <Carousel
-        swipeable={false}
+        swipeable={true}
         draggable={false}
         showDots={matchesMax959 ? false : true}
         responsive={responsive}
