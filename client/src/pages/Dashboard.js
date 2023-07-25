@@ -4,7 +4,13 @@ import { DashboardCarousel } from '../components';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import { GET_USER } from '../utils/queries/userQueries';
 
+import Auth from '../utils/auth';
+
 export function Dashboard() {
+  if (!Auth.loggedIn()) {
+    window.location.assign('/signin');
+  }
+
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
 
