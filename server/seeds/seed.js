@@ -80,29 +80,6 @@ db.once('open', async () => {
     // Add tutorials to the db
     const tutorialResult = await Tutorial.create(tutorialSeeds);
     const tutorialIds = tutorialResult.map((tutorial) => tutorial._id);
-
-    // Add enrolled tutorials to users
-    const users = await User.find({});
-
-    for (const user of users) {
-      const userTutorials = [];
-      while (userTutorials.length < 2) {
-        const id = getRandomId(tutorialIds);
-        if (userTutorials.indexOf(id) === -1) {
-          userTutorials.push(id);
-        }
-      }
-
-      await User.updateOne(
-        { _id: user._id },
-        {
-          $addToSet: { tutorials: userTutorials },
-        },
-        {
-          new: true,
-        }
-      );
-    }
   } catch (error) {
     console.error(error);
     process.exit(1);
