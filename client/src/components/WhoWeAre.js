@@ -34,8 +34,8 @@ const boxData = [
    {
     id: 2,
     imageSrc: Olena,
-    title: 'Olena',
-    description: 'Description for Box 5',
+    title: 'Olena Pashchenko',
+    description: '',
   },
    {
     id: 3,
