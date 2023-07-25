@@ -121,7 +121,7 @@ export function Navbar() {
           .sort((a, b) => a.category.localeCompare(b.category))
           .map((category) => (
             <NavLink
-              to={'/category/' + category.category}
+              to={'/category/' + category._id}
               style={linkStyle}
               key={category.category}
             >

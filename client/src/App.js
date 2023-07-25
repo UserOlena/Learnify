@@ -19,6 +19,7 @@ import {
   AddLessons,
   AddTutorial,
   Careers,
+  Category,
   ChangePassword,
   Dashboard,
   Home,
@@ -125,6 +126,10 @@ function App() {
               <Route
                 path='/changePassword/:token'
                 element={<ChangePassword />}
+              ></Route>
+              <Route
+                path='/category/:categoryId'
+                element={<Category />}
               ></Route>
             </Routes>
           </Router>
