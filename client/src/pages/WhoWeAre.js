@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Beckee from '../images/beckee.jpg';
 import Ryan from '../images/ryan.jpg';
 import Riley from '../images/Riley.jpeg';
+import Sarah from '../images/Sarah.png';
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -43,14 +44,14 @@ const boxData = [
   },
   {
     id: 4,
-    imageSrc: 'image4.jpg',
-    title: 'Box 4',
-    description: 'Description for Box 4',
+    imageSrc: Sarah,
+    title: 'Sarah Jensen',
+    description: 'Sarah is based in Glendale, CA. In addition to web development, she is a licensed Speech-Language Pathologist with a background in theater. These are surprisingly applicable to tech, particularly relating to accessibility and engagement. Sarah is particularly excited about React, and finds it to be equal parts satisfying and frustrating. When she’s not at her desk, you can usually find her hanging out with her dog, swing dancing, or crafting a new cosplay.',
   },
   {
     id: 5,
     imageSrc: 'image5.jpg',
-    title: 'Box 5',
+    title: 'Olena',
     description: 'Description for Box 5',
   },
 ];
@@ -87,9 +88,9 @@ export function WhoWeAre() {
                 src={box.imageSrc}
                 alt={`Image for ${box.title}`}
                 style={{
-                  width: '100%', // Make sure the image covers the circle entirely
-                  height: '100%', // Make sure the image covers the circle entirely
-                  objectFit: 'cover', // Avoid stretching the image
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover', 
                 }}
               />
             </div>
