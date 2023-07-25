@@ -73,30 +73,55 @@ function App() {
         <ApolloProvider client={client}>
           <Router>
             <Navbar />
-
             <Routes>
-              <Route path='/' element={<Home />}></Route>
-              <Route path='/signup' element={<SignUp />}></Route>
-              <Route path='/dashboard' element={<Dashboard />}></Route>
-              <Route path='/signin' element={<SignIn />}></Route>
+              <Route 
+                path='/' 
+                element={<Home />}>
+              </Route>
+              <Route 
+                path='/signup' 
+                element={<SignUp />}>
+              </Route>
+              <Route 
+                path='/dashboard' 
+                element={<Dashboard />}>
+              </Route>
+              <Route 
+                path='/signin' 
+                element={<SignIn />}>
+              </Route>
               <Route
                 path='/tutorial/:tutorialId'
-                element={<ViewTutorial />}
-              ></Route>
-              <Route path='/tutorials/new' element={<AddTutorial />}></Route>
+                element={<ViewTutorial />}>
+              </Route>
+              <Route 
+                path='/tutorials/new' 
+                element={<AddTutorial />}>
+              </Route>
               <Route
                 path='/:tutorialId/lessons/add'
                 element={<AddLessons />}
               ></Route>
-              <Route path='/donate' element={<Payment />}></Route>
-              <Route path='/careers' element={<Careers />}></Route>
+              <Route 
+                path='/donate' 
+               element={<Payment />}>
+              </Route>
+              <Route 
+                path='/careers'
+                element={<Careers />}>
+              </Route>
               <Route
                 path='/tutorial/:tutorialId/lesson/:lessonId'
                 element={<ViewTutorial />}
               ></Route>
-              <Route path='/about' element={<About />}></Route>
-              <Route path='/who-we-are' element={<WhoWeAre />}></Route>
-              <Route path='/userProfile' element={<UserProfile />}></Route>
+              <Route 
+                path='/about' 
+                element={<About />}>
+              </Route>
+              <Route 
+                path='/userProfile' 
+                element={<UserProfile />}>
+              </Route>
               <Route
                 path='/changePassword/:token'
                 element={<ChangePassword />}
