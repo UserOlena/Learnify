@@ -99,6 +99,10 @@ export function DashboardCarousel(props) {
             { _id, overview, thumbnail, title, averageRating, teacher },
             index
           ) => {
+
+            // Check if user's favorite array includes current tutorial ID
+            const isFavorite = props.user.favorites.some(favorite => favorite._id === _id);
+
             return (
               <DashboardCard
                 key={index}
@@ -108,6 +112,7 @@ export function DashboardCarousel(props) {
                 title={title}
                 teacher={teacher}
                 averageRating={averageRating}
+                favorite={isFavorite}
               />
             );
           }
