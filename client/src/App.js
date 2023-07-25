@@ -19,6 +19,7 @@ import {
   AddLessons,
   AddTutorial,
   Careers,
+  ChangePassword,
   Dashboard,
   Home,
   Payment,
@@ -27,7 +28,6 @@ import {
   UserProfile,
   ViewTutorial,
   WhoWeAre,
-  ChangePassword,
 } from './pages';
 import { Footer, Navbar } from './components';
 

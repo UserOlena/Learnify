@@ -3,17 +3,12 @@ import { RESET_PASSWORD } from '../utils/mutations/userMutations';
 import { useState } from 'react';
 
 // Material UI imports
-import {
-	Button,
-	TextField,
-	Box,
-	Typography,
-} from '@mui/material';
+import { Button, TextField, Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 //change password function takes in params for token and asks for new password
 export function ChangePassword() {
-    const token = useParams().token;
+	const token = useParams().token;
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [resetPassword, { error: mutationError }] = useMutation(RESET_PASSWORD);
@@ -36,7 +31,7 @@ export function ChangePassword() {
 				return;
 			}
 			setSuccess('Password changed successfully');
-            console.log(data);
+			console.log(data);
 			window.location.assign('/signin');
 		} catch (err) {
 			console.error(err);
@@ -56,6 +51,7 @@ export function ChangePassword() {
 				</Box>
 				<TextField
 					fullWidth
+					type="password"
 					id="password"
 					name="Password"
 					label="Password"
@@ -65,20 +61,21 @@ export function ChangePassword() {
 				<br />
 				<TextField
 					fullWidth
+					type="password"
 					id="confirmPassword"
 					name="confirmPassword"
 					label="confirmPassword"
 					value={confirmPassword}
 					onChange={(e) => setConfirmPassword(e.target.value.trim())}
 				/>
-                {error && <Typography color="error">{error}</Typography>}
-                {success && <Typography color="success">{success}</Typography>}
+				{error && <Typography color="error">{error}</Typography>}
+				{success && <Typography color="success">{success}</Typography>}
 				<Button type="submit" variant="contained">
 					Save
 				</Button>
 			</Box>
 		</div>
 	);
-};
+}
 
 export default ChangePassword;

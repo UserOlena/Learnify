@@ -33,6 +33,7 @@ export function UserProfile() {
 
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
+  const [message, setMessage] = useState();
 
 
   // Get the logged in user's information and set state with it
@@ -98,8 +99,10 @@ export function UserProfile() {
       try {
         const updatedUser = await updateUserProfile({variables});
         console.log('updatedUser', updatedUser);
+        setMessage('Profile updated successfully');
       } catch (error) {
         console.log(`Error updating profile: ${error}`);
+        setMessage(`Error updating profile: ${error}`);
       }
     }
   }
@@ -148,6 +151,7 @@ export function UserProfile() {
         >
           Save
         </Button>
+        {message && <p>{message}</p>}
       </Box>
     </div>
   );
