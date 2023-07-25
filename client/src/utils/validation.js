@@ -1,7 +1,6 @@
 // verify that email input is of valid email type
 function validateEmail(emailInput) {
   const emailRegex = /^[a-zA-Z0-9._%+-]{2,30}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
   if (emailRegex.test(emailInput)) {
     return true;
   } else {
@@ -13,7 +12,6 @@ function validateEmail(emailInput) {
 // (upper and lowercase) or underscores or hyphens and between 4, 12 chars
 function validateUserName(userNameInput) {
   const userNameRegex = /^[a-zA-Z0-9_-]{4,12}$/;
-
   if (userNameRegex.test(userNameInput)) {
     return true;
   } else {
@@ -26,7 +24,6 @@ function validateUserName(userNameInput) {
 function validatePassword(passwordInput) {
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[~`!@#$%^&*()\-=_+[\]{};':"\\|,.<>/?])(?=.*[A-Z])(?=.*[a-z]).{8,16}$/;
-
   if (passwordRegex.test(passwordInput)) {
     return true;
   } else {

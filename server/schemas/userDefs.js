@@ -1,6 +1,6 @@
 const { gql, AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
-const { signToken } = require('../utils/auth');
+const { signToken, signPasswordResetToken, checkResetToken } = require('../utils/auth');
 
 const userTypeDefs = gql`
   type User {
@@ -27,6 +27,10 @@ const userTypeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     removeUser: User
+
+    forgotPassword(email: String!): Auth
+    resetPassword(password: String!, token: String!): Auth
+    updateUserProfile(_id: ID!, username: String, email: String): User
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
     removeTutorialfromUser(tutorialId: ID!): Tutorial
@@ -116,6 +120,61 @@ const userResolvers = {
           return User.findOneAndDelete({ _id: context.user._id });
         } catch (err) {
           throw new Error(err);
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    
+    forgotPassword: async (parent, { email }) => {
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          throw new AuthenticationError('No email found!');
+        }
+        const token = signPasswordResetToken(user);
+        return { token, user };
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
+    resetPassword: async (parent, { password, token }) => {
+      try {
+        const { data } = checkResetToken(token);
+        console.log(data);
+        const user = await User.findOne({ _id: data._id });
+        if (!user) {
+          throw new AuthenticationError('No user found!');
+        }
+        //change password before bcrypt changes it, should be hashed on save
+        user.password = password;
+        await user.save();
+        const newToken = signToken(user);
+        return { token: newToken, user };
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
+    updateUserProfile: async (parent, { _id, username, email }, context) => {
+      if (context.user) {
+        try {
+          // Create an updates object only containing the updated fields
+          const updates = {};
+          if (username) {
+            updates.username = username;
+          }
+          if (email) {
+            updates.email = email;
+          }
+
+          return await User.findByIdAndUpdate(
+            _id,
+            { $set: updates },
+            { new: true }
+          );
+        } catch (err) {
+          throw new Error(`Failed to update user: ${error.message}`);
         }
       }
       throw new AuthenticationError('You need to be logged in!');

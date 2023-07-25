@@ -19,11 +19,13 @@ import {
   AddLessons,
   AddTutorial,
   Careers,
+  ChangePassword,
   Dashboard,
   Home,
   Payment,
   SignIn,
   SignUp,
+  UserProfile,
   ViewTutorial,
   WhoWeAre,
 } from './pages';
@@ -121,6 +123,14 @@ function App() {
             <Route
               path='/who-we-are'
               element={<WhoWeAre />}
+            ></Route>
+            <Route
+              path='/userProfile'
+              element={<UserProfile />}
+            ></Route>
+            <Route
+              path='/changePassword/:token'
+              element={<ChangePassword />}
             ></Route>
           </Routes>
         </Router>
