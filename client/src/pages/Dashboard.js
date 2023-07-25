@@ -42,9 +42,13 @@ export function Dashboard() {
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
 
-  const { data: userData } = useQuery(GET_USER);
-
   if (tutorialsLoading) {
+    return <p>Loading...</p>;
+  }
+  
+  const { loading: userDataIsLoading, data: userData } = useQuery(GET_USER);
+  
+  if (userDataIsLoading) {
     return <p>Loading...</p>;
   }
 
@@ -62,21 +66,41 @@ export function Dashboard() {
         >
           Browse
         </Button>
-        <Button 
-        value='saved'
-        className={`${classes.button} ${
-          chosenTab === 'saved' ? classes.active : ''
-        }`}
-        onClick={(e) => setChosenTab(e.currentTarget.value)}
+        <Button
+          value='saved'
+          className={`${classes.button} ${
+            chosenTab === 'saved' ? classes.active : ''
+          }`}
+          onClick={(e) => setChosenTab(e.currentTarget.value)}
         >
           Saved
-          </Button>
+        </Button>
       </div>
       <DashboardCarousel
         items={tutorials}
         user={userData.me}
         chosenTab={chosenTab}
       />
+      <div className={`${classes.buttonContainer}`}>
+        <Button
+          value='browse'
+          className={`${classes.button} ${
+            chosenTab === 'browse' ? classes.active : ''
+          }`}
+          onClick={(e) => setChosenTab(e.currentTarget.value)}
+        >
+          Browse
+        </Button>
+        <Button
+          value='saved'
+          className={`${classes.button} ${
+            chosenTab === 'saved' ? classes.active : ''
+          }`}
+          onClick={(e) => setChosenTab(e.currentTarget.value)}
+        >
+          Saved
+        </Button>
+      </div>
     </div>
   );
 }
