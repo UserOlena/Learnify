@@ -13,7 +13,7 @@ import {
 import { HalfRating } from '../components';
 
 import { useQuery, useMutation } from '@apollo/client';
-import { ADD_FAVORITE_TO_USER } from '../utils/mutations/userMutations';
+import { ADD_FAVORITE_TO_USER, REMOVE_FAVORITE_FROM_USER } from '../utils/mutations/userMutations';
 import { GET_USER } from '../utils/queries/userQueries';
 
 const useStyles = makeStyles((theme) => ({
@@ -95,8 +95,9 @@ export function DashboardCard(props) {
   const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
 
   // Set up mutation to add the favorite tutorial to the user favorites array
-  const [addFavoritetoUser, { error }] = useMutation(ADD_FAVORITE_TO_USER);
-  
+  const [addFavoritetoUser, { error: addFavoriteError }] = useMutation(ADD_FAVORITE_TO_USER);
+  const [removeFavoritefromUser, { error: removeFavoriteError }] = useMutation(REMOVE_FAVORITE_FROM_USER);
+
   // Get the logged in user's information
   const { data: userData } = useQuery(GET_USER);
 
@@ -123,7 +124,7 @@ export function DashboardCard(props) {
   // Function sends clicked tutorial ID and User ID to save it in the favorites array
   // Triggers Icons state to swithch between bordered to filled
   async function addFavoriteTutorialOnClick(tutorialId) {
-    const userId = checkIfLoggedIn()
+    const userId = checkIfLoggedIn();
 
     try {
       const result = await addFavoritetoUser({
@@ -137,7 +138,7 @@ export function DashboardCard(props) {
       console.log(result?.data?.addFavoritetoUser?._id);
 
       if (result?.data?.addFavoritetoUser?._id) {
-        fillFavoriteIcon();
+        setFilledFavoriteIcon();
       } else {
         console.log('problem saving a favorite')
       }
@@ -146,8 +147,39 @@ export function DashboardCard(props) {
     }
   }
 
+  // Function deletes favorite from the user's favorites array
+  async function removeFavoriteTutorialOnClick(tutorialId) {
+    const userId = checkIfLoggedIn();
+
+    try {
+      const result = await removeFavoritefromUser({
+        variables: {
+          id: userId,
+          tutorialId: tutorialId,
+        },
+      });
+
+      console.log('after favorite was deleted');
+      console.log(result?.data?.removeFavoritefromUser?._id);
+
+      if (result?.data?.removeFavoritefromUser?._id) {
+        setBorderedFavoriteIcon();
+      } else {
+        console.log('problem saving a favorite')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Function cahnges favorite Icons state to replase filled with bordered one
+  function setBorderedFavoriteIcon() {
+    setFavoriteFilledIcon(false);
+    setFavoriteBorderIcon(true)
+  }
+
   // Function changes favorite Icons state to replase bordered with filled one
-  function fillFavoriteIcon() {
+  function setFilledFavoriteIcon() {
     setFavoriteFilledIcon(true);
     setFavoriteBorderIcon(false)
   }
@@ -198,11 +230,14 @@ export function DashboardCard(props) {
             <IconButton
               aria-label='add to favorites'
               className={`${classes.favoriteIcon}`}
+              value={props.id}
+              onClick={(e) =>
+                removeFavoriteTutorialOnClick(e.currentTarget.value)
+              }
             >
               <FavoriteIcon
                 fontSize='large'
                 color='error'
-                value={props.id}
               />
             </IconButton>
           )}
