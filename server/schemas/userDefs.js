@@ -80,12 +80,17 @@ const userResolvers = {
         return { token, user };
       } catch (err) {
         let message = 'Server error';
+        let message = 'Server error';
 
         if (err.message.includes('duplicate')) {
           message =
             'Duplicate ' +
             (err.message.includes('email') ? 'email' : 'username');
+          message =
+            'Duplicate ' +
+            (err.message.includes('email') ? 'email' : 'username');
         }
+        throw new Error(message);
         throw new Error(message);
       }
     },

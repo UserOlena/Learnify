@@ -23,10 +23,8 @@ export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
   // If lesson was passed from AddLessons use that id to get lesson
   // otherwise use lessonId from useParams()
   const { loading, err, data } = useQuery(GET_LESSON, {
-    variables: { 
-      lessonId: lessonFromAddLessons ? 
-        lessonFromAddLessons._id : 
-        lessonId 
+    variables: {
+      lessonId: lessonFromAddLessons ? lessonFromAddLessons._id : lessonId,
     },
   });
   console.log(loading, err, data);
@@ -47,29 +45,21 @@ export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
 
   return (
     <Container style={stylesFromAddLesson}>
-      <Grid
-        container
-        justifyContent='center'
-      >
-        <Grid
-          item
-          xs={10}
-        >
+      <Grid container justifyContent='center'>
+        <Grid item xs={10}>
           <Card>
             <CardActionArea>
-              <CardMedia
-                component='img'
-                alt='User-provided image'
-                height='140'
-                image={media}
-                title='Lesson Media'
-              />
+              {media && (
+                <CardMedia
+                  component='img'
+                  alt='User-provided image'
+                  height='140'
+                  image={media}
+                  title='Lesson Media'
+                />
+              )}
               <CardContent>
-                <Typography
-                  gutterBottom
-                  variant='h5'
-                  component='h2'
-                >
+                <Typography gutterBottom variant='h5' component='h2'>
                   {name}
                 </Typography>
                 <Typography
@@ -80,11 +70,7 @@ export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
                 >
                   Time: {duration} minute(s)
                 </Typography>
-                <Typography
-                  variant='body2'
-                  color='textSecondary'
-                  component='p'
-                >
+                <Typography variant='body2' color='textSecondary' component='p'>
                   {body}
                 </Typography>
               </CardContent>

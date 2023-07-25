@@ -38,6 +38,8 @@ export const ADD_USER = gql`
   }
 `;
 
+//add mutation to ADD_BOOKMARK using mutation addTutorialtoUser
+
 export const ADD_FAVORITE_TO_USER = gql`
   mutation addFavoritetoUser(
     $id: ID!, 

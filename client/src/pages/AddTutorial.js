@@ -3,12 +3,7 @@ import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Material UI imports
-import { 
-  Box, 
-  Button, 
-  TextField, 
-  Typography, 
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import {
   Chip,
   FormControl,
@@ -27,7 +22,7 @@ import { GET_USER } from '../utils/queries/userQueries';
 import { ADD_TUTORIAL } from '../utils/mutations/tutorialMutations';
 
 // Imports for other utilities
-import { isEmptyInput } from '../utils/validation';
+import { isEmptyInput, validateInput } from '../utils/validation';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -147,7 +142,7 @@ export function AddTutorial() {
 
   // verify that the input is non-blank
   // set the associated state to display the appropriate error message based on the validation result
-  function handleOnBlur(inputValue, setState) {
+  function handleOnBlur(inputValue, state, setState) {
     // ensure that the input is not empty
     if (isEmptyInput(inputValue)) {
       setState((otherValues) => ({
@@ -155,6 +150,14 @@ export function AddTutorial() {
         isEmpty: true,
       }));
       return;
+    }
+
+    // validate whether the input conforms to the regex pattern
+    if (!validateInput(inputValue, state)) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: false,
+      }));
     }
   }
 
@@ -168,16 +171,19 @@ export function AddTutorial() {
       }));
       return;
     }
+
+    // change state to remove the error message on Focus if previously input didn't pass the validation
+    if (!state.isValid) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: true,
+      }));
+    }
   }
 
   return (
     <div>
-      <Typography 
-        component='h1' 
-        variant='h5' 
-        gutterBottom
-        sx={{ mt: 4 }}
-      >
+      <Typography component='h1' variant='h5' gutterBottom sx={{ mt: 4 }}>
         Add a Tutorial
       </Typography>
       <Box
@@ -204,17 +210,11 @@ export function AddTutorial() {
           name='title'
           label='Title'
           margin='normal'
-          onChange={(e) => 
-            handleOnChange(e.target.value.trim(), setTitle)
-          }
-          onBlur={(e) => 
-            handleOnBlur(e.target.value, setTitle)
-          }
+          onChange={(e) => handleOnChange(e.target.value.trim(), setTitle)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setTitle)}
           error={title.isEmpty}
           helperText={title.isEmpty && 'Please enter a title for your tutorial'}
-          onFocus={() => 
-            handleOnFocus(title, setTitle)
-          }
+          onFocus={() => handleOnFocus(title, setTitle)}
         />
         <TextField
           required
@@ -225,12 +225,8 @@ export function AddTutorial() {
           margin='normal'
           multiline
           minRows={2}
-          onChange={(e) => 
-            handleOnChange(e.target.value.trim(), setOverview)
-          }
-          onBlur={(e) => 
-            handleOnBlur(e.target.value, setOverview)
-          }
+          onChange={(e) => handleOnChange(e.target.value.trim(), setOverview)}
+          onBlur={(e) => handleOnBlur(e.target.value, e.target.id, setOverview)}
           error={overview.isEmpty}
           helperText={
             overview.isEmpty && 'Please enter an overview of your tutorial'
@@ -247,17 +243,19 @@ export function AddTutorial() {
           onChange={(e) => {
             handleOnChange(e.target.value.trim(), setThumbnail);
           }}
-          onBlur={(e) => 
-            handleOnBlur(e.target.value, setThumbnail)
+          onBlur={(e) =>
+            handleOnBlur(e.target.value, e.target.id, setThumbnail)
           }
-          error={thumbnail.isEmpty}
+          error={thumbnail.isEmpty || !thumbnail.isValid}
           helperText={
-            thumbnail.isEmpty &&
-            'Please enter the URL of a thumbnail for your tutorial'
+            (thumbnail.isEmpty
+              ? 'Please enter the URL of a thumbnail for your tutorial. '
+              : !thumbnail.isValid
+              ? 'Invalid URL: '
+              : '') +
+            'URL must begin with "http://" or "https://" and have a file extension of ".jpg", ".png", or ".avif"'
           }
-          onFocus={() => 
-            handleOnFocus(thumbnail, setThumbnail)
-          }
+          onFocus={() => handleOnFocus(thumbnail, setThumbnail)}
         />
         <FormControl
           required
@@ -276,8 +274,8 @@ export function AddTutorial() {
             onChange={(e) =>
               handleOnChange(e.target.value, setSelectedCategories)
             }
-            onBlur={(e) => 
-              handleOnBlur(e.target.value, setSelectedCategories)
+            onBlur={(e) =>
+              handleOnBlur(e.target.value, e.target.id, setSelectedCategories)
             }
             onFocus={() =>
               handleOnFocus(selectedCategories, setSelectedCategories)
@@ -313,15 +311,11 @@ export function AddTutorial() {
         </FormControl>
         {loggedOut && (
           <Typography color='error' component='p'>
-            You must be signed in to submit a tutorial. 
+            You must be signed in to submit a tutorial.
             <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
-        <Button 
-          type='submit' 
-          variant='contained' 
-          sx={{ mt: 3, mb: 5 }}
-        >
+        <Button type='submit' variant='contained' sx={{ mt: 3, mb: 5 }}>
           Save Your Tutorial
         </Button>
       </Box>

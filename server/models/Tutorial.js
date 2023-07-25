@@ -15,6 +15,14 @@ const tutorialSchema = new Schema(
     thumbnail: {
       type: String,
       required: [true, 'Thumbnail is required!'],
+      validate: {
+        validator: function (url) {
+          return /^(https?:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.avif)(\?[^\s[",><]*)?$/.test(
+            url
+          );
+        },
+        message: (props) => `${props.value} is not a valid image URL!`,
+      },
     },
     categories: [
       {

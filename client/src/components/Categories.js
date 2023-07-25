@@ -12,7 +12,7 @@ import { gql, useQuery } from '@apollo/client';
 import { QUERY_TUTORIALS_BY_CATEGORY } from '../utils/queries/tutorialQueries';
 
 
-function SubCategory({ subCategory }) {
+export function SubCategory({ subCategory }) {
   const [selectedSubCategory, setSelectedSubCategory] = useState(subCategory);
   const theme = useTheme();
 
@@ -49,16 +49,13 @@ function SubCategory({ subCategory }) {
               <Card
                 border={3}
                 borderRadius={8}
-                borderColor={theme.palette.mode === 'dark' ? 'white' : 'black'}
-                backgroundColor={theme.palette.mode === 'dark' ? 'gray' : 'gray'}
+                borderColor= 'black'
+                backgroundColor= 'gray'
                 p={2}
               >
                 <CardContent>
                   <Typography variant='h6' gutterBottom>
                     {selectedSubCategory.category}
-                  </Typography>
-                  <Typography variant='body1'>
-                    Description for {selectedSubCategory.category} category goes here...
                   </Typography>
                 </CardContent>
               </Card>
@@ -71,12 +68,8 @@ function SubCategory({ subCategory }) {
                 <Card
                   border={3}
                   borderRadius={8}
-                  borderColor={
-                    theme.palette.mode === 'dark' ? 'white' : 'black'
-                  }
-                  backgroundColor={
-                    theme.palette.mode === 'dark' ? 'gray' : 'white'
-                  }
+                  borderColor= 'black'
+                  backgroundColor= 'white'
                   p={2}
                 >
                   <CardContent>
@@ -100,7 +93,7 @@ function SubCategory({ subCategory }) {
 
 
 
-function Categories({ categories }) {
+export function Categories({ categories }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categorySelected, setCategorySelected] = useState(false);
   const theme = useTheme();
@@ -109,8 +102,10 @@ function Categories({ categories }) {
   console.log('cat', categories);
 
   const setCategory = (category) => {
+    if (category !== selectedCategory) {
     setSelectedCategory(category);
     setCategorySelected(true);
+    }
   };
 
   return (
