@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -26,9 +25,8 @@ const useStyles = makeStyles((theme) => ({
     border: '4px solid black',
     borderRadius: theme.spacing(3),
     userSelect: 'none',
-    marginBottom: theme.spacing(40), 
     [theme.breakpoints.down('lg')]: {
-      marginBottom: 0, 
+      marginTop: theme.spacing(4), 
     },
   },
   logo: {
