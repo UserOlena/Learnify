@@ -79,6 +79,7 @@ export function DeleteButton(props) {
                 } catch (err) {
                     setError('Something went wrong:', err);
                 }
+                break;
             default:
                 setError('Something went wrong:', 'No case was found');
                 break;
