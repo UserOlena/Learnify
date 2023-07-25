@@ -14,6 +14,7 @@ import { GET_USER } from '../utils/queries/userQueries';
 
 // Imports for other utilities
 import { isEmptyInput, validateInput } from '../utils/validation';
+import auth from '../utils/auth';
 
 // Component imports
 import { ViewLesson } from '../components/ViewLesson';
@@ -35,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function AddLessons() {
+  //check login status
+  if (!auth.loggedIn()) {
+    window.location.assign('/signin');
+  }
+
   const classes = useStyles();
   const stylesFromAddLesson = { marginBottom: '1rem' };
   const dividerStyles = { width: '90%', margin: '2rem auto' };
@@ -138,7 +144,7 @@ export function AddLessons() {
     e.preventDefault();
 
     // If user is not logged in or is not the teacher, set state to show error and exit submit function
-    if (!user || user._id !== teacher[0]._id) {
+    if (!auth.loggedIn() || user._id !== teacher[0]._id) {
       setCanSubmit(false);
       return;
     }
@@ -327,8 +333,8 @@ export function AddLessons() {
         />
         {!canSubmit && (
           <Typography color='error' component='p'>
-            You must be signed in as the instructor of this tutorial in order to add a lesson to it.{' '}
-            <Link to='/signin'>Sign In</Link>
+            You must be signed in as the instructor of this tutorial in order to
+            add a lesson to it. <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
         <Button type='submit' variant='contained' sx={{ mt: 3 }}>
