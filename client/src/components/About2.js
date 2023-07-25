@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     userSelect: 'none',
-    flexDirection: 'column', // Align content vertically
+    flexDirection: 'column', 
   },
   content: {
-    backgroundColor: '#FAF0E6',
+    backgroundColor: '#92b4d4',
     padding: theme.spacing(4),
     borderRadius: theme.spacing(3),
     color: 'black',
@@ -26,13 +26,15 @@ const useStyles = makeStyles((theme) => ({
     border: '4px solid black',
     borderRadius: theme.spacing(3),
     userSelect: 'none',
-    marginBottom: theme.spacing(40),
+    marginBottom: theme.spacing(40), 
+    [theme.breakpoints.down('lg')]: {
+      marginBottom: 0, 
+    },
   },
   logo: {
     marginBottom: theme.spacing(4),
     marginRight: theme.spacing(8),
     position: 'relative',
-    // Add the following CSS to hide the logo when the screen is not full size
     [theme.breakpoints.down('lg')]: {
       display: 'none',
     },
@@ -66,7 +68,6 @@ export function About2() {
 
   return (
     <Container className={classes.root} maxWidth={maxWidth}>
-      {/* Logo is now rendered separately */}
       <div className={classes.logo}>
         <img
           src={Logo}
@@ -74,7 +75,6 @@ export function About2() {
           style={{ width: '250px', height: '200px' }}
         />
       </div>
-      {/* Content box is here */}
       <div className={classes.content}>
         <Typography variant='h4' gutterBottom>
           About Learnify!
