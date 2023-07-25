@@ -30,3 +30,12 @@ export const ADD_TUTORIAL = gql`
     }
   }
 `;
+
+// delete tutorial
+export const DELETE_TUTORIAL = gql`
+  mutation deleteTutorial($_id: ID!) {
+    deleteTutorial(_id: $_id) {
+      _id
+    }
+  }
+`;

@@ -10,6 +10,3 @@ export * from './SignIn';
 export * from './SignUp';
 export * from './UserProfile';
 export * from './ViewTutorial';
-export * from './WhoWeAre';
-
-
