@@ -129,7 +129,7 @@ export function UserProfile() {
         component='form'
         noValidate
         onSubmit={handleSubmit}
-        sx={{ mt: 3, '& > *': { mb: 3 } }}
+        sx={{ mt: 3, '& > *': { mb: 2} }}
       >
         <Box></Box>
         <TextField

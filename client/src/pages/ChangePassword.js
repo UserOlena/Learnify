@@ -3,11 +3,29 @@ import { RESET_PASSWORD } from '../utils/mutations/userMutations';
 import { useState } from 'react';
 
 // Material UI imports
-import { Button, TextField, Box, Typography } from '@mui/material';
+import { Button, TextField, Box, Typography, Container, collapseClasses } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { makeStyles } from '@material-ui/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+	container: {
+		backgroundColor: '#92b4d4', 
+		border: '3px solid black',
+		padding: theme.spacing(3),
+		borderRadius: theme.spacing(1),
+		marginTop: theme.spacing(3),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		userSelect: 'none',
+	  },
+	}));
+	
 
 //change password function takes in params for token and asks for new password
 export function ChangePassword() {
+	const classes = useStyles();
 	const token = useParams().token;
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -39,43 +57,47 @@ export function ChangePassword() {
 	};
 
 	return (
-		<div>
+		<Container component="main" maxWidth="xs" className={classes.container}>
+		  <div>
 			<Typography component="h1" variant="h5">
-				My Profile
+			  My Profile
 			</Typography>
 			<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-				<Box>
-					<Typography component="h2" variant="h6">
-						Password
-					</Typography>
-				</Box>
-				<TextField
-					fullWidth
-					type="password"
-					id="password"
-					name="Password"
-					label="Password"
-					value={password}
-					onChange={(e) => setPassword(e.target.value.trim())}
-				/>
-				<br />
-				<TextField
-					fullWidth
-					type="password"
-					id="confirmPassword"
-					name="confirmPassword"
-					label="confirmPassword"
-					value={confirmPassword}
-					onChange={(e) => setConfirmPassword(e.target.value.trim())}
-				/>
-				{error && <Typography color="error">{error}</Typography>}
-				{success && <Typography color="success">{success}</Typography>}
-				<Button type="submit" variant="contained">
-					Save
-				</Button>
+			  <Box>
+				<Typography component="h2" variant="h6">
+				  Change Password
+				</Typography>
+			  </Box>
+			  <TextField
+				fullWidth
+				type="password"
+				id="password"
+				name="Password"
+				label="Password"
+				value={password}
+				onChange={(e) => setPassword(e.target.value.trim())}
+				sx={{ mb: 2 }}
+			  />
+			  <br />
+			  <TextField
+				fullWidth
+				type="password"
+				id="confirmPassword"
+				name="confirmPassword"
+				label="confirmPassword"
+				value={confirmPassword}
+				onChange={(e) => setConfirmPassword(e.target.value.trim())}
+				sx={{ mb: 2 }}
+			  />
+			  {error && <Typography color="error">{error}</Typography>}
+			  {success && <Typography color="success">{success}</Typography>}
+			  <Button type="submit" variant="contained">
+				Save
+			  </Button>
 			</Box>
-		</div>
-	);
-}
-
-export default ChangePassword;
+		  </div>
+		</Container>
+	  );
+	}
+	
+	export default ChangePassword;
