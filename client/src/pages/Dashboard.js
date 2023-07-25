@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '2.5vw',
     color: 'rgba(0, 0, 0, 1)',
     boxSizing: 'border-box !important',
+    userSelect: 'none',
   },
   button: {
     fontSize: 'calc(20px + (2 * ((100vw - 600px) / (1200 - 600))))',
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
   },
   active: {
     borderBottom: 'solid 2px black',
+  },
+  welcome: {
+    userSelect: 'none',
   },
 }));
 
@@ -54,23 +58,21 @@ export function Dashboard() {
 
   const tutorials = tutorialsData.tutorials;
 
+
   return (
-    <div>
+    <div className={classes.welcome}>
+      <h1>Welcome to Learnify{userData && userData.me && userData.me.username ? `, ${userData.me.username}!` : '!'}</h1>
       <div className={`${classes.buttonContainer}`}>
         <Button
           value='browse'
-          className={`${classes.button} ${
-            chosenTab === 'browse' ? classes.active : ''
-          }`}
+          className={`${classes.button} ${chosenTab === 'browse' ? classes.active : ''}`}
           onClick={(e) => setChosenTab(e.currentTarget.value)}
         >
           Browse
         </Button>
         <Button
           value='saved'
-          className={`${classes.button} ${
-            chosenTab === 'saved' ? classes.active : ''
-          }`}
+          className={`${classes.button} ${chosenTab === 'saved' ? classes.active : ''}`}
           onClick={(e) => setChosenTab(e.currentTarget.value)}
         >
           Saved
@@ -81,26 +83,6 @@ export function Dashboard() {
         user={userData.me}
         chosenTab={chosenTab}
       />
-      {/* <div className={`${classes.buttonContainer}`}>
-        <Button
-          value='browse'
-          className={`${classes.button} ${
-            chosenTab === 'browse' ? classes.active : ''
-          }`}
-          onClick={(e) => setChosenTab(e.currentTarget.value)}
-        >
-          Browse
-        </Button>
-        <Button
-          value='saved'
-          className={`${classes.button} ${
-            chosenTab === 'saved' ? classes.active : ''
-          }`}
-          onClick={(e) => setChosenTab(e.currentTarget.value)}
-        >
-          Saved
-        </Button>
-      </div> */}
     </div>
   );
 }
