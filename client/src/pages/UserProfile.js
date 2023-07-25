@@ -129,33 +129,36 @@ export function UserProfile() {
         component='form'
         noValidate
         onSubmit={handleSubmit}
-        sx={{ mt: 3, '& > *': { mb: 2} }}
+        sx={{ mt: 3, '& > *': { mb: 3 } }}
       >
-        <Box></Box>
-        <TextField
-          fullWidth
-          id='userName'
-          name='userName'
-          label='Username'
-          value={userName}
-          onChange={(e) => setUserName(e.target.value.trim())}
-        />
-        <br />
-        <TextField
-          fullWidth
-          id='email'
-          name='email'
-          label='Email Address'
-          value={email}
-          onChange={(e) => setEmail(e.target.value.trim())}
-        />
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            id='userName'
+            name='userName'
+            label='Username'
+            value={userName}
+            onChange={(e) => setUserName(e.target.value.trim())}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            id='email'
+            name='email'
+            label='Email Address'
+            value={email}
+            onChange={(e) => setEmail(e.target.value.trim())}
+          />
+        </Box>
         <Button type='submit' variant='contained'>
-          Save New Username
+          Save Changes
         </Button>
         {message && <p>{message}</p>}
         <ResetPassword textInput={'Reset Account Password'} email={email} />
         <DeleteButton case={'user'} />
       </Box>
+
       <br />
       <Box sx={{ mt: 3 }}></Box>
     </Container>
