@@ -1,16 +1,14 @@
 import { React, useState } from 'react';
 import {
   AppBar,
+  Divider,
   Toolbar,
   Typography,
   MenuItem,
   Menu,
-  InputBase,
   IconButton,
   makeStyles,
   Grid,
-  ListItemIcon,
-  ListItemText,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -47,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(1),
     },
   },
+  divider: {
+    backgroundColor: '#92b4d4',
+    height: '2px',
+  },
 }));
 
 export function Navbar() {
@@ -74,7 +76,6 @@ export function Navbar() {
     setAnchorEl(null);
     setCategoriesMenuAnchorEl(null);
   }
-
 
   return (
     <AppBar position='static' className={classes.appBar}>
@@ -124,25 +125,26 @@ export function Navbar() {
               </MenuItem>
             </NavLink>
           ))}
+        <Divider className={classes.divider} />
         {!Auth.loggedIn() && (
           <>
-          <NavLink to='/signup' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
-          </NavLink>
-          <NavLink to='/signin' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
-          </NavLink>
+            <NavLink to='/signup' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
+            </NavLink>
+            <NavLink to='/signin' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
+            </NavLink>
           </>
         )}
         {Auth.loggedIn() && (
           <>
-          <NavLink to='/dashboard' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Dashboard</MenuItem>
-          </NavLink>
-          <NavLink to='/userProfile' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Settings</MenuItem>
-          </NavLink>
-        </>
+            <NavLink to='/dashboard' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Dashboard</MenuItem>
+            </NavLink>
+            <NavLink to='/userProfile' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Settings</MenuItem>
+            </NavLink>
+          </>
         )}
       </Menu>
     </AppBar>
