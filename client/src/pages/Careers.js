@@ -1,154 +1,210 @@
 import { React, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, TextField, Button } from '@material-ui/core';
+import { TextField, Button, Typography, Grid, Box } from '@mui/material';
+import contactMe from '../images/contactMe.png';
 import emailjs from 'emailjs-com';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'black',
-    borderRadius: '5px',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    userSelect: 'none',
-  },
-  contentContainer: {
-    textAlign: 'center',
-  },
-  card: {
-    width: '600px',
-    margin: '0 auto',
-    marginTop: theme.spacing(4),
-    padding: theme.spacing(3),
-    backgroundColor: '#92b4d4',
-    borderRadius: '5px',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    position: 'relative', 
-    overflow: 'hidden', 
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: theme.spacing(2),
-  },
-  inputField: {
-    marginBottom: theme.spacing(2),
-    color: 'white',
-    width: '100%',
-    '& label': {
-      color: 'black',
-    },
-    '& input': {
-      color: 'black', 
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'gray',
-      },
-      '&:hover fieldset': {
-        borderColor: 'black',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'black',
-      },
-    },
-  },
-  successMessage: {
-    color: 'black',
-    userSelect: 'none',
-  },
-}));
-
 export function Careers() {
-  const classes = useStyles();
+  const [name, setName] = useState('');
+  const [isEmptyName, setIsEmptyName] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isEmptyEmail, setIsEmptyEmail] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isEmptyMessage, setIsEmptyMessage] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // function is called on submit button click
+  function handleSubmit(e) {
+    e.preventDefault();
+    validateEmail();
+
     setIsFormSubmitted(true);
 
-    const name = event.target.elements.name.value;
-    const email = event.target.elements.email.value;
-    const message = event.target.elements.message.value;
-
-    emailjs.send('service_oeuhp1s', 'template_o26m0jk', {
-      name,
-      email,
-      message
-    }, 'coAg8Q0pV7_BvTjir')
+    emailjs
+      .send(
+        'service_oeuhp1s',
+        'template_o26m0jk',
+        {
+          name,
+          email,
+          message,
+        },
+        'coAg8Q0pV7_BvTjir'
+      )
       .then(() => {
         setIsFormSubmitted(true);
       })
       .catch((error) => {
         console.error('Error sending email:', error);
       });
-  };
+  }
+
+  // function validates email input
+  function validateEmail() {
+    if (emailRegex.test(email)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // validates if input is empty. if so, changing the state of that input
+  function isInputEmpty(input, state) {
+    if (input.length === 0) {
+      state(true);
+    }
+  }
+
+  // on email input focus checking which error is active and changing its state to remove an error
+  function handleOnFocusEmail() {
+    if (isEmptyEmail) {
+      setIsEmptyEmail(false);
+    }
+
+    if (!isValidEmail) {
+      setIsValidEmail(true);
+    }
+  }
+
+  // vefifies the input value to set the appropriate state to display an error if condition is met
+  function verifyEmailInput(input, state) {
+    if (isInputEmpty(input, state)) {
+      return;
+    } else if (!validateEmail()) {
+      setIsValidEmail(false);
+    }
+  }
 
   return (
-    <div className={classes.root}>
-      <div className={classes.contentContainer}>
-        {!isFormSubmitted && (
-          <>
-            <Typography variant="h4" gutterBottom>
-              Want to work for Learnify?
+    <Box sx={{ height: '100vh' }}>
+      <Grid
+        container
+        direction='column'
+        alignItems='center'
+        justifyContent='center'
+        sx={{ height: '100%' }}
+      >
+        <Grid
+          item
+          xs={12}
+          md={4}
+        >
+          <Box sx={{ p: 2 }}>
+            <Typography
+              variant='h4'
+              align='center'
+              mb={2}
+            >
+              Contact Us
             </Typography>
-            <Typography variant="h4" gutterBottom>
-              Contact us!
-            </Typography>
-          </>
-        )}
-        <div className={classes.card}>
-          <div className={classes.borderAnimation}></div>
-          {!isFormSubmitted ? (
-            <form className={classes.form} onSubmit={handleSubmit}>
-              <TextField
-                id="name"
-                label="Name"
-                variant="outlined"
-                className={classes.inputField}
-                required
-              />
-              <TextField
-                id="email"
-                label="Email"
-                type="email"
-                variant="outlined"
-                className={classes.inputField}
-                required
-              />
-              <TextField
-                id="message"
-                label="Tell us a little about yourself"
-                multiline
-                rows={4}
-                variant="outlined"
-                className={classes.inputField}
-                required
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                className={classes.submitButton}
+            <form onSubmit={handleSubmit}>
+              <Grid
+                container
+                spacing={2}
               >
-                Send Message
-              </Button>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                >
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <img
+                      src={contactMe}
+                      alt='Contact'
+                      style={{ maxWidth: '90%' }}
+                    />
+                  </Box>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                >
+                  <TextField
+                    fullWidth
+                    label='Name'
+                    value={name}
+                    margin='normal'
+                    required
+                    error={isEmptyName}
+                    helperText={isEmptyName ? 'Name field is required' : null}
+                    onChange={(e) => setName(e.target.value.trim())}
+                    onBlur={(e) =>
+                      isInputEmpty(e.target.value.trim(), setIsEmptyName)
+                    }
+                    onFocus={() => setIsEmptyName(false)}
+                  />
+                  <TextField
+                    fullWidth
+                    label='Email'
+                    value={email}
+                    margin='normal'
+                    required
+                    error={isEmptyEmail || !isValidEmail}
+                    helperText={
+                      (isEmptyEmail && 'Email field is required') ||
+                      (!isValidEmail &&
+                        'Kindly provide a legitimate email address.')
+                    }
+                    onChange={(e) =>
+                      setEmail(e.target.value.trim().toLowerCase())
+                    }
+                    onBlur={(e) =>
+                      verifyEmailInput(e.target.value.trim(), setIsEmptyEmail)
+                    }
+                    onFocus={() => handleOnFocusEmail()}
+                  />
+                  <TextField
+                    fullWidth
+                    label='Message'
+                    value={message}
+                    margin='normal'
+                    required
+                    multiline
+                    rows={4}
+                    error={isEmptyMessage}
+                    helperText={
+                      isEmptyMessage ? 'Message field is required' : null
+                    }
+                    onChange={(e) => setMessage(e.target.value.trim())}
+                    onBlur={(e) =>
+                      isInputEmpty(e.target.value.trim(), setIsEmptyMessage)
+                    }
+                    onFocus={() => setIsEmptyMessage(false)}
+                  />
+                  <Button
+                    variant='contained'
+                    type='submit'
+                    sx={{ mt: 2 }}
+                    onClick={(e) => handleSubmit(e)}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
             </form>
-          ) : (
-            <>
-              <Typography variant="h5" className={classes.successMessage}>
-                Message sent successfully!
-              </Typography>
-              <Typography variant="body1">
-                Thank you for your message. We will get back to you soon.
-              </Typography>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+            {isFormSubmitted && (
+              <>
+                <Typography
+                  variant='h5'
+                  style={{
+                    marginTop: '7rem',
+                  }}
+                >
+                  Message sent successfully!
+                </Typography>
+                <Typography variant='body1'>
+                  Kindly note that this email is not monitored, and the website
+                  was solely created for educational purposes.
+                </Typography>
+              </>
+            )}
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
