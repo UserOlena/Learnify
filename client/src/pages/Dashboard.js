@@ -42,11 +42,11 @@ export function Dashboard() {
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
 
+    const { loading: userDataIsLoading, data: userData } = useQuery(GET_USER);
+
   if (tutorialsLoading) {
     return <p>Loading...</p>;
   }
-  
-  const { loading: userDataIsLoading, data: userData } = useQuery(GET_USER);
   
   if (userDataIsLoading) {
     return <p>Loading...</p>;
@@ -81,7 +81,7 @@ export function Dashboard() {
         user={userData.me}
         chosenTab={chosenTab}
       />
-      <div className={`${classes.buttonContainer}`}>
+      {/* <div className={`${classes.buttonContainer}`}>
         <Button
           value='browse'
           className={`${classes.button} ${
@@ -100,7 +100,7 @@ export function Dashboard() {
         >
           Saved
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
