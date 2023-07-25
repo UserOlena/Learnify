@@ -117,7 +117,7 @@ export function ViewTutorial() {
   }
   // destructure fields from tutorial object
   const { teacher, categories, lessons, overview, reviews } = tutorial;
-  const username = teacher?.[0]?.username;
+  const username = teacher?.[0]?.username ?? 'Deleted user';
   const duration = tutorial.totalDuration;
   const totalLessons = tutorial.lessons.length;
 

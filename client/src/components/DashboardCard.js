@@ -127,8 +127,6 @@ export function DashboardCard(props) {
     }
   }
 
-  const teacher = props.teacher ? props.teacher[0] : null;
-
   // Function sends clicked tutorial ID and User ID to save it in the favorites array
   // Triggers Icons state to swithch between bordered to filled
   async function addFavoriteTutorialOnClick(tutorialId) {
@@ -206,9 +204,7 @@ export function DashboardCard(props) {
         </CardContent>
       </div>
       <div>
-        {teacher && (
-          <p className={`${classes.teacher}`}>{props.teacher[0].username}</p>
-        )}
+        <p className={`${classes.teacher}`}>{props.teacher?.[0]?.username ?? 'Deleted user'}</p>
         <HalfRating rating={props.averageRating} />
         <CardActions className={`${classes.cardContent} ${classes.actionBox}`}>
           <Button size='small' className={`${classes.learnMoreBtn}`}>
