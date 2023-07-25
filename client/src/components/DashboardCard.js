@@ -91,8 +91,8 @@ export function DashboardCard(props) {
   const classes = useStyles();
 
   const [loggedOut, setLoggedOut] = useState(false);
-  const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(true);
-  const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
+  const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(!props.favorite);
+  const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(props.favorite);
 
   // Set up mutation to add the favorite tutorial to the user favorites array
   const [addFavoritetoUser, { error: addFavoriteError }] = useMutation(ADD_FAVORITE_TO_USER);
@@ -186,68 +186,6 @@ export function DashboardCard(props) {
     setFavoriteBorderIcon(false)
   }
 
-
-
-
-  useEffect(() => {
-    const userFavorites = userData?.me?.favorites;
-    console.log('userfavorites')
-    console.log(userFavorites)
-    const tutorialId = props.id;
-    console.log('tutorial id')
-    console.log(tutorialId)
-
-    checkIfTutorialIsFavorite(userFavorites)
-
-    // When the component mounts, check if each tutorial is in the user's favorites
-    // const isFavorite = checkIfTutorialIsFavorite(userId, tutorialId);
-
-
-  }, [props.id, userData]);
-
-
-
-
-  async function checkIfTutorialIsFavorite(userFavorites) {
-
-      userFavorites.map(tutorialId => {
-        console.log(tutorialId)
-          if (tutorialId) {
-
-        }
-      })
-
-
-    // try {
-      // Make query to fetch the user by ID and check if the tutorialId exists in their favoriteTutorials array
-      // const { data } = await client.query({
-      //   query: GET_USER, // Query to fetch the user by ID
-      //   variables: { id: userId },
-      // });
-  
-      // const user = data.getUser;
-  
-      // If the user exists and the tutorialId is present in their favoriteTutorials array, return true
-    //   if (user && user.favoriteTutorials.includes(tutorialId)) {
-    //     return true;
-    //   }
-  
-    //   return false;
-    // } catch (error) {
-    //   console.log(error);
-    //   return false; // In case of any errors or if the user is not found, assume the tutorial is not a favorite
-    // }
-  const userId = checkIfLoggedIn()
-
-  
-  }
-  
-
-
-
-
-
-
   return (
     <Card
       value={props.id}
@@ -281,7 +219,7 @@ export function DashboardCard(props) {
               className={`${classes.favoriteIcon}`}
               value={props.id}
               onClick={(e) =>
-                addFavoriteTutorialOnClick(e.currentTarget.value)
+                addFavoriteTutorialOnClick(e.currentTarget.value, props)
               }
             >
               <FavoriteBorderIcon
@@ -292,11 +230,11 @@ export function DashboardCard(props) {
           )}
           {favoriteFilledIcon && (
             <IconButton
-              aria-label='add to favorites'
+              aria-label='remove from favorites'
               className={`${classes.favoriteIcon}`}
               value={props.id}
               onClick={(e) =>
-                removeFavoriteTutorialOnClick(e.currentTarget.value)
+                removeFavoriteTutorialOnClick(e.currentTarget.value, props)
               }
             >
               <FavoriteIcon
