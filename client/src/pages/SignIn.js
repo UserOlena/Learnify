@@ -81,8 +81,6 @@ export function SignIn() {
 
       Auth.login(data.login.token);
       console.log('user logged in');
-      // redirect user to dashboard
-      window.location.assign('/dashboard');
     } catch (err) {
       console.log(err.graphQLErrors[0].message);
       switch (err.graphQLErrors[0].message) {
