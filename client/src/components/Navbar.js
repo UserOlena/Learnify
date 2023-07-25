@@ -18,6 +18,7 @@ import { NavLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
+import Auth from '../utils/auth';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -185,12 +186,26 @@ export function Navbar() {
               </MenuItem>
             </NavLink>
           ))}
-        <NavLink to='/signup' style={linkStyle}>
-          <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
-        </NavLink>
-        <NavLink to='/signin' style={linkStyle}>
-          <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
-        </NavLink>
+        {!Auth.loggedIn() && (
+          <>
+          <NavLink to='/signup' style={linkStyle}>
+            <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
+          </NavLink>
+          <NavLink to='/signin' style={linkStyle}>
+            <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
+          </NavLink>
+          </>
+        )}
+        {Auth.loggedIn() && (
+          <>
+          <NavLink to='/dashboard' style={linkStyle}>
+            <MenuItem onClick={handleCloseMenus}>Dashboard</MenuItem>
+          </NavLink>
+          <NavLink to='/userProfile' style={linkStyle}>
+            <MenuItem onClick={handleCloseMenus}>Settings</MenuItem>
+          </NavLink>
+        </>
+        )}
         <MenuItem
           onClick={handleSearchClick}
           onKeyDown={handleMenuItemKeyDown}
