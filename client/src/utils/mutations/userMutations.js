@@ -23,3 +23,5 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+//add mutation to ADD_BOOKMARK using mutation addTutorialtoUser

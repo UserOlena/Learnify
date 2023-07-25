@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Beckee from '../images/beckee.jpg';
 import Ryan from '../images/ryan.jpg';
+import Riley from '../images/Riley.jpeg';
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -36,8 +37,8 @@ const boxData = [
   },
   {
     id: 3,
-    imageSrc: 'image3.jpg',
-    title: 'Box 3',
+    imageSrc: Riley,
+    title: "Riley O' Neil",
     description: 'Description for Box 3',
   },
   {

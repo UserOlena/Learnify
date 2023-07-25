@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 //import Learnify components
-import { ViewLesson } from '../components';
+import { CommentForm, RateTutorial, ViewLesson } from '../components';
 
 //Material-UI imports
 import clsx from 'clsx';
@@ -21,12 +21,21 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import { ExpandMore, SkipPrevious, SkipNext } from '@material-ui/icons';
+import {
+  AccountCircle,
+  Bookmark,
+  BookmarkBorder,
+  ExpandMore,
+  SkipPrevious,
+  SkipNext,
+  StarBorder,
+} from '@material-ui/icons';
 import { Rating } from '@material-ui/lab';
 
 //database-related imports
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_TUTORIAL } from '../utils/queries/tutorialQueries';
+import { ADD_REVIEW } from '../utils/mutations/reviewMutations';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,6 +74,7 @@ export function ViewTutorial() {
   //declare State variables
   const [expanded, setExpanded] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
+  const [isAdded, setIsAdded] = useState(false);
 
   //function to handle click on expand icon and update State
   const handleExpandClick = () => {
@@ -75,6 +85,15 @@ export function ViewTutorial() {
   const toggleVisibility = () => {
     if (isHidden) {
       setIsHidden(!isHidden);
+    } else {
+      return;
+    }
+  };
+  //function to bookmark a tutorial
+  const bookmarkTutorial = () => {
+    if (!isAdded) {
+      setIsAdded(isAdded);
+      //TODO: ADD MUTATION TO ADD BOOKMARK
     } else {
       return;
     }
@@ -100,7 +119,7 @@ export function ViewTutorial() {
   const { teacher, categories, lessons, overview, reviews } = tutorial;
   const username = teacher?.[0]?.username;
   const duration = tutorial.totalDuration;
-  const numberofLessons = tutorial.lessons.length;
+  const totalLessons = tutorial.lessons.length;
 
   //map categories array for use on/around 180
   function categoryList(categories) {
@@ -122,13 +141,18 @@ export function ViewTutorial() {
     return (
       <>
         {lessons.map((lesson) => (
-          <Link
-            to={`/tutorial/${tutorialId}/lesson/${lesson._id}`}
+          <Card
             key={lesson._id}
-            onClick={toggleVisibility}
+            style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
-            <p>{lesson.name}</p>
-          </Link>
+            <Link
+              to={`/tutorial/${tutorialId}/lesson/${lesson._id}`}
+              key={lesson._id}
+              onClick={toggleVisibility}
+            >
+              <p>{lesson.name}</p>
+            </Link>
+          </Card>
         ))}
       </>
     );
@@ -143,18 +167,33 @@ export function ViewTutorial() {
             key={review._id}
             style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
-            <Rating
-              name='read-only'
-              value={review.rating}
-              readOnly
-            />
-            <p>{review.comment}</p>
+            <Grid container>
+              <Grid
+                item
+                xs={4}
+              >
+                <Rating
+                  name='read-only'
+                  value={review.rating}
+                  readOnly
+                />
+                <p>{review.reviewer}</p>
+              </Grid>
+              <Grid
+                item
+                xs={8}
+              >
+                <p>{review.comment}</p>
+              </Grid>
+            </Grid>
           </Card>
         ))}
       </>
     );
   }
-
+  //get number of reviews
+  let totalReviews = reviews.length;
+  console.log(reviews.length);
   //calculate average rating
   let totalRating = 0;
   for (const review of reviews) {
@@ -176,16 +215,31 @@ export function ViewTutorial() {
         >
           {tutorial?.title}
         </Typography>
+
         <Grid
           container
           justifyContent='space-around'
           className='title'
+          display='flex'
+          alignItems='center'
         >
           <Grid
             item
+            container
             xs={3}
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
           >
-            <Typography variant='h6'>Instructor: {username}</Typography>
+            <AccountCircle fontSize='large' />
+            <Typography
+              variant='h6'
+              fontWeight='bold'
+              style={{ marginLeft: '5%' }}
+            >
+              {' '}
+              {username}
+            </Typography>
           </Grid>
           <Divider
             orientation='vertical'
@@ -216,6 +270,15 @@ export function ViewTutorial() {
               {reviews.length} Ratings
             </Typography>
           </Grid>
+          <Grid
+            item
+            container
+            xs={10}
+            justifyContent='center'
+            style={{ marginTop: '3%' }}
+          >
+            {categoryList(categories)}
+          </Grid>
         </Grid>
         <Grid
           container
@@ -223,21 +286,45 @@ export function ViewTutorial() {
           spacing={2}
           style={{
             color: '#283845',
-            margin: '2%',
+            marginTop: '2%',
           }}
         >
-          {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
           <Grid
             item
-            xs={10}
+            xs={5}
           >
-            <Typography variant='body1'>{overview}</Typography>
+            <Card
+              style={{
+                backgroundColor: '#dae9f7',
+                border: '0.5rem solid #92b4d4',
+              }}
+            >
+              <CardMedia
+                component='img'
+                image={tutorial.thumbnail}
+                title='Media image provided by user'
+              />
+            </Card>
           </Grid>
           <Grid
             item
+            container
+            direction='column'
+            xs={5}
+          >
+            <Typography variant='body1'>{overview}</Typography>
+
+            <CommentForm />
+          </Grid>
+
+          <Grid
+            item
             xs={10}
           >
-            {categoryList(categories)}
+            <Card style={{ backgroundColor: '#92b4d4', padding: 5 }}>
+              {reviewList(reviews)}
+            </Card>
+            {/* TODO: ADD SCROLL BAR FOR REVIEWS */}
           </Grid>
         </Grid>
       </Container>
@@ -251,31 +338,25 @@ export function ViewTutorial() {
           spacing={2}
           style={{
             color: '#283845',
-            margin: '2%',
+            marginTop: '2%',
           }}
         >
           <Grid
             item
-            xs={10}
-            md={5}
+            xs={12}
           >
             <Card
               style={{
                 backgroundColor: '#dae9f7',
-                border: '1rem solid #92b4d4',
+                border: '0.5rem solid #92b4d4',
               }}
             >
-              <CardMedia
-                component='img'
-                image={tutorial.thumbnail}
-                title='Media image provided by user'
-              />
               <CardContent>
                 <Typography
                   variant='h5'
                   component='h2'
                 >
-                  This tutorial has {numberofLessons} lessons:
+                  This tutorial has {totalLessons} lessons:
                   <IconButton
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expanded,
@@ -295,31 +376,6 @@ export function ViewTutorial() {
                   <CardContent>{lessonList(lessons)}</CardContent>
                 </Collapse>
               </CardContent>
-            </Card>
-          </Grid>
-          <Grid
-            item
-            xs={10}
-            md={5}
-          >
-            <Card
-              style={{
-                backgroundColor: '#92b4d4',
-                paddingTop: '3%',
-              }}
-            >
-              <Typography
-                variant='h5'
-                component='h2'
-              >
-                Reviews
-              </Typography>
-
-              <Card
-                style={{ backgroundColor: '#92b4d4', margin: 3, padding: 3 }}
-              >
-                {reviewList(reviews)}
-              </Card>
             </Card>
           </Grid>
         </Grid>

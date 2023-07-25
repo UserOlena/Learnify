@@ -62,7 +62,7 @@ export function Recommended() {
     return <p>Loading...</p>;
   }
 
-  const tutorials = data.tutorials;
+  const tutorials = data?.tutorials || [];
   const visibleTutorials = tutorials.slice(currentIndex, currentIndex + 4);
 
   function handlePrev() {
