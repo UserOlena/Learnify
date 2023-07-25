@@ -24,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
     textShadow: 'none',
     boxSizing: 'border-box !important',
     heigth: '100%',
-    "&:active": {
-      borderBottom: 'solid 2px black'
-    }
-  }
+  },
+  active: {
+    borderBottom: 'solid 2px black',
+  },
 }));
 
 export function Dashboard() {
@@ -37,8 +37,9 @@ export function Dashboard() {
 
   const classes = useStyles();
 
-  const [browseBtn, setbrowseBtn] = useState('');
-  const [savedBtn, setsavedBtn] = useState('browseBtn');
+  const [chosenTab, setChosenTab] = useState('browseBtn');
+
+  function changeChoosenTabState(tab) {}
 
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
@@ -50,30 +51,23 @@ export function Dashboard() {
   }
 
   const tutorials = tutorialsData.tutorials;
-  console.log(tutorials);
 
   return (
-    <div
-    >
-      <div
-        className={`${classes.buttonContainer}`}
-      >
+    <div>
+      <div className={`${classes.buttonContainer}`}>
         <Button
-          className={`${classes.button}`}
+          className={`${classes.button} ${
+            chosenTab === 'browseBtn' ? classes.active : ''
+          }`}
         >
           Browse
         </Button>
-        <Button
-          className={`${classes.button}`}
-        >
-          Saved
-        </Button>
+        <Button className={`${classes.button}`}>Saved</Button>
       </div>
       <DashboardCarousel
         items={tutorials}
         user={userData.me}
-        browseBtn={browseBtn}
-        savedBtn={savedBtn}
+        chosenTab={chosenTab}
       />
     </div>
   );

@@ -54,8 +54,7 @@ export function DashboardCarousel(props) {
 
   const matchesMax959 = useMediaQuery('(max-width:959px)');
 
-  const [savedBtn, setsavedBtn] = useState(props.savedBtn);
-  const [browseBtn, setbrowseBtn] = useState(props.browseBtn);
+  const [chosenTab, setChosenTab] = useState(props.chosenTab);
 
   const responsive = {
     superLargeDesktop: {
@@ -99,7 +98,7 @@ export function DashboardCarousel(props) {
         slidesToSlide={3}
         centerMode={true}
       >{
-        savedBtn == 'browseBtn' &&
+        chosenTab == 'browseBtn' &&
         props.items.map(
           (
             { _id, overview, thumbnail, title, averageRating, teacher },
@@ -123,6 +122,9 @@ export function DashboardCarousel(props) {
             );
           }
         )
+        }
+        {
+
         }
       </Carousel>
     </div>
