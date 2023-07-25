@@ -166,6 +166,7 @@ export function CommentForm() {
           borderColor='transparent'
           display='flex'
           justifyContent='center'
+          flexWrap='wrap'
         >
           <Typography style={{ marginRight: '3%' }}>
             Rate this tutorial:
@@ -204,8 +205,9 @@ export function CommentForm() {
           <Typography
             color='error'
             component='p'
+            style={{marginRight:'3%'}}
           >
-            You must be signed in to submit a comment.
+            You must be signed in to submit a comment.{' '}
             <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
