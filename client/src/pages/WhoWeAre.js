@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    border: '2px solid #ccc', 
+    border: '2px solid black', 
     borderRadius: '8px',
-    backgroundColor: '#FAF0E6', 
+    backgroundColor: '#92b4d4', 
     marginBottom: '20px', 
     [theme.breakpoints.down('sm')]: {
       width: '100%', 

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: 'calc(25% - 10px)',
-    backgroundColor: '#FAF0E6',
+    backgroundColor: '#92b4d4',
     marginBottom: theme.spacing(2),
     border: `2px solid ${theme.palette.type === 'black'}`,
     [theme.breakpoints.down('sm')]: {

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     userSelect: 'none',
   },
   content: {
-    backgroundColor: '#FAF0E6',
+    backgroundColor: '#92b4d4',
     padding: theme.spacing(4),
     borderRadius: theme.spacing(3),
     color: 'black',
