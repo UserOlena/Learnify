@@ -130,7 +130,7 @@ export function Careers() {
                     required
                     error={isEmptyName}
                     helperText={isEmptyName ? 'Name field is required' : null}
-                    onChange={(e) => setName(e.target.value.trim())}
+                    onChange={(e) => setName(e.target.value)}
                     onBlur={(e) =>
                       isInputEmpty(e.target.value.trim(), setIsEmptyName)
                     }
@@ -168,7 +168,7 @@ export function Careers() {
                     helperText={
                       isEmptyMessage ? 'Message field is required' : null
                     }
-                    onChange={(e) => setMessage(e.target.value.trim())}
+                    onChange={(e) => setMessage(e.target.value)}
                     onBlur={(e) =>
                       isInputEmpty(e.target.value.trim(), setIsEmptyMessage)
                     }
