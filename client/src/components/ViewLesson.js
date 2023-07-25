@@ -1,8 +1,10 @@
 import { React } from 'react';
 import { useParams } from 'react-router-dom';
+import { DeleteButton } from '../components/DeleteButton';
 
 //Material-UI imports
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -16,7 +18,11 @@ import {
 import { useQuery } from '@apollo/client';
 import { GET_LESSON } from '../utils/queries/lessonQueries';
 
-export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
+export function ViewLesson({
+  lessonFromAddLessons,
+  stylesFromAddLesson,
+  onAddLessonsPage,
+}) {
   //get index and ID from URL and get associated lesson data from db
   const { index, lessonId } = useParams();
 
@@ -41,7 +47,7 @@ export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
   }
 
   //destructure fields from lesson object
-  const { name, body, media, duration } = lesson;
+  const { name, body, media, duration, _id } = lesson;
 
   return (
     <Container style={stylesFromAddLesson}>
@@ -73,6 +79,11 @@ export function ViewLesson({ lessonFromAddLessons, stylesFromAddLesson }) {
                 <Typography variant='body2' color='textSecondary' component='p'>
                   {body}
                 </Typography>
+                {onAddLessonsPage && (
+                  <Box style={{ marginTop: '1rem' }}>
+                    <DeleteButton case='lesson' _id={_id} />
+                  </Box>
+                )}
               </CardContent>
             </CardActionArea>
           </Card>
