@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     marginTop: theme.spacing(4),
     padding: theme.spacing(3),
-    backgroundColor: '#D8BFD8',
+    backgroundColor: '#92b4d4',
     borderRadius: '5px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     position: 'relative', 
