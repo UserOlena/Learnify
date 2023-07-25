@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 2.5vw !important',
     maxWidth: '120em',
     alignSelf: 'center',
-    boxShadow: '-9px -15px 10px -10px rgba(0, 0, 0, 0.2)',
+    boxShadow: '0px -15px 10px -10px rgba(0, 0, 0, 0.2)',
     boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
