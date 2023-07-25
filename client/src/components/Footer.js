@@ -23,6 +23,12 @@ export function Footer() {
         <a href='/careers' style={{ color: 'white', marginRight: '10px' }}>
           Careers
         </a>
+        <a href='/who-we-are' style={{ color: 'white', marginRight: '10px' }}>
+          Who We Are
+        </a>
+        <a href='/donate' style={{ color: 'white' }}>
+          Donate
+        </a>
       </div>
     </footer>
   );

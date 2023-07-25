@@ -1,16 +1,14 @@
 import { React, useState } from 'react';
 import {
   AppBar,
+  Divider,
   Toolbar,
   Typography,
   MenuItem,
   Menu,
-  InputBase,
   IconButton,
   makeStyles,
   Grid,
-  ListItemIcon,
-  ListItemText,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -33,33 +31,6 @@ const useStyles = makeStyles((theme) => ({
     height: '80px',
     zoom: '1.2',
   },
-  search: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '0 auto',
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#888888',
-  },
-  inputRoot: {
-    width: '100%',
-  },
-  inputInput: {
-    padding: theme.spacing(1),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    color: '#333333',
-    fontSize: '16px',
-    '&::placeholder': {
-      color: '#888888',
-    },
-  },
   navButtons: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -74,15 +45,9 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(1),
     },
   },
-  searchOpen: {
-    display: 'flex',
-    alignItems: 'center',
-    maxWidth: '1300px',
-    margin: '0 auto',
-    backgroundColor: 'inherit', // Set the background color to inherit the app bar color
-    '&:hover': {
-      backgroundColor: '#f5f5f5',
-    },
+  divider: {
+    backgroundColor: '#92b4d4',
+    height: '2px',
   },
 }));
 
@@ -90,7 +55,6 @@ export function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoriesMenuAnchorEl, setCategoriesMenuAnchorEl] = useState(null);
-  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const { loading, data } = useQuery(GET_CATEGORIES);
   const categories = data?.categories || [];
@@ -111,31 +75,6 @@ export function Navbar() {
   function handleCloseMenus() {
     setAnchorEl(null);
     setCategoriesMenuAnchorEl(null);
-  }
-
-  function handleSearchClick() {
-    // Only show the search bar when it's not already open
-    if (!showSearchBar) {
-      setShowSearchBar(true);
-    }
-  }
-
-  function handleMenuItemKeyDown(event) {
-    // Prevent event propagation to parent elements when interacting with the search bar
-    event.stopPropagation();
-
-    if (event.key === 'Enter' && !showSearchBar) {
-      handleCloseMenus();
-    }
-  }
-
-  function handleSearchKeyDown(event) {
-    // Prevent event propagation to parent elements when interacting with the search bar
-    event.stopPropagation();
-  }
-
-  function handleSearchClose() {
-    setShowSearchBar(false);
   }
 
   return (
@@ -186,53 +125,26 @@ export function Navbar() {
               </MenuItem>
             </NavLink>
           ))}
+        <Divider className={classes.divider} />
         {!Auth.loggedIn() && (
           <>
-          <NavLink to='/signup' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
-          </NavLink>
-          <NavLink to='/signin' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
-          </NavLink>
+            <NavLink to='/signup' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Sign Up</MenuItem>
+            </NavLink>
+            <NavLink to='/signin' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Sign In</MenuItem>
+            </NavLink>
           </>
         )}
         {Auth.loggedIn() && (
           <>
-          <NavLink to='/dashboard' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Dashboard</MenuItem>
-          </NavLink>
-          <NavLink to='/userProfile' style={linkStyle}>
-            <MenuItem onClick={handleCloseMenus}>Settings</MenuItem>
-          </NavLink>
-        </>
-        )}
-        <MenuItem
-          onClick={handleSearchClick}
-          onKeyDown={handleMenuItemKeyDown}
-          tabIndex={showSearchBar ? -1 : 0}
-        >
-          <ListItemIcon>
-            <SearchIcon style={{ color: 'black' }} />
-          </ListItemIcon>
-          <ListItemText primary='Search' />
-        </MenuItem>
-        {showSearchBar && (
-          <MenuItem onClick={handleSearchClick}>
-            <div className={classes.searchOpen}>
-              <div className={classes.searchIcon}>
-                <SearchIcon style={{ color: '#888888' }} />
-              </div>
-              <InputBase
-                placeholder='Search...'
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                onBlur={handleSearchClose}
-                onKeyDown={handleSearchKeyDown}
-              />
-            </div>
-          </MenuItem>
+            <NavLink to='/dashboard' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Dashboard</MenuItem>
+            </NavLink>
+            <NavLink to='/userProfile' style={linkStyle}>
+              <MenuItem onClick={handleCloseMenus}>Settings</MenuItem>
+            </NavLink>
+          </>
         )}
       </Menu>
     </AppBar>

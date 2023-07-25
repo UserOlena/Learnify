@@ -38,8 +38,6 @@ export const ADD_USER = gql`
   }
 `;
 
-//add mutation to ADD_BOOKMARK using mutation addTutorialtoUser
-
 export const ADD_FAVORITE_TO_USER = gql`
   mutation addFavoritetoUser(
     $id: ID!, 
@@ -88,5 +86,11 @@ export const RESET_PASSWORD = gql`
   }
 `;
 
-
-
+export const REMOVE_FAVORITE_FROM_USER = gql`
+  mutation removeFavoritefromUser($id: ID!, $tutorialId: ID!) {
+    removeFavoritefromUser(_id: $id, tutorialId: $tutorialId) {
+      _id
+      title
+    }
+  }
+`
