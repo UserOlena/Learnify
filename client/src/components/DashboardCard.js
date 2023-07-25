@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -94,8 +94,8 @@ export function DashboardCard(props) {
   const classes = useStyles();
 
   const [loggedOut, setLoggedOut] = useState(false);
-  const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(true);
-  const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(false);
+  const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(!props.favorite);
+  const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(props.favorite);
 
   // Set up mutation to add the favorite tutorial to the user favorites array
   const [addFavoritetoUser, { error: addFavoriteError }] =
@@ -113,6 +113,8 @@ export function DashboardCard(props) {
     if (userData) {
       user = userData.me;
     }
+    console.log('user me')
+    console.log(user)
 
     // If user is not logged in, set state to redirect to the Sign In page
     // otherwise sends User's ID back to fave the favorite tutorial
@@ -225,11 +227,11 @@ export function DashboardCard(props) {
           )}
           {favoriteFilledIcon && (
             <IconButton
-              aria-label='add to favorites'
+              aria-label='remove from favorites'
               className={`${classes.favoriteIcon}`}
               value={props.id}
               onClick={(e) =>
-                removeFavoriteTutorialOnClick(e.currentTarget.value)
+                removeFavoriteTutorialOnClick(e.currentTarget.value, props)
               }
             >
               <FavoriteIcon fontSize='large' color='error' />
