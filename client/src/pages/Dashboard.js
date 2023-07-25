@@ -53,6 +53,7 @@ export function Dashboard() {
   }
 
   const tutorials = tutorialsData.tutorials;
+  const featured = tutorials.toSorted(() => 0.5 - Math.random()).slice(0, 4);
 
   return (
     <div>
@@ -81,26 +82,21 @@ export function Dashboard() {
         user={userData.me}
         chosenTab={chosenTab}
       />
-      {/* <div className={`${classes.buttonContainer}`}>
+      <div className={`${classes.buttonContainer}`}
+      >
         <Button
           value='browse'
-          className={`${classes.button} ${
-            chosenTab === 'browse' ? classes.active : ''
-          }`}
+          className={`${classes.button} ${classes.active}`}
           onClick={(e) => setChosenTab(e.currentTarget.value)}
         >
-          Browse
+          Featured Courses
         </Button>
-        <Button
-          value='saved'
-          className={`${classes.button} ${
-            chosenTab === 'saved' ? classes.active : ''
-          }`}
-          onClick={(e) => setChosenTab(e.currentTarget.value)}
-        >
-          Saved
-        </Button>
-      </div> */}
+      </div>
+      <DashboardCarousel
+        items={featured}
+        user={userData.me}
+        chosenTab={chosenTab}
+      />
     </div>
   );
 }
