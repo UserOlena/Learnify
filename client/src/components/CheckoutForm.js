@@ -10,11 +10,18 @@ export default function CheckoutForm() {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const style = {
-        width: '25%',
+        width: '33%',
         margin: '0 auto',
         marginBottom: '2rem',
-        border: '2px solid #ccc',
-    }
+        border: '2px solid black', 
+        padding: '1rem',
+        userSelect: 'none',
+
+    };
+    const buttonStyle = {
+        marginTop: '1rem',
+        backgroundColor: '#FAF0E6',
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -42,9 +49,9 @@ export default function CheckoutForm() {
     return (
         <form onSubmit={handleSubmit} id="payment-form" style={style}>
             <PaymentElement />
-            <button disabled={isProcessing} id="submit">
-                <span id="button-text">
-                    {isProcessing ? "Processing..." : "Pay now"}
+            <button disabled={isProcessing} id="submit" style={buttonStyle}>
+                <span id="button-text" >
+                    {isProcessing ? "Processing..." : "Make Payment"}
                 </span>
             </button>
             {/* show error or success messages */}
