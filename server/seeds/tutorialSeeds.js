@@ -17,7 +17,7 @@ const tutorialSeeds = [
     {
         title: 'Beginner\'s Guide to Budgeting: Taking Control of Your Finances',
         overview: 'Gain control of your finances with this beginner\'s guide to budgeting, where you will learn practical tips for creating a budget, tracking expenses, and saving money.',
-        thumbnail: 'https://pikwizard.com/pw/medium/7400e2e6aa1cbf2cd13a0c1e3d4c428d.avif',
+        thumbnail: 'https://pikwizard.com/pw/medium/753bc75afc448aaef51ad99676053cc5.avif',
     },
     {
         title: 'The Art of Efficient Grocery Shopping: Saving Time and Money',
@@ -32,7 +32,7 @@ const tutorialSeeds = [
     {
         title: 'Healthy Eating on a Busy Schedule: Quick and Nutritious Recipes',
         overview: 'Discover quick and nutritious recipe ideas, meal prep tips, and strategies to maintain a healthy diet even when you have a busy schedule.',
-        thumbnail: 'https://pikwizard.com/pw/medium/9d3fc4ab2a3b2299057bf8522d37ae89.avif',
+        thumbnail: 'https://pikwizard.com/pw/medium/6f17365f60727218958efd40b2aca8d8.avif',
     },
     {
         title: 'Introduction to Meditation: Techniques for Stress Relief and Mindfulness',

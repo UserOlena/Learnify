@@ -86,7 +86,7 @@ const lessonSeeds = [
     {
         name: 'Check the weather',
         body: 'Open a weather app or website, enter your location or allow location access, and view the current and upcoming weather conditions.',
-        media: 'https://pikwizard.com/pw/medium/f6103241d4dec33eff60ea53a66ac2f0.avif',
+        media: 'https://pikwizard.com/pw/medium/1cbb01c50ec5f3fdafc39c976fd0f01f.avif',
         duration: 1,
     },
     {
@@ -116,7 +116,7 @@ const lessonSeeds = [
     {
         name: 'Check your voicemail',
         body: 'Dial your voicemail number, listen to the messages, take notes if necessary, and follow the prompts to delete or reply to each message.',
-        media: 'https://pikwizard.com/pw/medium/f6103241d4dec33eff60ea53a66ac2f0.avif',
+        media: 'https://pikwizard.com/pw/medium/a7435338cdcd441cace0bdac767bb18a.avif',
         duration: 2,
     },
 ];
