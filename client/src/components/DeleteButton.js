@@ -1,4 +1,5 @@
 import { Button, FormHelperText } from '@mui/material';
+import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
@@ -88,7 +89,12 @@ export function DeleteButton(props) {
 
     return (
         <>
-            <Button onClick={handleDelete} variant="contained" type="submit">
+            <Button 
+                onClick={handleDelete} 
+                variant="contained" 
+                type="submit"
+                startIcon={<DeleteIcon />}
+                color="secondary">
                 Delete
             </Button>
             {error && <FormHelperText error={true}>{error}</FormHelperText>}
