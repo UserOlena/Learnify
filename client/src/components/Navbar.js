@@ -11,8 +11,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
@@ -75,6 +74,11 @@ export function Navbar() {
   function handleCloseMenus() {
     setAnchorEl(null);
     setCategoriesMenuAnchorEl(null);
+  }
+  function handleLogout() {
+    Auth.logout();
+    Auth.loggedIn(false);
+    handleCloseMenus();
   }
 
   return (
@@ -144,6 +148,9 @@ export function Navbar() {
             <NavLink to='/userProfile' style={linkStyle}>
               <MenuItem onClick={handleCloseMenus}>Settings</MenuItem>
             </NavLink>
+            <Link to='/' style={linkStyle} onClick={handleLogout}>
+              <MenuItem>Logout</MenuItem>
+            </Link>
           </>
         )}
       </Menu>

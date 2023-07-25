@@ -1,6 +1,6 @@
 // React imports
 import { React, useEffect, useState } from 'react';
-import { ResetPassword } from '../components';
+import { ResetPassword, DeleteButton } from '../components';
 
 // Material UI imports
 import {
@@ -153,6 +153,8 @@ export function UserProfile() {
         </Button>
         {message && <p>{message}</p>}
       </Box>
+      <br />
+      <DeleteButton case={'user'} />
     </div>
   );
 }
