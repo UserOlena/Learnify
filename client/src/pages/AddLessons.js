@@ -52,6 +52,7 @@ export function AddLessons() {
   const [duration, setDuration] = useState(inputDefaultValues);
   const [success, setSuccess] = useState(false);
   const [canSubmit, setCanSubmit] = useState(true);
+  const [onAddLessonsPage, setOnAddLessonsPage] = useState(true);
 
   // Set up mutation to add the lesson to the db
   // Use the cache to add each new lesson to the bottom of the page upon saving
@@ -127,6 +128,7 @@ export function AddLessons() {
             key={lesson._id}
             lessonFromAddLessons={lesson}
             stylesFromAddLesson={stylesFromAddLesson}
+            onAddLessonsPage={onAddLessonsPage}
           />
         ))}
       </>
@@ -327,8 +329,8 @@ export function AddLessons() {
         />
         {!canSubmit && (
           <Typography color='error' component='p'>
-            You must be signed in as the instructor of this tutorial in order to add a lesson to it.{' '}
-            <Link to='/signin'>Sign In</Link>
+            You must be signed in as the instructor of this tutorial in order to
+            add a lesson to it. <Link to='/signin'>Sign In</Link>
           </Typography>
         )}
         <Button type='submit' variant='contained' sx={{ mt: 3 }}>
