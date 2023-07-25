@@ -204,7 +204,9 @@ export function DashboardCard(props) {
         </CardContent>
       </div>
       <div>
-        <p className={`${classes.teacher}`}>{props.teacher?.[0]?.username ?? 'Deleted user'}</p>
+        <p className={`${classes.teacher}`}>
+          {props.teacher?.[0]?.username ?? 'Deleted user'}
+        </p>
         <HalfRating rating={props.averageRating} />
         <CardActions className={`${classes.cardContent} ${classes.actionBox}`}>
           <Button size='small' className={`${classes.learnMoreBtn}`}>
