@@ -32,6 +32,7 @@ const userTypeDefs = gql`
     removeTutorialfromUser(tutorialId: ID!): Tutorial
 
     addFavoritetoUser(_id: ID!, tutorialId: ID!): Tutorial
+    removeFavoritefromUser(_id: ID!, tutorialId: ID!): Tutorial
   }
 `;
 
@@ -167,6 +168,23 @@ const userResolvers = {
               new: true,
               runValidators: true,
             }
+          );
+        } catch (err) {
+          throw new Error(err);
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+    removeFavoritefromUser: async (parent, { _id, favoriteId }, context) => {
+      if (context.user) {
+        try {
+          return User.findOneAndUpdate(
+            { _id: _id },
+            { 
+              $pull: { favorites: favoriteId } 
+            },
+            { new: true }
           );
         } catch (err) {
           throw new Error(err);
