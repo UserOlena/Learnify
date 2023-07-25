@@ -13,9 +13,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    border: '2px solid #ccc', 
+    border: '2px solid black', 
     borderRadius: '8px',
-    backgroundColor: '#FAF0E6', 
+    backgroundColor: '#92b4d4', 
     marginBottom: '20px', 
     [theme.breakpoints.down('sm')]: {
       width: '100%', 
@@ -40,7 +40,7 @@ const boxData = [
     id: 3,
     imageSrc: Riley,
     title: "Riley O' Neil",
-    description: 'Description for Box 3',
+    description: "Riley O'Neil is an adept network administrator and programmer specialized in web development and Java. Their passion lies in crafting efficient and future-proofed systems to tackle complex problems. With a keen eye for detail and a penchant for innovation, Riley excels in creating seamless and scalable solutions for the tech world.",
   },
   {
     id: 4,

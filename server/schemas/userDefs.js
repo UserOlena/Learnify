@@ -9,6 +9,7 @@ const userTypeDefs = gql`
     email: String
     password: String
     tutorials: [Tutorial]
+    favorites: [Tutorial]
   }
 
   type Auth {
@@ -26,14 +27,17 @@ const userTypeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     removeUser: User
+
     forgotPassword(email: String!): Auth
     resetPassword(password: String!, token: String!): Auth
+    updateUserProfile(_id: ID!, username: String, email: String): User
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
-
     removeTutorialfromUser(tutorialId: ID!): Tutorial
 
-    updateUserProfile(_id: ID!, username: String, email: String): User
+    addFavoritetoUser(_id: ID!, tutorialId: ID!): Tutorial
+
+    
   }
 `;
 
@@ -41,7 +45,9 @@ const userResolvers = {
   Query: {
     user: async (parent, { _id }) => {
       try {
-        return User.findOne({ _id: _id });
+        return await User.findOne({ _id: _id })
+          .populate('tutorials')
+          .populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
@@ -49,7 +55,9 @@ const userResolvers = {
 
     users: async () => {
       try {
-        return User.find();
+        return await User.find({})
+        .populate('tutorials')
+        .populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
@@ -59,9 +67,7 @@ const userResolvers = {
       if (context.user) {
         try {
           const userData = await User.findOne({ _id: context.user._id })
-            .select('-__v -password')
-            .populate('tutorials');
-
+          .select('-__v -password');
           return userData;
         } catch (err) {
           throw new Error(err);
@@ -151,6 +157,30 @@ const userResolvers = {
       }
     },
 
+    updateUserProfile: async (parent, { _id, username, email }, context) => {
+      if (context.user) {
+        try {
+          // Create an updates object only containing the updated fields
+          const updates = {};
+          if (username) {
+            updates.username = username;
+          }
+          if (email) {
+            updates.email = email;
+          }
+
+          return await User.findByIdAndUpdate(
+            _id,
+            { $set: updates },
+            { new: true }
+          );
+        } catch (err) {
+          throw new Error(`Failed to update user: ${error.message}`);
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
     addTutorialtoUser: async (parent, { _id, tutorialId }, context) => {
       if (context.user) {
         try {
@@ -186,29 +216,26 @@ const userResolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    updateUserProfile: async (parent, { _id, username, email }, context) => {
+    addFavoritetoUser: async (parent, { _id, tutorialId }, context) => {
       if (context.user) {
         try {
-          // Create an updates object only containing the updated fields
-          const updates = {};
-          if (username) {
-            updates.username = username;
-          }
-          if (email) {
-            updates.email = email;
-          }
-
-          return await User.findByIdAndUpdate(
-            _id,
-            { $set: updates },
-            { new: true }
+          return User.findOneAndUpdate(
+            { _id: _id },
+            {
+              $addToSet: { favorites: tutorialId },
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
           );
         } catch (err) {
-          throw new Error(`Failed to update user: ${error.message}`);
+          throw new Error(err);
         }
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+
   },
 };
 
