@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     border: '2px solid black',
+    backgroundColor: '#92b4d4',
     [theme.breakpoints.down('sm')]: {
       // Change width to 400px for smaller screens
       width: '400px',
