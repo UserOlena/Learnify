@@ -96,6 +96,8 @@ export function DashboardCard(props) {
   const [loggedOut, setLoggedOut] = useState(false);
   const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(!props.favorite);
   const [favoriteFilledIcon, setFavoriteFilledIcon] = useState(props.favorite);
+  const [browseBtn, setbrowseBtn] = useState('browseBtn');
+  const [savedBtn, setsavedBtn] = useState('');
 
   // Set up mutation to add the favorite tutorial to the user favorites array
   const [addFavoritetoUser, { error: addFavoriteError }] =

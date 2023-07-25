@@ -14,9 +14,11 @@ const useStyles = makeStyles((theme) => ({
   carouselContainer: {
     display: 'flex',
     width: '95vw',
-    margin: '2.5vw !important',
+    margin: '0 2.5vw !important',
     maxWidth: '120em',
     alignSelf: 'center',
+    boxShadow: '-9px -15px 10px -10px rgba(0, 0, 0, 0.2)',
+    boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
       width: '95vw',
@@ -51,6 +53,9 @@ export function DashboardCarousel(props) {
   const classes = useStyles();
 
   const matchesMax959 = useMediaQuery('(max-width:959px)');
+
+  const [savedBtn, setsavedBtn] = useState(props.savedBtn);
+  const [browseBtn, setbrowseBtn] = useState(props.browseBtn);
 
   const responsive = {
     superLargeDesktop: {
@@ -93,8 +98,9 @@ export function DashboardCarousel(props) {
         sliderClass={`${classes.reactMultiCarouselTrack}`}
         slidesToSlide={3}
         centerMode={true}
-      >
-        {props.items.map(
+      >{
+        savedBtn === 'saved' &&
+        props.items.map(
           (
             { _id, overview, thumbnail, title, averageRating, teacher },
             index
@@ -116,7 +122,8 @@ export function DashboardCarousel(props) {
               />
             );
           }
-        )}
+        )
+        }
       </Carousel>
     </div>
   );
