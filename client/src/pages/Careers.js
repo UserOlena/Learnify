@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: theme.spacing(2),
-    color: 'black',
   },
   inputField: {
     marginBottom: theme.spacing(2),
@@ -43,11 +42,11 @@ const useStyles = makeStyles((theme) => ({
       color: 'black',
     },
     '& input': {
-      color: 'black', // Set the input text color to white
+      color: 'black', 
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'black',
+        borderColor: 'gray',
       },
       '&:hover fieldset': {
         borderColor: 'black',
@@ -58,8 +57,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   successMessage: {
-    marginTop: theme.spacing(2),
-    color: 'green',
+    color: 'black',
     userSelect: 'none',
   },
 }));
@@ -86,7 +84,6 @@ export function Careers() {
       })
       .catch((error) => {
         console.error('Error sending email:', error);
-        // Handle error if the email sending fails
       });
   };
 
