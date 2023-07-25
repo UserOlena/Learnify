@@ -19,11 +19,13 @@ import {
   AddLessons,
   AddTutorial,
   Careers,
+  ChangePassword,
   Dashboard,
   Home,
   Payment,
   SignIn,
   SignUp,
+  UserProfile,
   ViewTutorial,
 } from './pages';
 import { Footer, Navbar } from './components';
@@ -116,6 +118,14 @@ function App() {
             <Route
               path='/about'
               element={<About />}
+            ></Route>
+            <Route
+              path='/userProfile'
+              element={<UserProfile />}
+            ></Route>
+            <Route
+              path='/changePassword/:token'
+              element={<ChangePassword />}
             ></Route>
           </Routes>
         </Router>

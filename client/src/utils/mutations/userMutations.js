@@ -53,3 +53,40 @@ export const ADD_FAVORITE_TO_USER = gql`
     }
   }
 `;
+
+export const UPDATE_USER_PROFILE = gql`
+  mutation UpdateUserProfile($id: ID!, $username: String, $email: String) {
+    updateUserProfile(_id: $id, username: $username, email: $email) {
+      _id
+      email
+      username
+    }
+  }
+`;
+
+export const FORGOT_PASSWORD = gql`
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
+
+export const RESET_PASSWORD = gql`
+  mutation ResetPassword($password: String!, $token: String!) {
+    resetPassword(password: $password, token: $token) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
+
+
+
