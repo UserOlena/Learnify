@@ -88,5 +88,13 @@ export const RESET_PASSWORD = gql`
   }
 `;
 
+export const REMOVE_USER = gql`
+  mutation RemoveUser {
+    removeUser {
+      _id
+    }
+  }
+`;
+
 
 

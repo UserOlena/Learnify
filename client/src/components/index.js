@@ -4,6 +4,7 @@ export * from './CheckoutForm';
 export * from './CommentForm';
 export * from './DashboardCard';
 export * from './DashboardCarousel';
+export * from './DeleteButton';
 export * from './Footer';
 export * from './Navbar';
 export * from './RateTutorial';
