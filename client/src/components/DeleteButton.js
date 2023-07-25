@@ -98,7 +98,7 @@ export function DeleteButton(props) {
         startIcon={<DeleteIcon />}
         color='secondary'
       >
-        Delete Profile
+        Delete
       </Button>
       {error && <FormHelperText error={true}>{error}</FormHelperText>}
     </>
