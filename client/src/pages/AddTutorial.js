@@ -23,6 +23,7 @@ import { ADD_TUTORIAL } from '../utils/mutations/tutorialMutations';
 
 // Imports for other utilities
 import { isEmptyInput, validateInput } from '../utils/validation';
+import auth from '../utils/auth';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -67,6 +68,11 @@ function getStyles(category, selectedCategories, theme) {
 }
 
 export function AddTutorial() {
+  //check login status
+  if (!auth.loggedIn()) {
+    window.location.assign('/signin');
+  }
+
   const classes = useStyles();
   const theme = useTheme();
 
@@ -106,7 +112,7 @@ export function AddTutorial() {
     e.preventDefault();
 
     // If user is not logged in, set state to show error and exit submit function
-    if (!user) {
+    if (!auth.loggedIn()) {
       setLoggedOut(true);
       return;
     }
