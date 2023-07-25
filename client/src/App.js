@@ -25,7 +25,6 @@ import {
   SignIn,
   SignUp,
   ViewTutorial,
-  WhoWeAre,
 } from './pages';
 import { Footer, Navbar } from './components';
 
@@ -117,10 +116,6 @@ function App() {
             <Route
               path='/about'
               element={<About />}
-            ></Route>
-            <Route
-              path='/who-we-are'
-              element={<WhoWeAre />}
             ></Route>
           </Routes>
         </Router>

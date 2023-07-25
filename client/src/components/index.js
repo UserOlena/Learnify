@@ -1,3 +1,4 @@
+export * from './About2';
 export * from './Categories';
 export * from './Carousel';
 export * from './CheckoutForm';
@@ -10,3 +11,4 @@ export * from './RatingHalfReadOnly';
 export * from './Recommended';
 export * from './CommentForm';
 export * from './ViewLesson';
+export * from './WhoWeAre';
