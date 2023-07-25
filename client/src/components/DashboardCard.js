@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -107,6 +107,8 @@ export function DashboardCard(props) {
     if (userData) {
       user = userData.me;
     }
+    console.log('user me')
+    console.log(user)
 
     // If user is not logged in, set state to redirect to the Sign In page
     // otherwise sends User's ID back to fave the favorite tutorial
@@ -183,6 +185,68 @@ export function DashboardCard(props) {
     setFavoriteFilledIcon(true);
     setFavoriteBorderIcon(false)
   }
+
+
+
+
+  useEffect(() => {
+    const userFavorites = userData?.me?.favorites;
+    console.log('userfavorites')
+    console.log(userFavorites)
+    const tutorialId = props.id;
+    console.log('tutorial id')
+    console.log(tutorialId)
+
+    checkIfTutorialIsFavorite(userFavorites)
+
+    // When the component mounts, check if each tutorial is in the user's favorites
+    // const isFavorite = checkIfTutorialIsFavorite(userId, tutorialId);
+
+
+  }, [props.id, userData]);
+
+
+
+
+  async function checkIfTutorialIsFavorite(userFavorites) {
+
+      userFavorites.map(tutorialId => {
+        console.log(tutorialId)
+          if (tutorialId) {
+
+        }
+      })
+
+
+    // try {
+      // Make query to fetch the user by ID and check if the tutorialId exists in their favoriteTutorials array
+      // const { data } = await client.query({
+      //   query: GET_USER, // Query to fetch the user by ID
+      //   variables: { id: userId },
+      // });
+  
+      // const user = data.getUser;
+  
+      // If the user exists and the tutorialId is present in their favoriteTutorials array, return true
+    //   if (user && user.favoriteTutorials.includes(tutorialId)) {
+    //     return true;
+    //   }
+  
+    //   return false;
+    // } catch (error) {
+    //   console.log(error);
+    //   return false; // In case of any errors or if the user is not found, assume the tutorial is not a favorite
+    // }
+  const userId = checkIfLoggedIn()
+
+  
+  }
+  
+
+
+
+
+
 
   return (
     <Card

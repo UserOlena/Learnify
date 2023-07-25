@@ -33,6 +33,10 @@ export const GET_USER = gql`
         }
         totalDuration
       }
+      favorites {
+        _id
+        title
+      }
     }
   }
 `;
