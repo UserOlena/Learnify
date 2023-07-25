@@ -99,7 +99,7 @@ export function DashboardCarousel(props) {
         slidesToSlide={3}
         centerMode={true}
       >{
-        savedBtn === 'saved' &&
+        savedBtn == 'browseBtn' &&
         props.items.map(
           (
             { _id, overview, thumbnail, title, averageRating, teacher },

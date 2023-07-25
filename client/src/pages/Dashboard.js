@@ -37,6 +37,9 @@ export function Dashboard() {
 
   const classes = useStyles();
 
+  const [browseBtn, setbrowseBtn] = useState('');
+  const [savedBtn, setsavedBtn] = useState('browseBtn');
+
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
 
@@ -69,8 +72,8 @@ export function Dashboard() {
       <DashboardCarousel
         items={tutorials}
         user={userData.me}
-        browseBtn={'browse'}
-        savedBtn={'saved'}
+        browseBtn={browseBtn}
+        savedBtn={savedBtn}
       />
     </div>
   );
