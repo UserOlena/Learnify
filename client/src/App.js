@@ -56,7 +56,6 @@ const customTheme = createMuiTheme({
 });
 
 function App() {
-  const [tutorialId, setTutorialId] = useState('');
   return (
     <ThemeProvider theme={customTheme}>
     <div
