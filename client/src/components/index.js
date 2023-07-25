@@ -1,6 +1,7 @@
 export * from './Categories';
 export * from './Carousel';
 export * from './CheckoutForm';
+export * from './DashboardCard';
 export * from './DashboardCarousel';
 export * from './Footer';
 export * from './Navbar';

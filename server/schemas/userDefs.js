@@ -9,6 +9,7 @@ const userTypeDefs = gql`
     email: String
     password: String
     tutorials: [Tutorial]
+    favorites: [Tutorial]
   }
 
   type Auth {
@@ -28,8 +29,9 @@ const userTypeDefs = gql`
     removeUser: User
 
     addTutorialtoUser(tutorialId: ID!): Tutorial
-
     removeTutorialfromUser(tutorialId: ID!): Tutorial
+
+    addFavoritetoUser(_id: ID!, tutorialId: ID!): Tutorial
   }
 `;
 
@@ -37,7 +39,9 @@ const userResolvers = {
   Query: {
     user: async (parent, { _id }) => {
       try {
-        return User.findOne({ _id: _id });
+        return await User.findOne({ _id: _id })
+          .populate('tutorials')
+          .populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
@@ -45,7 +49,9 @@ const userResolvers = {
 
     users: async () => {
       try {
-        return User.find();
+        return await User.find({})
+        .populate('tutorials')
+        .populate('favorites');
       } catch (err) {
         throw new Error(err);
       }
@@ -55,9 +61,7 @@ const userResolvers = {
       if (context.user) {
         try {
           const userData = await User.findOne({ _id: context.user._id })
-            .select('-__v -password')
-            .populate('tutorials');
-
+          .select('-__v -password');
           return userData;
         } catch (err) {
           throw new Error(err);
@@ -143,6 +147,26 @@ const userResolvers = {
             { _id: context.user._id },
             { $pull: { tutorials: tutorialId } },
             { new: true }
+          );
+        } catch (err) {
+          throw new Error(err);
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+    addFavoritetoUser: async (parent, { _id, tutorialId }, context) => {
+      if (context.user) {
+        try {
+          return User.findOneAndUpdate(
+            { _id: _id },
+            {
+              $addToSet: { favorites: tutorialId },
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
           );
         } catch (err) {
           throw new Error(err);
