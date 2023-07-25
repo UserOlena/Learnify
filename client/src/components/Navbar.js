@@ -147,7 +147,7 @@ export function Navbar() {
               <MenuItem onClick={handleCloseMenus}>Dashboard</MenuItem>
             </NavLink>
             <NavLink to='/tutorials/new' style={linkStyle}>
-              <MenuItem onClick={handleCloseMenus}>Submit a Tutorial</MenuItem>
+              <MenuItem onClick={handleCloseMenus}>Add a Tutorial</MenuItem>
             </NavLink>
             <NavLink to='/userProfile' style={linkStyle}>
               <MenuItem onClick={handleCloseMenus}>Settings</MenuItem>
