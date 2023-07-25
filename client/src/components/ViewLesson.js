@@ -1,5 +1,5 @@
 import { React } from 'react';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { DeleteButton } from '../components/DeleteButton';
 
 //Material-UI imports
