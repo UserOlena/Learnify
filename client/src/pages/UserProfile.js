@@ -1,6 +1,7 @@
 // React imports
 import { React, useEffect, useState } from 'react';
 import { ResetPassword, DeleteButton } from '../components';
+import { useNavigate } from 'react-router-dom';
 
 // Material UI imports
 import {
@@ -26,9 +27,10 @@ import { isEmptyInput, validateInput } from '../utils/validation';
 import auth from '../utils/auth';
 
 export function UserProfile() {
+  const navigate = useNavigate();
   //check login status
   if(!auth.loggedIn()) {
-    window.location.assign('/signin');
+    navigate('/signin');
   };
 
   const [userName, setUserName] = useState();

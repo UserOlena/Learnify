@@ -1,6 +1,6 @@
 // React / router imports
 import { React, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 // Material UI imports
 import { Box, Button, TextField, Typography } from '@mui/material';
@@ -68,9 +68,10 @@ function getStyles(category, selectedCategories, theme) {
 }
 
 export function AddTutorial() {
+  const navigate = useNavigate();
   //check login status
   if (!auth.loggedIn()) {
-    window.location.assign('/signin');
+    navigate('/signin');
   }
 
   const classes = useStyles();
@@ -132,7 +133,7 @@ export function AddTutorial() {
 
     try {
       const { data } = await addTutorial({ variables });
-      window.location.assign(`/${data.addTutorial._id}/lessons/add`);
+      navigate(`/${data.addTutorial._id}/lessons/add`);
     } catch (error) {
       console.log(error);
     }

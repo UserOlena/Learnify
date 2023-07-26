@@ -1,6 +1,6 @@
 // React / router imports
 import { React, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 // Material UI imports
 import { Box, Button, TextField, Typography } from '@mui/material';
@@ -36,9 +36,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function AddLessons() {
+  const navigate = useNavigate();
   //check login status
   if (!auth.loggedIn()) {
-    window.location.assign('/signin');
+    navigate('/signin');
   }
 
   const classes = useStyles();

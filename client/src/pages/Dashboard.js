@@ -6,6 +6,7 @@ import { makeStyles, useMediaQuery } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import { GET_USER } from '../utils/queries/userQueries';
+import { useNavigate } from 'react-router-dom';
 
 import Auth from '../utils/auth';
 
@@ -35,8 +36,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Dashboard() {
+  const navigate = useNavigate();
   if (!Auth.loggedIn()) {
-    window.location.assign('/signin');
+    navigate('/signin');
   }
 
   const classes = useStyles();

@@ -2,10 +2,12 @@ import { useMutation } from '@apollo/client';
 import { FORGOT_PASSWORD } from '../utils/mutations/userMutations';
 import { useState } from 'react';
 import { isEmptyInput, validateInput } from '../utils/validation';
+import { useNavigate } from 'react-router-dom';
 
 import { Button, FormHelperText } from '@mui/material';
 
 export function ResetPassword({ textInput, email }) {
+	const navigate = useNavigate();
 	const [forgotPassword, { error: mutationError }] =
 		useMutation(FORGOT_PASSWORD);
 	const [error, setError] = useState();
@@ -32,7 +34,7 @@ export function ResetPassword({ textInput, email }) {
 			}
 
 			console.log(data);
-            console.log(window.location.assign(`/changePassword/${data.forgotPassword.token}`))
+			navigate(`/changePassword/${data.forgotPassword.token}`);
 		} catch (err) {
 			console.error(err);
 		}

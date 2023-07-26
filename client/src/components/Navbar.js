@@ -80,7 +80,6 @@ export function Navbar() {
   }
   function handleLogout() {
     Auth.logout();
-    Auth.loggedIn(false);
     handleCloseMenus();
     navigate('/signin');
   }
