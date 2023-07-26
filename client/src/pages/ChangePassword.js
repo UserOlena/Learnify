@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 // Material UI imports
 import { Button, TextField, Box, Typography, Container, collapseClasses } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 
 
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 //change password function takes in params for token and asks for new password
 export function ChangePassword() {
+	const navigate = useNavigate();
 	const classes = useStyles();
 	const token = useParams().token;
 	const [password, setPassword] = useState('');
@@ -50,7 +51,7 @@ export function ChangePassword() {
 			}
 			setSuccess('Password changed successfully');
 			console.log(data);
-			window.location.assign('/signin');
+			navigate('/signin');
 		} catch (err) {
 			console.error(err);
 		}

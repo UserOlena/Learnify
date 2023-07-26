@@ -1,5 +1,8 @@
 import { React, useEffect, useState } from 'react';
 import { ResetPassword, DeleteButton } from '../components';
+import { useNavigate } from 'react-router-dom';
+
+// Material UI imports
 import {
   Avatar,
   Button,
@@ -32,11 +35,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function UserProfile() {
+  const navigate = useNavigate();
   const classes = useStyles();
   //check login status
-  if (!auth.loggedIn()) {
-    window.location.assign('/signin');
-  }
+  if(!auth.loggedIn()) {
+    navigate('/signin');
+  };
 
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();

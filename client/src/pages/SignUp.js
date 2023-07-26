@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { isEmptyInput, validateInput } from '../utils/validation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations/userMutations';
@@ -58,6 +58,8 @@ export function SignUp() {
     isDuplicate: false,
   };
 
+  const navigate = useNavigate();
+
   const [userName, setUserName] = useState(inputDefaultValues);
   const [email, setEmail] = useState(inputDefaultValues);
   const [password, setPassword] = useState(inputDefaultValues);
@@ -91,7 +93,7 @@ export function SignUp() {
       Auth.login(data.addUser.token);
       
       if(Auth.loggedIn()){
-        window.location.assign('/dashboard');
+        navigate('/dashboard');
       }
     } catch (err) {
       console.log(err.graphQLErrors[0].message);
