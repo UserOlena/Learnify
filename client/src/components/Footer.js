@@ -1,5 +1,6 @@
 import React from 'react';
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
+import { NavLink } from 'react-router-dom';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -17,15 +18,15 @@ export function Footer() {
         <p>&copy; {currentYear} Learnify. All rights reserved.</p>
       </div>
       <div style={{ marginTop: '10px' }}>
-        <a href='/about' style={{ color: 'white', marginRight: '10px' }}>
+        < NavLink to='/about' style={{ color: 'white', marginRight: '10px' }}>
           About
-        </a>
-        <a href='/careers' style={{ color: 'white', marginRight: '10px' }}>
+        </NavLink>
+        <NavLink to='/careers' style={{ color: 'white', marginRight: '10px' }}>
           Careers
-        </a>
-        <a href='/donate' style={{ color: 'white' }}>
+        </NavLink>
+        <NavLink to='/donate' style={{ color: 'white' }}>
           Donate
-        </a>
+        </NavLink>
       </div>
     </footer>
   );
