@@ -4,10 +4,11 @@ import { useState } from 'react';
 
 // Material UI imports
 import { Button, TextField, Box, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 //change password function takes in params for token and asks for new password
 export function ChangePassword() {
+	const navigate = useNavigate();
 	const token = useParams().token;
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -32,7 +33,7 @@ export function ChangePassword() {
 			}
 			setSuccess('Password changed successfully');
 			console.log(data);
-			window.location.assign('/signin');
+			navigate('/signin');
 		} catch (err) {
 			console.error(err);
 		}
