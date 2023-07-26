@@ -5,7 +5,7 @@
 - In project three we were tasked with creating an interactive MERN Stack Single-Page Application. Our group created a Online Learning Social Platform. 
 
 ## Table of Contents
-  * [Descruption](#Description)
+  * [Description](#Description)
   * [User-Story](#User-Story)
   * [Motivation-for-Development](#Motivation-for-Development)
   * [Contributors](#contributors)
@@ -15,7 +15,7 @@
 
 ## Description
 
-This web application is called Learnify. Learnify is a interactive UI experience for sharing tutorials on specific topics that a user believes is a skill or topic that others would like to learn. The user can create a tutorial and add lessons to that tutorial. The user can also save tutorials to their dashboard for later viewing. The user can also delete tutorials from their profile page. The user can also edit their profile to adjust their password and or username/email. The user can also delete their profile page. The user can also send an email to the creators of Learnify if they have any questions or are seeking job opprotunities. The user can also find tutorials by category. The user can also view all tutorials that have been created. This application also integrates the Stripe payment platform for users to donate to the creators of the site, if they so choose.
+This web application is called Learnify. Learnify is a interactive UI experience for sharing tutorials on specific topics that a user believes is a skill or topic that others would like to learn. The user can create a tutorial and add lessons to that tutorial. The user can also save tutorials to their dashboard for later viewing. The user can also delete tutorials from their profile page. The user can also edit their profile to adjust their password and or username/email. The user can also delete their profile page. The user can also send an email to the creators of Learnify if they have any questions or are seeking job opportunities. The user can also find tutorials by category. The user can also view all tutorials that have been created. This application also integrates the Stripe payment platform for users to donate to the creators of the site, if they so choose.
 
 ## User-Story
 
@@ -28,7 +28,7 @@ This web application is called Learnify. Learnify is a interactive UI experience
 - SO THAT I can share my knowledge and skills with people who want to learn.
 
 ## Motivation-for-Development
-- Most learning platforms are affiliated with a formal institution, or are cumbersome to use YouTube videos are great, but hard to reference individual steps quickly
+- Most learning platforms are affiliated with a formal institution, or are cumbersome to use. YouTube videos are great, but hard to reference individual steps quickly
 - Wikihow has good text/image instructions but finding or referencing different steps in a long document can be tedious
 - Social:
     - Making and learning from friends
@@ -45,7 +45,7 @@ This web application is called Learnify. Learnify is a interactive UI experience
 
 - ### [Beckee Roos](https://github.com/sendusyourbones)
 
-- ### [Olena Pashcenko](https://github.com/UserOlena)
+- ### [Olena Pashchenko](https://github.com/UserOlena)
 
 ### Technologies-Used:
 
