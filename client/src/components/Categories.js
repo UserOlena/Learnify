@@ -4,6 +4,7 @@ import {
   Grid,
   Typography,
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
   Box,
@@ -42,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     fontWeight: 'bold',
     padding: 0,
+  },
+  cardDescription: {
+    padding: 2,
   },
   img: {
     height: '9em',
@@ -121,18 +125,19 @@ export function SubCategory({ subCategory }) {
             {tutorials.map((option) => (
               <Grid
                 item
-                xs={10}
+                xs={12}
                 md={3}
                 key={option._id}
               >
                 <Card className={classes.card}>
+                <CardActionArea>
                   <CardMedia
                     component='img'
                     alt={option.title}
                     image={option.thumbnail}
                     className={classes.img}
                   ></CardMedia>
-                  <CardContent style={{ padding: 0 }}>
+                  <CardContent  style={{ padding: 2 }}>
                     <Link
                       to={`/tutorial/${option._id}`}
                       key={option._id}
@@ -143,10 +148,11 @@ export function SubCategory({ subCategory }) {
                       </Typography>
                     </Link>
                     <Typography className={classes.cardDescription}>
-                      {option.overview}
+                      {option.teacher?.[0]?.username ?? 'Deleted user'}
                     </Typography>
                   </CardContent>
                   <HalfRating rating={option.averageRating} />
+                  </CardActionArea>
                 </Card>
               </Grid>
             ))}
@@ -209,7 +215,9 @@ export function Categories({ categories }) {
                 </Button>
               ))}
             </div>
+            <Grid item xs={12}>
             {categorySelected && <SubCategory subCategory={selectedCategory} />}
+          </Grid>
           </Grid>
         </Grid>
       </Box>

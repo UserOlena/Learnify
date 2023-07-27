@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
   Container,
@@ -25,18 +26,18 @@ const useStyles = makeStyles((theme) => ({
   },
   cardTitle: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
-    // backgroundColor: 'var(--main-bg-color)',
     fontWeight: 'bold',
-    padding: 0,
+    padding: 2,
   },
-
+  cardDescription: {
+    padding: 2,
+  },
   arrowButton: {
     padding: theme.spacing(1),
     color: 'black',
   },
   img: {
     height: '9em',
-    border: 'solid 1px #d1d7dc',
     [theme.breakpoints.down('sm')]: {
       height: '80%',
     },
@@ -93,26 +94,27 @@ export function Recommended() {
       </Typography>
       <Grid
         container
-        justifyContent='space-around'
+        spacing={2}
       >
         {visibleTutorials.map((tutorial) => (
+          <>
           <Grid
             item
-            xs={10}
-            md={3}
+            xs={12}
+            md={3} 
           >
             <Card
               key={tutorial._id}
               className={classes.card}
-              style={{}}
             >
+              <CardActionArea>
               <CardMedia
                 component='img'
                 alt={tutorial.title}
                 image={tutorial.thumbnail}
                 className={`${classes.img}`}
               ></CardMedia>
-              <CardContent style={{ padding: 0 }}>
+              <CardContent style={{ padding: 2 }}>
                 <Link
                   to={`/tutorial/${tutorial._id}`}
                   key={tutorial._id}
@@ -123,12 +125,14 @@ export function Recommended() {
                   </Typography>
                 </Link>
                 <Typography className={classes.cardDescription}>
-                  {tutorial.overview}
+                  {tutorial.teacher?.[0]?.username ?? 'Deleted user'}
                 </Typography>
               </CardContent>
               <HalfRating rating={tutorial.averageRating} />
+              </CardActionArea>
             </Card>
           </Grid>
+          </>
         ))}
       </Grid>
 
