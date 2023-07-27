@@ -40,9 +40,15 @@ const useStyles = makeStyles((theme) => ({
   },
   cardTitle: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
-    // backgroundColor: 'var(--main-bg-color)',
     fontWeight: 'bold',
     padding: 0,
+  },
+  img: {
+    height: '9em',
+    border: 'solid 1px #d1d7dc',
+    [theme.breakpoints.down('sm')]: {
+      height: '80%',
+    },
   },
   // Add the new class definition for the link
   link: {
@@ -124,7 +130,7 @@ export function SubCategory({ subCategory }) {
                     component='img'
                     alt={option.title}
                     image={option.thumbnail}
-                    className={`${classes.img}`}
+                    className={classes.img}
                   ></CardMedia>
                   <CardContent style={{ padding: 0 }}>
                     <Link
