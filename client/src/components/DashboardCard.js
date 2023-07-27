@@ -131,7 +131,7 @@ export function DashboardCard(props) {
     // If user is not logged in, set state to redirect to the Sign In page
     // otherwise sends User's ID back to fave the favorite tutorial
     if (!user) {
-      window.location.assign(`/signin`);
+      navigate(`/signin`);
       setLoggedOut(true);
       return;
     } else {

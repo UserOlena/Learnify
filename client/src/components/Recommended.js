@@ -19,7 +19,6 @@ import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    backgroundColor: 'var(--main-bg-color) !important',
     textAlign: 'left',
     height: '100%',
     margin: theme.spacing(2),
