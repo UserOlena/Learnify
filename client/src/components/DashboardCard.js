@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -92,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function DashboardCard(props) {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const [loggedOut, setLoggedOut] = useState(false);
   const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(!props.favorite);
