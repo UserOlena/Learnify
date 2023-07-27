@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -92,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function DashboardCard(props) {
-  const navigate = useNavigate();
   const classes = useStyles();
 
   const [loggedOut, setLoggedOut] = useState(false);
@@ -123,7 +121,7 @@ export function DashboardCard(props) {
     // If user is not logged in, set state to redirect to the Sign In page
     // otherwise sends User's ID back to fave the favorite tutorial
     if (!user) {
-      navigate('/signin');
+      window.location.assign(`/signin`);
       setLoggedOut(true);
       return;
     } else {
@@ -215,7 +213,7 @@ export function DashboardCard(props) {
         </p>
         <HalfRating rating={props.averageRating} />
         <CardActions className={`${classes.cardContent} ${classes.actionBox}`}>
-          <Button size='small' className={`${classes.learnMoreBtn}`} onClick={() => (navigate(`/tutorial/${props.id}`))}>
+          <Button size='small' className={`${classes.learnMoreBtn}`} onClick={() => (window.location.href = `/tutorial/${props.id}`)}>
             Learn More
           </Button>
 

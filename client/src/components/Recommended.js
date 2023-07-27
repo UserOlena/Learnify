@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
@@ -21,17 +21,21 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   card: {
+    backgroundColor: 'var(--main-bg-color) !important',
+    textAlign: 'left',
     width: 'calc(25% - 10px)',
-    backgroundColor: '#92b4d4',
-    marginBottom: theme.spacing(2),
-    border: `2px solid ${theme.palette.type === 'black'}`,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
-      width: '100%', // Set the width to 100% on small screens to make cards stack vertically
+      margin: '1em 0',
     },
   },
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    alignContent: 'start'
   },
   cardDescription: {
     fontSize: 14,
@@ -46,6 +50,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     color: 'black',
   },
+  img: {
+    height: '9em',
+    border: 'solid 1px #d1d7dc',
+    [theme.breakpoints.down('sm')]: {
+      height: '80%',
+    },
+  },
+
 
   // Add the new class definition for the link
   link: {
@@ -91,7 +103,7 @@ export function Recommended() {
   return (
     <div className={classes.recommendations}>
       <h2>Recommendations For You!</h2>
-      <div className={classes.recommendationsContent}>
+      <Grid container className={classes.recommendationsContent}>
         {visibleTutorials.map((tutorial) => (
           <Card
             key={tutorial._id}
@@ -102,17 +114,20 @@ export function Recommended() {
               }`,
             }}
           >
-            <img
-              src={tutorial.thumbnail}
-              alt={tutorial.title}
-              style={{ width: '100%', height: '200px' }} // Set a fixed height for the images (adjust the height as needed)
-            />
+            <CardMedia
+            component='img'
+            alt={tutorial.title}
+            image={tutorial.thumbnail}
+            className={`${classes.img}`}
+            >
+            </CardMedia>
             <CardContent>
               <Link
                 to={`/tutorial/${tutorial._id}`}
                 key={tutorial._id}
                 className={classes.link} // Add the new class here for the link
               >
+                
                 <Typography className={classes.cardTitle}>
                   {tutorial.title}
                 </Typography>
@@ -123,7 +138,8 @@ export function Recommended() {
             </CardContent>
           </Card>
         ))}
-      </div>
+      </Grid>
+
       {/* Render the arrow buttons only if the screen is full screen */}
       {isFullScreen && (
         <div className={classes.recommendationsArrows}>
