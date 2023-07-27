@@ -32,19 +32,17 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 'bold',
     },
   },
-  
+
   card: {
     backgroundColor: 'var(--main-bg-color) !important',
     textAlign: 'left',
     height: '100%',
- 
-
   },
   cardTitle: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     // backgroundColor: 'var(--main-bg-color)',
     fontWeight: 'bold',
-    padding:0
+    padding: 0,
   },
   // Add the new class definition for the link
   link: {
@@ -58,9 +56,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-
-
 
 export function SubCategory({ subCategory }) {
   const [selectedSubCategory, setSelectedSubCategory] = useState(subCategory);

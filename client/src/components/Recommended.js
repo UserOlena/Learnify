@@ -1,7 +1,15 @@
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Card, CardContent, CardMedia, Container, Grid, Typography, IconButton } from '@material-ui/core';
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  Typography,
+  IconButton,
+} from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
@@ -9,23 +17,18 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
-
-
   card: {
     backgroundColor: 'var(--main-bg-color) !important',
     textAlign: 'left',
     height: '100%',
-    margin: theme.spacing(2)
- 
-
+    margin: theme.spacing(2),
   },
   cardTitle: {
     fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     // backgroundColor: 'var(--main-bg-color)',
     fontWeight: 'bold',
-    padding:0
+    padding: 0,
   },
-
 
   arrowButton: {
     padding: theme.spacing(1),
@@ -38,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
       height: '80%',
     },
   },
-
 
   // Add the new class definition for the link
   link: {
@@ -82,50 +84,61 @@ export function Recommended() {
   }
 
   return (
-    <Container maxWidth >
-      <Typography variant='h4' gutterBottom>Recommended Tutorials</Typography>
-      <Grid container justifyContent='space-around'>
+    <Container maxWidth>
+      <Typography
+        variant='h4'
+        gutterBottom
+      >
+        Recommended Tutorials
+      </Typography>
+      <Grid
+        container
+        justifyContent='space-around'
+      >
         {visibleTutorials.map((tutorial) => (
-          <Grid item xs={10} md={3}>
-          <Card
-            key={tutorial._id}
-            className={classes.card}
-            style={{
-              
-            }}
+          <Grid
+            item
+            xs={10}
+            md={3}
           >
-            <CardMedia
-            component='img'
-            alt={tutorial.title}
-            image={tutorial.thumbnail}
-            className={`${classes.img}`}
+            <Card
+              key={tutorial._id}
+              className={classes.card}
+              style={{}}
             >
-            </CardMedia>
-            <CardContent style={{padding:0}}>
-              <Link
-                to={`/tutorial/${tutorial._id}`}
-                key={tutorial._id}
-                className={classes.link} // Add the new class here for the link
-              >
-                
-                <Typography className={classes.cardTitle}>
-                  {tutorial.title}
+              <CardMedia
+                component='img'
+                alt={tutorial.title}
+                image={tutorial.thumbnail}
+                className={`${classes.img}`}
+              ></CardMedia>
+              <CardContent style={{ padding: 0 }}>
+                <Link
+                  to={`/tutorial/${tutorial._id}`}
+                  key={tutorial._id}
+                  className={classes.link} // Add the new class here for the link
+                >
+                  <Typography className={classes.cardTitle}>
+                    {tutorial.title}
+                  </Typography>
+                </Link>
+                <Typography className={classes.cardDescription}>
+                  {tutorial.overview}
                 </Typography>
-              </Link>
-              <Typography className={classes.cardDescription}>
-                {tutorial.overview}
-              </Typography>
-            </CardContent>
-            <HalfRating rating={tutorial.averageRating} />
-          </Card>
+              </CardContent>
+              <HalfRating rating={tutorial.averageRating} />
+            </Card>
           </Grid>
         ))}
       </Grid>
 
-
       {/* Render the arrow buttons only if the screen is full screen */}
       {isFullScreen && (
-        <Grid item xs={12} style={{marginTop:theme.spacing(2)}}>
+        <Grid
+          item
+          xs={12}
+          style={{ marginTop: theme.spacing(2) }}
+        >
           <IconButton
             className={classes.arrowButton}
             color='primary'
@@ -144,7 +157,7 @@ export function Recommended() {
           </IconButton>
         </Grid>
       )}
-    </Container >
+    </Container>
   );
 }
 

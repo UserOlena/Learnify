@@ -12,13 +12,11 @@ import { ArrowBack, ArrowForward } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-  
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    
+
     backgroundColor: '#92b4d4',
-    
   },
   cardImage: {
     width: '100%',
@@ -111,11 +109,28 @@ export function Carousel() {
   // );
 
   return (
-    <Grid container justifyContent='center'  >
-      <Grid item xs={12}>
-      <Typography variant='h3' gutterBottom style={{textWeight:'bold', marginTop:'5%'}} >Learnify</Typography>
+    <Grid
+      container
+      justifyContent='center'
+    >
+      <Grid
+        item
+        xs={12}
+      >
+        <Typography
+          variant='h3'
+          gutterBottom
+          style={{ textWeight: 'bold', marginTop: '5%' }}
+        >
+          Learnify
+        </Typography>
       </Grid>
-      <Grid item xs={12} md={8} alignItems='center'>
+      <Grid
+        item
+        xs={12}
+        md={8}
+        alignItems='center'
+      >
         {items.map(function (item, index) {
           return (
             <div
@@ -134,10 +149,17 @@ export function Carousel() {
                   className={classes.cardImage}
                 />
                 <CardContent>
-                  <Typography variant='h5' component='h3' gutterBottom>
+                  <Typography
+                    variant='h5'
+                    component='h3'
+                    gutterBottom
+                  >
                     {item.title}
                   </Typography>
-                  <Typography variant='body1' component='p'>
+                  <Typography
+                    variant='body1'
+                    component='p'
+                  >
                     {item.description}
                   </Typography>
                 </CardContent>
@@ -146,7 +168,11 @@ export function Carousel() {
           );
         })}
       </Grid>
-      <Grid item xs={12} className={classes.carouselArrows}>
+      <Grid
+        item
+        xs={12}
+        className={classes.carouselArrows}
+      >
         <IconButton
           className={classes.arrowButton}
           color='primary'
