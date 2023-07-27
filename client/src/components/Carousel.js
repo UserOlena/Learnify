@@ -67,23 +67,23 @@ export function Carousel() {
   const timerRef = useRef(null); // Create a ref to store the timer
 
   // Define the timer function separately
-  // function startTimer() {
-  //   return setInterval(function () {
-  //     setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
-  //   }, 5000);
-  // }
+  function startTimer() {
+    return setInterval(function () {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
+    }, 5000);
+  }
 
-  // useEffect(
-  //   function () {
-  //     // Start the initial timer
-  //     timerRef.current = startTimer();
+  useEffect(
+    function () {
+      // Start the initial timer
+      timerRef.current = startTimer();
 
-  //     return function () {
-  //       clearInterval(timerRef.current);
-  //     };
-  //   },
-  //   [items.length]
-  // );
+      return function () {
+        clearInterval(timerRef.current);
+      };
+    },
+    [items.length]
+  );
 
   function handlePrev() {
     setActiveIndex((prevIndex) => {
@@ -99,14 +99,14 @@ export function Carousel() {
     });
   }
 
-  // useEffect(
-  //   function () {
-  //     // Clear and restart the timer every time activeIndex changes
-  //     clearInterval(timerRef.current);
-  //     timerRef.current = startTimer();
-  //   },
-  //   [activeIndex]
-  // );
+  useEffect(
+    function () {
+      // Clear and restart the timer every time activeIndex changes
+      clearInterval(timerRef.current);
+      timerRef.current = startTimer();
+    },
+    [activeIndex]
+  );
 
   return (
     <Grid
