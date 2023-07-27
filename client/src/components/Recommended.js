@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography, IconButton } from '@material-ui/core';
+import { Card, CardContent, CardMedia, Container, Grid, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';

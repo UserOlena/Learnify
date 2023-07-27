@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -217,13 +217,7 @@ export function DashboardCard(props) {
           className={`${classes.img}`}
         />
         <CardContent className={`${classes.cardContent}`}>
-        <Link
-                      to={`/tutorial/${props._id}`}
-                      key={props._id}
-                      className={classes.customLink}
-                    >
           <p className={`${classes.p}`}>{props.title}</p>
-          </Link>
         </CardContent>
       </div>
       <div>

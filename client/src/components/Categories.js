@@ -5,6 +5,7 @@ import {
   Typography,
   Card,
   CardContent,
+  CardMedia,
   Box,
   useTheme,
   makeStyles,
@@ -13,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_TUTORIALS_BY_CATEGORY } from '../utils/queries/tutorialQueries';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
+import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
   customLink: {
@@ -29,10 +31,36 @@ const useStyles = makeStyles((theme) => ({
       background: '#92b4d4',
       fontWeight: 'bold',
     },
-    
-    
+  },
+  
+  card: {
+    backgroundColor: 'var(--main-bg-color) !important',
+    textAlign: 'left',
+    height: '100%',
+ 
+
+  },
+  cardTitle: {
+    fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
+    // backgroundColor: 'var(--main-bg-color)',
+    fontWeight: 'bold',
+    padding:0
+  },
+  // Add the new class definition for the link
+  link: {
+    color: 'black', // Set the link color to black by default
+    textDecoration: 'none', // Remove the default underline
+
+    // Define styles for hover state
+    '&:hover': {
+      color: 'blue', // Set the link color to blue on hover
+      textDecoration: 'underline', // Add underline on hover
+    },
   },
 }));
+
+
+
 
 export function SubCategory({ subCategory }) {
   const [selectedSubCategory, setSelectedSubCategory] = useState(subCategory);
@@ -58,13 +86,6 @@ export function SubCategory({ subCategory }) {
     setSelectedSubCategory(subCategory);
   }, [subCategory]);
 
-  const imgStyle = {
-    width: '90%',
-    height: 'auto',
-    overflow: 'hidden',
-    objectFit: 'cover',
-  };
-
   if (loading || loadingTutorials) {
     return <p>Loading...</p>;
   } else if (error || errorTutorials) {
@@ -72,50 +93,59 @@ export function SubCategory({ subCategory }) {
   } else {
     return (
       <>
-        <Grid item xs={12}>
-          <Card
-            border={3}
-            borderRadius={8}
-            borderColor='black'
-            backgroundColor='gray'
-            p={2}
-          >
+        <Grid
+          item
+          xs={12}
+        >
+          <Card style={{ backgroundColor: '#c5dafa' }}>
             <CardContent>
-              <Typography variant='h6' gutterBottom>
+              <Typography
+                variant='h6'
+                gutterBottom
+              >
                 {selectedSubCategory.category}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
         <br />
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
+        <Grid
+          item
+          xs={12}
+        >
+          <Grid
+            container
+            spacing={2}
+          >
             {tutorials.map((option) => (
-              <Grid item xs={10} sm={6} md={3} key={option._id}>
-                <Card
-                  border={3}
-                  borderRadius={8}
-                  borderColor='black'
-                  backgroundColor='white'
-                  p={2}
-                >
-                  <CardContent>
+              <Grid
+                item
+                xs={10}
+                md={2}
+                key={option._id}
+              >
+                <Card className={classes.card}>
+                  <CardMedia
+                    component='img'
+                    alt={option.title}
+                    image={option.thumbnail}
+                    className={`${classes.img}`}
+                  ></CardMedia>
+                  <CardContent style={{ padding: 0 }}>
                     <Link
                       to={`/tutorial/${option._id}`}
                       key={option._id}
-                      className={classes.customLink}
+                      className={classes.link} // Add the new class here for the link
                     >
-                      <Typography variant='subtitle1'>
+                      <Typography className={classes.cardTitle}>
                         {option.title}
                       </Typography>
                     </Link>
-                    <img
-                      src={option.thumbnail}
-                      alt={option.title}
-                      style={imgStyle}
-                    />
-                    <Typography variant='body2'>{option.overview}</Typography>
+                    <Typography className={classes.cardDescription}>
+                      {option.overview}
+                    </Typography>
                   </CardContent>
+                  <HalfRating rating={option.averageRating} />
                 </Card>
               </Grid>
             ))}
@@ -147,13 +177,22 @@ export function Categories({ categories }) {
         borderColor='black'
         backgroundColor='white'
         p={2}
-        style={{marginTop:16}}
+        style={{ marginTop: 16 }}
       >
-        <Typography variant='h5' gutterBottom>
+        <Typography
+          variant='h5'
+          gutterBottom
+        >
           Browse Tutorials By Category
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            item
+            xs={12}
+          >
             <div className={classes.categoryButtons}>
               {categories.map((category) => (
                 <Button
