@@ -7,7 +7,7 @@ export function Footer() {
 
   return (
     <footer
-      style={{ backgroundColor: 'black', color: 'white', padding: '10px' }}
+      style={{ backgroundColor: '#a5aaad', color: 'white', padding: '10px' }}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img

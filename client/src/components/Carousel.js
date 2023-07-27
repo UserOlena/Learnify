@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    border: '2px solid black',
+    
     backgroundColor: '#92b4d4',
     
   },

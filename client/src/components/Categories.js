@@ -25,8 +25,12 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryButtons: {
     '& .category-button': {
-      marginRight: theme.spacing(2),
+      margin: theme.spacing(1),
+      background: '#92b4d4',
+      fontWeight: 'bold',
     },
+    
+    
   },
 }));
 
@@ -143,9 +147,10 @@ export function Categories({ categories }) {
         borderColor='black'
         backgroundColor='white'
         p={2}
+        style={{marginTop:16}}
       >
         <Typography variant='h5' gutterBottom>
-          Find Tutorials Based on Category!
+          Browse Tutorials By Category
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>

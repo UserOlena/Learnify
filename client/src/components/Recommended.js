@@ -16,27 +16,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'var(--main-bg-color) !important',
     textAlign: 'left',
     height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    [theme.breakpoints.down('sm')]: {
-      margin: '1em 0',
-    },
+
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
+    // backgroundColor: 'var(--main-bg-color)',
     fontWeight: 'bold',
-    alignContent: 'start'
+    padding:0
   },
   cardDescription: {
     fontSize: 14,
     color: theme.palette.text.secondary,
   },
-  recommendationsArrows: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: theme.spacing(2),
-  },
+
   arrowButton: {
     padding: theme.spacing(1),
     color: 'black',
@@ -92,7 +84,7 @@ export function Recommended() {
   }
 
   return (
-    <Container maxWidth>
+    <Container maxWidth >
       <Typography variant='h4' gutterBottom>Recommended Tutorials</Typography>
       <Grid container justifyContent='space-around'>
         {visibleTutorials.map((tutorial) => (
@@ -101,9 +93,7 @@ export function Recommended() {
             key={tutorial._id}
             className={classes.card}
             style={{
-              border: `2px solid ${
-                theme.palette.type === 'dark' ? 'white' : 'black'
-              }`,
+              
             }}
           >
             <CardMedia
@@ -113,7 +103,7 @@ export function Recommended() {
             className={`${classes.img}`}
             >
             </CardMedia>
-            <CardContent>
+            <CardContent style={{padding:0}}>
               <Link
                 to={`/tutorial/${tutorial._id}`}
                 key={tutorial._id}
@@ -136,7 +126,7 @@ export function Recommended() {
 
       {/* Render the arrow buttons only if the screen is full screen */}
       {isFullScreen && (
-        <div className={classes.recommendationsArrows}>
+        <Grid item xs={12} style={{marginTop:theme.spacing(2)}}>
           <IconButton
             className={classes.arrowButton}
             color='primary'
@@ -153,7 +143,7 @@ export function Recommended() {
           >
             <ArrowForward />
           </IconButton>
-        </div>
+        </Grid>
       )}
     </Container >
   );
