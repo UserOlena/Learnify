@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'var(--main-bg-color) !important',
     textAlign: 'left',
     height: '100%',
+    margin: theme.spacing(2)
  
 
   },
@@ -68,15 +69,15 @@ export function Recommended() {
   }
 
   const tutorials = data?.tutorials || [];
-  const visibleTutorials = tutorials.slice(currentIndex, currentIndex + 5);
+  const visibleTutorials = tutorials.slice(currentIndex, currentIndex + 4);
 
   function handlePrev() {
-    setCurrentIndex((prevIndex) => Math.max(prevIndex - 5, 0));
+    setCurrentIndex((prevIndex) => Math.max(prevIndex - 4, 0));
   }
 
   function handleNext() {
     setCurrentIndex((prevIndex) =>
-      Math.min(prevIndex + 5, tutorials.length - 5)
+      Math.min(prevIndex + 4, tutorials.length - 4)
     );
   }
 
@@ -85,7 +86,7 @@ export function Recommended() {
       <Typography variant='h4' gutterBottom>Recommended Tutorials</Typography>
       <Grid container justifyContent='space-around'>
         {visibleTutorials.map((tutorial) => (
-          <Grid item xs={10} md={2}>
+          <Grid item xs={10} md={3}>
           <Card
             key={tutorial._id}
             className={classes.card}

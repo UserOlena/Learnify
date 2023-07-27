@@ -121,7 +121,7 @@ export function SubCategory({ subCategory }) {
               <Grid
                 item
                 xs={10}
-                md={2}
+                md={3}
                 key={option._id}
               >
                 <Card className={classes.card}>
