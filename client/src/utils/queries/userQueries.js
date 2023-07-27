@@ -35,7 +35,6 @@ export const GET_USER = gql`
       }
       favorites {
         _id
-        title
       }
     }
   }
