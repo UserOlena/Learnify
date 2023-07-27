@@ -92,8 +92,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function DashboardCard(props) {
-  const navigate = useNavigate();
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const [loggedOut, setLoggedOut] = useState(false);
   const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(!props.favorite);
@@ -131,7 +131,7 @@ export function DashboardCard(props) {
     // If user is not logged in, set state to redirect to the Sign In page
     // otherwise sends User's ID back to fave the favorite tutorial
     if (!user) {
-      navigate('/signin');
+      navigate(`/signin`);
       setLoggedOut(true);
       return;
     } else {

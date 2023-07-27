@@ -1,50 +1,45 @@
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, IconButton } from '@material-ui/core';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  Typography,
+  IconButton,
+} from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
-  recommendations: {
-    margin: theme.spacing(2, 0),
-  },
-  recommendationsContent: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column', // Switch to column layout on small screens
-      margin: theme.spacing(0, 1),
-    },
-  },
   card: {
-    width: 'calc(25% - 10px)',
-    backgroundColor: '#92b4d4',
-    marginBottom: theme.spacing(2),
-    border: `2px solid ${theme.palette.type === 'black'}`,
-    [theme.breakpoints.down('sm')]: {
-      width: '100%', // Set the width to 100% on small screens to make cards stack vertically
-    },
+    textAlign: 'left',
+    height: '100%',
+    margin: theme.spacing(2),
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 'calc(16px + (2 * ((100vw - 600px) / (1200 - 600))))',
     fontWeight: 'bold',
+    padding: 2,
   },
   cardDescription: {
-    fontSize: 14,
-    color: theme.palette.text.secondary,
-  },
-  recommendationsArrows: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: theme.spacing(2),
+    padding: 2,
   },
   arrowButton: {
     padding: theme.spacing(1),
     color: 'black',
+  },
+  img: {
+    height: '9em',
+    [theme.breakpoints.down('sm')]: {
+      height: '80%',
+    },
   },
 
   // Add the new class definition for the link
@@ -89,44 +84,64 @@ export function Recommended() {
   }
 
   return (
-    <div className={classes.recommendations}>
-      <h2>Recommendations For You!</h2>
-      <div className={classes.recommendationsContent}>
+    <Container maxWidth>
+      <Typography
+        variant='h4'
+        gutterBottom
+      >
+        Recommended Tutorials
+      </Typography>
+      <Grid
+        container
+        spacing={2}
+      >
         {visibleTutorials.map((tutorial) => (
-          <Card
-            key={tutorial._id}
-            className={classes.card}
-            style={{
-              border: `2px solid ${
-                theme.palette.type === 'dark' ? 'white' : 'black'
-              }`,
-            }}
+          <>
+          <Grid
+            item
+            xs={12}
+            md={3} 
           >
-            <img
-              src={tutorial.thumbnail}
-              alt={tutorial.title}
-              style={{ width: '100%', height: '200px' }} // Set a fixed height for the images (adjust the height as needed)
-            />
-            <CardContent>
-              <Link
-                to={`/tutorial/${tutorial._id}`}
-                key={tutorial._id}
-                className={classes.link} // Add the new class here for the link
-              >
-                <Typography className={classes.cardTitle}>
-                  {tutorial.title}
+            <Card
+              key={tutorial._id}
+              className={classes.card}
+            >
+              <CardActionArea>
+              <CardMedia
+                component='img'
+                alt={tutorial.title}
+                image={tutorial.thumbnail}
+                className={`${classes.img}`}
+              ></CardMedia>
+              <CardContent style={{ padding: 2 }}>
+                <Link
+                  to={`/tutorial/${tutorial._id}`}
+                  key={tutorial._id}
+                  className={classes.link} // Add the new class here for the link
+                >
+                  <Typography className={classes.cardTitle}>
+                    {tutorial.title}
+                  </Typography>
+                </Link>
+                <Typography className={classes.cardDescription}>
+                  {tutorial.teacher?.[0]?.username ?? 'Deleted user'}
                 </Typography>
-              </Link>
-              <Typography className={classes.cardDescription}>
-                {tutorial.overview}
-              </Typography>
-            </CardContent>
-          </Card>
+              </CardContent>
+              <HalfRating rating={tutorial.averageRating} />
+              </CardActionArea>
+            </Card>
+          </Grid>
+          </>
         ))}
-      </div>
+      </Grid>
+
       {/* Render the arrow buttons only if the screen is full screen */}
       {isFullScreen && (
-        <div className={classes.recommendationsArrows}>
+        <Grid
+          item
+          xs={12}
+          style={{ marginTop: theme.spacing(2) }}
+        >
           <IconButton
             className={classes.arrowButton}
             color='primary'
@@ -143,9 +158,9 @@ export function Recommended() {
           >
             <ArrowForward />
           </IconButton>
-        </div>
+        </Grid>
       )}
-    </div>
+    </Container>
   );
 }
 

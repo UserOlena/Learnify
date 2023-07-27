@@ -19,11 +19,12 @@ import Auth from '../utils/auth';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    backgroundColor: '#FAF0E6',
+    backgroundColor: '#c1c5c7',
     color: 'black',
     opacity: '0.7',
     height: '60px',
     userSelect: 'none',
+    marginBottom:'3%',
   },
   logo: {
     width: '100px',
@@ -117,6 +118,7 @@ export function Navbar() {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleCloseMenus}
+        fontSize='large'
       >
         {categories
           .slice()
