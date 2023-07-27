@@ -87,7 +87,7 @@ export function SubCategory({ subCategory }) {
         <Grid item xs={12}>
           <Grid container spacing={2}>
             {tutorials.map((option) => (
-              <Grid item xs={12} sm={6} md={3} key={option._id}>
+              <Grid item xs={10} sm={6} md={3} key={option._id}>
                 <Card
                   border={3}
                   borderRadius={8}

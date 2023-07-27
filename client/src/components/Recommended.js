@@ -1,29 +1,20 @@
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, IconButton } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography, IconButton } from '@material-ui/core';
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 const useStyles = makeStyles((theme) => ({
-  recommendations: {
-    margin: theme.spacing(2, 0),
-  },
-  recommendationsContent: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column', // Switch to column layout on small screens
-      margin: theme.spacing(0, 1),
-    },
-  },
+
+
   card: {
     backgroundColor: 'var(--main-bg-color) !important',
     textAlign: 'left',
-    width: 'calc(25% - 10px)',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -88,23 +79,24 @@ export function Recommended() {
   }
 
   const tutorials = data?.tutorials || [];
-  const visibleTutorials = tutorials.slice(currentIndex, currentIndex + 4);
+  const visibleTutorials = tutorials.slice(currentIndex, currentIndex + 5);
 
   function handlePrev() {
-    setCurrentIndex((prevIndex) => Math.max(prevIndex - 4, 0));
+    setCurrentIndex((prevIndex) => Math.max(prevIndex - 5, 0));
   }
 
   function handleNext() {
     setCurrentIndex((prevIndex) =>
-      Math.min(prevIndex + 4, tutorials.length - 4)
+      Math.min(prevIndex + 5, tutorials.length - 5)
     );
   }
 
   return (
-    <div className={classes.recommendations}>
-      <h2>Recommendations For You!</h2>
-      <Grid container className={classes.recommendationsContent}>
+    <Container maxWidth>
+      <Typography variant='h4' gutterBottom>Recommended Tutorials</Typography>
+      <Grid container justifyContent='space-around'>
         {visibleTutorials.map((tutorial) => (
+          <Grid item xs={10} md={2}>
           <Card
             key={tutorial._id}
             className={classes.card}
@@ -137,8 +129,10 @@ export function Recommended() {
               </Typography>
             </CardContent>
           </Card>
+          </Grid>
         ))}
       </Grid>
+
 
       {/* Render the arrow buttons only if the screen is full screen */}
       {isFullScreen && (
@@ -161,7 +155,7 @@ export function Recommended() {
           </IconButton>
         </div>
       )}
-    </div>
+    </Container >
   );
 }
 
