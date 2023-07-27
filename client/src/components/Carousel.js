@@ -12,8 +12,7 @@ import { ArrowBack, ArrowForward } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    
-    margin: theme.spacing(2),
+  
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -114,7 +113,7 @@ export function Carousel() {
   return (
     <Grid container justifyContent='center'  >
       <Grid item xs={12}>
-      <Typography variant='h3' style={{textWeight:'bold', marginTop:'5%'}} >Learnify</Typography>
+      <Typography variant='h3' gutterBottom style={{textWeight:'bold', marginTop:'5%'}} >Learnify</Typography>
       </Grid>
       <Grid item xs={12} md={8} alignItems='center'>
         {items.map(function (item, index) {

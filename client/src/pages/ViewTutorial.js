@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 //import Learnify components
-import { CommentForm, RateTutorial, ViewLesson } from '../components';
+import { CommentForm, RateTutorial, ViewLesson, HalfRating  } from '../components';
 
 //Material-UI imports
 import clsx from 'clsx';
@@ -184,14 +184,7 @@ export function ViewTutorial() {
   //get number of reviews
   let totalReviews = reviews.length;
   console.log(reviews.length);
-  //calculate average rating
-  let totalRating = 0;
-  for (const review of reviews) {
-    totalRating += review.rating;
-  }
-  const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-  console.log(averageRating);
-
+  
   return (
     <div className='root'>
       <Container>
@@ -239,7 +232,7 @@ export function ViewTutorial() {
           </Grid>
           <Divider orientation='vertical' flexItem />
           <Grid item xs={3}>
-            <Rating name='read-only' value={averageRating} readOnly />
+          <HalfRating rating={tutorial.averageRating} />
             <Typography variant='subtitle1'>
               {reviews.length} Ratings
             </Typography>

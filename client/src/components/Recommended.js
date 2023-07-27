@@ -6,8 +6,7 @@ import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+import { HalfRating } from '../components';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -16,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'var(--main-bg-color) !important',
     textAlign: 'left',
     height: '100%',
+ 
 
   },
   cardTitle: {
@@ -24,10 +24,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     padding:0
   },
-  cardDescription: {
-    fontSize: 14,
-    color: theme.palette.text.secondary,
-  },
+
 
   arrowButton: {
     padding: theme.spacing(1),
@@ -118,6 +115,7 @@ export function Recommended() {
                 {tutorial.overview}
               </Typography>
             </CardContent>
+            <HalfRating rating={tutorial.averageRating} />
           </Card>
           </Grid>
         ))}
