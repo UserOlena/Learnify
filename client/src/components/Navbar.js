@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     opacity: '0.7',
     height: '60px',
     userSelect: 'none',
-    marginBottom:'3%',
   },
   logo: {
     width: '100px',

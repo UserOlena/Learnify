@@ -8,7 +8,7 @@ export function Footer() {
 
   return (
     <footer
-      style={{ backgroundColor: '#72767d', color: 'white', marginTop:'3%'}}
+      style={{ backgroundColor: '#72767d', color: 'white',}}
     >
       <Grid container xs={12} alignItems='center'>
       
