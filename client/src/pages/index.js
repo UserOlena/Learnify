@@ -2,6 +2,7 @@ export * from './About';
 export * from './AddLessons';
 export * from './AddTutorial';
 export * from './Careers';
+export * from './Category';
 export * from './ChangePassword';
 export * from './Dashboard';
 export * from './Home';
