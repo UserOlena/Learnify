@@ -48,17 +48,18 @@ export function Dashboard() {
   const { loading: tutorialsLoading, data: tutorialsData } =
     useQuery(GET_TUTORIALS);
 
-    const { loading: userDataIsLoading, data: userData } = useQuery(GET_USER);
+  const { loading: userDataIsLoading, data: userData } = useQuery(GET_USER);
 
   if (tutorialsLoading) {
     return <p>Loading...</p>;
   }
-  
+
   if (userDataIsLoading) {
     return <p>Loading...</p>;
   }
 
   const tutorials = tutorialsData.tutorials;
+  const featured = tutorials.toSorted(() => 0.5 - Math.random()).slice(0, 4);
 
 
   return (
@@ -85,6 +86,24 @@ export function Dashboard() {
         user={userData.me}
         chosenTab={chosenTab}
       />
+      {chosenTab == 'browse' && (
+        <>
+          <div className={`${classes.buttonContainer}`}>
+            <Button
+              value='browse'
+              className={`${classes.button} ${classes.active}`}
+              onClick={(e) => setChosenTab(e.currentTarget.value)}
+            >
+              Featured Courses
+            </Button>
+          </div>
+          <DashboardCarousel
+            items={featured}
+            user={userData.me}
+            chosenTab={chosenTab}
+          />
+        </>
+      )}
     </div>
   );
 }
