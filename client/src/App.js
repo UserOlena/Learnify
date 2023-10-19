@@ -127,8 +127,8 @@ function App() {
                 element={<ChangePassword />}
               ></Route>
             </Routes>
+            <Footer />
           </Router>
-          <Footer />
         </ApolloProvider>
       </div>
     </ThemeProvider>

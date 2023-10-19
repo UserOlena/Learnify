@@ -2,6 +2,7 @@ import { React, useState, useEffect, useRef } from 'react';
 import {
   Card,
   CardContent,
+  Grid,
   makeStyles,
   Typography,
   useTheme,
@@ -10,30 +11,15 @@ import {
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-  carousel: {
-    textAlign: 'center',
-    margin: theme.spacing(2, 0),
-  },
-  carouselContent: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
   card: {
-    width: '800px', // Default width for larger screens
-    margin: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    border: '2px solid black',
+
     backgroundColor: '#92b4d4',
-    [theme.breakpoints.down('sm')]: {
-      // Change width to 400px for smaller screens
-      width: '400px',
-    },
   },
   cardImage: {
     width: '100%',
-    maxHeight: '300px',
     objectFit: 'cover',
   },
   carouselArrows: {
@@ -123,9 +109,28 @@ export function Carousel() {
   );
 
   return (
-    <div className={classes.carousel}>
-      <h1>Learnify</h1>
-      <div className={classes.carouselContent}>
+    <Grid
+      container
+      justifyContent='center'
+    >
+      <Grid
+        item
+        xs={12}
+      >
+        <Typography
+          variant='h3'
+          gutterBottom
+          style={{ textWeight: 'bold', marginTop: '5%' }}
+        >
+          Learnify
+        </Typography>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        md={8}
+        alignItems='center'
+      >
         {items.map(function (item, index) {
           return (
             <div
@@ -144,10 +149,17 @@ export function Carousel() {
                   className={classes.cardImage}
                 />
                 <CardContent>
-                  <Typography variant='h5' component='h3' gutterBottom>
+                  <Typography
+                    variant='h5'
+                    component='h3'
+                    gutterBottom
+                  >
                     {item.title}
                   </Typography>
-                  <Typography variant='body1' component='p'>
+                  <Typography
+                    variant='body1'
+                    component='p'
+                  >
                     {item.description}
                   </Typography>
                 </CardContent>
@@ -155,8 +167,12 @@ export function Carousel() {
             </div>
           );
         })}
-      </div>
-      <div className={classes.carouselArrows}>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        className={classes.carouselArrows}
+      >
         <IconButton
           className={classes.arrowButton}
           color='primary'
@@ -171,8 +187,8 @@ export function Carousel() {
         >
           <ArrowForward />
         </IconButton>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 

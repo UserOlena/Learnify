@@ -6,6 +6,7 @@ import { makeStyles, useMediaQuery } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { GET_TUTORIALS } from '../utils/queries/tutorialQueries';
 import { GET_USER } from '../utils/queries/userQueries';
+import { useNavigate } from 'react-router-dom';
 
 import Auth from '../utils/auth';
 
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '2.5vw',
     color: 'rgba(0, 0, 0, 1)',
     boxSizing: 'border-box !important',
+    userSelect: 'none',
   },
   button: {
     fontSize: 'calc(20px + (2 * ((100vw - 600px) / (1200 - 600))))',
@@ -28,11 +30,15 @@ const useStyles = makeStyles((theme) => ({
   active: {
     borderBottom: 'solid 2px black',
   },
+  welcome: {
+    userSelect: 'none',
+  },
 }));
 
 export function Dashboard() {
+  const navigate = useNavigate();
   if (!Auth.loggedIn()) {
-    window.location.assign('/signin');
+    navigate('/signin');
   }
 
   const classes = useStyles();
@@ -55,23 +61,21 @@ export function Dashboard() {
   const tutorials = tutorialsData.tutorials;
   const featured = tutorials.toSorted(() => 0.5 - Math.random()).slice(0, 4);
 
+
   return (
-    <div>
+    <div className={classes.welcome}>
+      <h1>Welcome to Learnify{userData && userData.me && userData.me.username ? `, ${userData.me.username}!` : '!'}</h1>
       <div className={`${classes.buttonContainer}`}>
         <Button
           value='browse'
-          className={`${classes.button} ${
-            chosenTab === 'browse' ? classes.active : ''
-          }`}
+          className={`${classes.button} ${chosenTab === 'browse' ? classes.active : ''}`}
           onClick={(e) => setChosenTab(e.currentTarget.value)}
         >
           Browse
         </Button>
         <Button
           value='saved'
-          className={`${classes.button} ${
-            chosenTab === 'saved' ? classes.active : ''
-          }`}
+          className={`${classes.button} ${chosenTab === 'saved' ? classes.active : ''}`}
           onClick={(e) => setChosenTab(e.currentTarget.value)}
         >
           Saved

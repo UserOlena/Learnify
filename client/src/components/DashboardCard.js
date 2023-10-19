@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -92,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function DashboardCard(props) {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const [loggedOut, setLoggedOut] = useState(false);
   const [favoriteBorderIcon, setFavoriteBorderIcon] = useState(!props.favorite);
@@ -100,10 +102,18 @@ export function DashboardCard(props) {
   const [savedBtn, setsavedBtn] = useState('');
 
   // Set up mutation to add the favorite tutorial to the user favorites array
-  const [addFavoritetoUser, { error: addFavoriteError }] =
-    useMutation(ADD_FAVORITE_TO_USER);
+  const [addFavoritetoUser, { error: addFavoriteError }] = useMutation(
+    ADD_FAVORITE_TO_USER,
+    {
+      refetchQueries: [GET_USER],
+    }
+  );
+
   const [removeFavoritefromUser, { error: removeFavoriteError }] = useMutation(
-    REMOVE_FAVORITE_FROM_USER
+    REMOVE_FAVORITE_FROM_USER,
+    {
+      refetchQueries: [GET_USER],
+    }
   );
 
   // Get the logged in user's information
@@ -115,13 +125,13 @@ export function DashboardCard(props) {
     if (userData) {
       user = userData.me;
     }
-    console.log('user me')
-    console.log(user)
+    console.log('user me');
+    console.log(user);
 
     // If user is not logged in, set state to redirect to the Sign In page
     // otherwise sends User's ID back to fave the favorite tutorial
     if (!user) {
-      window.location.assign(`/signin`);
+      navigate(`/signin`);
       setLoggedOut(true);
       return;
     } else {
@@ -195,7 +205,10 @@ export function DashboardCard(props) {
   }
 
   return (
-    <Card value={props.id} className={`${classes.card} `}>
+    <Card
+      value={props.id}
+      className={`${classes.card} `}
+    >
       <div className={`${classes.imgContainer}`}>
         <CardMedia
           component='img'
@@ -213,7 +226,11 @@ export function DashboardCard(props) {
         </p>
         <HalfRating rating={props.averageRating} />
         <CardActions className={`${classes.cardContent} ${classes.actionBox}`}>
-          <Button size='small' className={`${classes.learnMoreBtn}`}>
+          <Button
+            size='small'
+            className={`${classes.learnMoreBtn}`}
+            onClick={() => navigate(`/tutorial/${props.id}`)}
+          >
             Learn More
           </Button>
 
@@ -224,7 +241,10 @@ export function DashboardCard(props) {
               value={props.id}
               onClick={(e) => addFavoriteTutorialOnClick(e.currentTarget.value)}
             >
-              <FavoriteBorderIcon fontSize='large' color='error' />
+              <FavoriteBorderIcon
+                fontSize='large'
+                color='error'
+              />
             </IconButton>
           )}
           {favoriteFilledIcon && (
@@ -236,7 +256,10 @@ export function DashboardCard(props) {
                 removeFavoriteTutorialOnClick(e.currentTarget.value, props)
               }
             >
-              <FavoriteIcon fontSize='large' color='error' />
+              <FavoriteIcon
+                fontSize='large'
+                color='error'
+              />
             </IconButton>
           )}
         </CardActions>

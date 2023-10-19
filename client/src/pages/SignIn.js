@@ -14,7 +14,7 @@ import {
   Grid,
 } from '@mui/material';
 import { isEmptyInput } from '../utils/validation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations/userMutations';
 import Auth from '../utils/auth';
@@ -54,6 +54,8 @@ export function SignIn() {
     isVerifiedInput: true,
   };
 
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState(inputDefaultValues);
   const [password, setPassword] = useState(inputDefaultValues);
   const [verifyInput, setVerifyInput] = useState(inputDefaultValues);
@@ -81,6 +83,7 @@ export function SignIn() {
 
       Auth.login(data.login.token);
       console.log('user logged in');
+      navigate('/dashboard');
     } catch (err) {
       console.log(err.graphQLErrors[0].message);
       switch (err.graphQLErrors[0].message) {

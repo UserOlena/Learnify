@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 //import Learnify components
-import { CommentForm, RateTutorial, ViewLesson } from '../components';
+import {
+  CommentForm,
+  RateTutorial,
+  ViewLesson,
+  HalfRating,
+} from '../components';
 
 //Material-UI imports
 import clsx from 'clsx';
@@ -168,11 +173,21 @@ export function ViewTutorial() {
             style={{ backgroundColor: '#dae9f7', margin: 2 }}
           >
             <Grid container>
-              <Grid item xs={4}>
-                <Rating name='read-only' value={review.rating} readOnly />
+              <Grid
+                item
+                xs={4}
+              >
+                <Rating
+                  name='read-only'
+                  value={review.rating}
+                  readOnly
+                />
                 <p>{review.reviewer}</p>
               </Grid>
-              <Grid item xs={8}>
+              <Grid
+                item
+                xs={8}
+              >
                 <p>{review.comment}</p>
               </Grid>
             </Grid>
@@ -184,13 +199,6 @@ export function ViewTutorial() {
   //get number of reviews
   let totalReviews = reviews.length;
   console.log(reviews.length);
-  //calculate average rating
-  let totalRating = 0;
-  for (const review of reviews) {
-    totalRating += review.rating;
-  }
-  const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-  console.log(averageRating);
 
   return (
     <div className='root'>
@@ -231,15 +239,27 @@ export function ViewTutorial() {
               {username}
             </Typography>
           </Grid>
-          <Divider orientation='vertical' flexItem />
-          <Grid item xs={3}>
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
+          <Grid
+            item
+            xs={3}
+          >
             <Typography variant='h6'>
               Time to complete: {duration} minutes
             </Typography>
           </Grid>
-          <Divider orientation='vertical' flexItem />
-          <Grid item xs={3}>
-            <Rating name='read-only' value={averageRating} readOnly />
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
+          <Grid
+            item
+            xs={3}
+          >
+            <HalfRating rating={tutorial.averageRating} />
             <Typography variant='subtitle1'>
               {reviews.length} Ratings
             </Typography>
@@ -263,7 +283,10 @@ export function ViewTutorial() {
             marginTop: '2%',
           }}
         >
-          <Grid item xs={5}>
+          <Grid
+            item
+            xs={5}
+          >
             <Card
               style={{
                 backgroundColor: '#dae9f7',
@@ -277,13 +300,21 @@ export function ViewTutorial() {
               />
             </Card>
           </Grid>
-          <Grid item container direction='column' xs={5}>
+          <Grid
+            item
+            container
+            direction='column'
+            xs={5}
+          >
             <Typography variant='body1'>{overview}</Typography>
 
             <CommentForm />
           </Grid>
 
-          <Grid item xs={10}>
+          <Grid
+            item
+            xs={10}
+          >
             <Card style={{ backgroundColor: '#92b4d4', padding: 5 }}>
               {reviewList(reviews)}
             </Card>
@@ -304,7 +335,10 @@ export function ViewTutorial() {
             marginTop: '2%',
           }}
         >
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+          >
             <Card
               style={{
                 backgroundColor: '#dae9f7',
@@ -312,7 +346,10 @@ export function ViewTutorial() {
               }}
             >
               <CardContent>
-                <Typography variant='h5' component='h2'>
+                <Typography
+                  variant='h5'
+                  component='h2'
+                >
                   This tutorial has {totalLessons} lessons:
                   <IconButton
                     className={clsx(classes.expand, {
@@ -325,7 +362,11 @@ export function ViewTutorial() {
                     <ExpandMore />
                   </IconButton>
                 </Typography>
-                <Collapse in={expanded} timeout='auto' unmountOnExit>
+                <Collapse
+                  in={expanded}
+                  timeout='auto'
+                  unmountOnExit
+                >
                   <CardContent>{lessonList(lessons)}</CardContent>
                 </Collapse>
               </CardContent>
@@ -369,7 +410,10 @@ export function ViewTutorial() {
               </Button>
             </Grid>
            */}
-            <Grid item xs={10}>
+            <Grid
+              item
+              xs={10}
+            >
               <ViewLesson />
             </Grid>
           </Grid>

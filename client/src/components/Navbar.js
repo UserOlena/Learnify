@@ -11,7 +11,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
@@ -19,7 +19,7 @@ import Auth from '../utils/auth';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    backgroundColor: '#FAF0E6',
+    backgroundColor: '#c1c5c7',
     color: 'black',
     opacity: '0.7',
     height: '60px',
@@ -51,12 +51,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Navbar() {
+  
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoriesMenuAnchorEl, setCategoriesMenuAnchorEl] = useState(null);
 
   const { loading, data } = useQuery(GET_CATEGORIES);
   const categories = data?.categories || [];
+
+  const navigate = useNavigate();
 
   if (loading) {
     return <p>Loading...</p>;
@@ -77,9 +80,8 @@ export function Navbar() {
   }
   function handleLogout() {
     Auth.logout();
-    Auth.loggedIn(false);
     handleCloseMenus();
-    window.location.assign('/signin');
+    navigate('/signin');
   }
 
   return (
@@ -115,6 +117,7 @@ export function Navbar() {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleCloseMenus}
+        fontSize='large'
       >
         {categories
           .slice()

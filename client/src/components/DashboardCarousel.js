@@ -74,9 +74,9 @@ export function DashboardCarousel(props) {
     },
   };
 
-  const saved = props.items.filter(item => props.user.favorites.some(
-    (favorite) => favorite._id === item._id
-  ));
+  const saved = props.items.filter((item) =>
+    props.user.favorites.some((favorite) => favorite._id === item._id)
+  );
 
   return (
     <div className={`${classes.container}`}>
@@ -133,7 +133,6 @@ export function DashboardCarousel(props) {
               index
             ) => {
               // Check if user's favorite array includes current tutorial ID
-
 
               return (
                 <DashboardCard

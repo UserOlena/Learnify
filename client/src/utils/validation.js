@@ -1,5 +1,5 @@
 // verify that email input is of valid email type
-function validateEmail(emailInput) {
+export function validateEmail(emailInput) {
   const emailRegex = /^[a-zA-Z0-9._%+-]{2,30}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (emailRegex.test(emailInput)) {
     return true;
