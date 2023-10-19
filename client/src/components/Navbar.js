@@ -14,12 +14,14 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_CATEGORIES } from '../utils/queries/categoryQueries';
+import navBarBg from '../images/navBarBg.svg'
 import LearnifyLogo from '../images/learnify-logo__1_-removebg.png';
 import Auth from '../utils/auth';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    backgroundColor: '#c1c5c7',
+    backgroundColor: '#959696',
+    backgroundImage:  'url(' + navBarBg + ')',
     color: 'black',
     opacity: '0.7',
     height: '60px',
