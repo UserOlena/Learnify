@@ -74,6 +74,7 @@ export function SignUp() {
   // on form submit call mutation query, passing fields value in order to create a new user and token
   async function handleSubmit(e) {
     e.preventDefault();
+
     const data = new FormData(e.currentTarget);
     console.log({
       userName: data.get('userName'),
@@ -149,6 +150,14 @@ export function SignUp() {
       return;
     }
 
+    // validate whether the input conforms to the regex pattern
+    if (!validateInput(inputValue, state)) {
+      setState((otherValues) => ({
+        ...otherValues,
+        isValid: false,
+      }));
+    }
+
     // if values length of both password and confirmPassword fields !== 0, ensure they
     // match; otherwise, change state to display corresponding error message
     if (!isEmptyInput(password.value) && !isEmptyInput(confirmPassword.value)) {
@@ -159,14 +168,6 @@ export function SignUp() {
         }));
       }
       return;
-    }
-
-    // validate whether the input conforms to the regex pattern
-    if (!validateInput(inputValue, state)) {
-      setState((otherValues) => ({
-        ...otherValues,
-        isValid: false,
-      }));
     }
   }
 
